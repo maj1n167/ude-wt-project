@@ -2,6 +2,5 @@
 
 
 ### TODOS
-- one run script
-- hotswapping
+- one run script & hotswapping -> oguz
 - mongodb
