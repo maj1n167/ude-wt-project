@@ -1,27 +1,49 @@
-# Client
+# React.js Hands-on
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.7.
+## 🚀 Get Started
 
-## Development server
+#### Step 1: Pre-requisites
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Download and install the following software:
 
-## Code scaffolding
+- Node.js on [Ubuntu](https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-22-04)/[Windows](https://nodejs.org/dist/v20.17.0/)
+  - Preferred to install Node Version Manager (NVM) for [Ubuntu](https://tecadmin.net/how-to-install-nvm-on-ubuntu-22-04/)/[Windows](https://github.com/coreybutler/nvm-windows/releases).
+  - Open a terminal and then type `nvm install 20.17.0` to install Node.js v20.17.0
+  - Then type `nvm use 20.17.0` to use the Node.js v20.17.0 to install node packages
+- Code editor
+  - Visual Studio Code (VSCode) ([official Link](https://code.visualstudio.com/Download))
+  - IntelliJ Ultimate [Ubuntu](https://www.golinuxcloud.com/install-maven-ubuntu/)/[Windows](https://www.jetbrains.com/de-de/idea/download/#section=windows)
+- Git on [Ubuntu](https://www.digitalocean.com/community/tutorials/how-to-install-git-on-ubuntu-22-04#installing-git-with-default-packages)/ [Windows](https://git-scm.com/downloads)
+- Github Desktop on [Ubuntu](https://www.linuxcapable.com/how-to-install-github-desktop-on-ubuntu-linux/)/[Windows](https://desktop.github.com/)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+#### Step 2: Clone the repository
 
-## Build
+- If you have GitHub Desktop installed
+  - Clone the repository by clicking the green `Code` button and then `Open with GitHub Desktop`.
+  - Select the location where you want to clone the repository and click the `Clone` button.
+- Open a terminal and type the command below to clone the repository.
+  ```bash
+  git clone https://github.com/shoebjoarder/react-hands-on
+  ```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+#### Step 3: Install dependencies and run the application
 
-## Running unit tests
+- Open the project using a code editor.
+- In VSCode, click `Terminal` menu from the top menu and click `New Terminal`.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- Switch between branches to view the different topics. Type `git checkout <branch_name>` in the terminal to switch between the branches. Remember to replace `<branch_name>` with the actual branch name, e.g.,
 
-## Running end-to-end tests
+  ```bash
+  git checkout 1-react-1-hands-on-template
+  ```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Open the terminal and type the following command to install the node packages.
+  ```bash
+  npm ci
+  ```
+  - If you get an error, try typing the `npm install` or `npm install --force` command.
+- Run the following command in the terminal to start the server.
+  ```bash
+  npm run dev
+  ```
+- Click this [link](http://localhost:5173/) to open the application using your default browser.

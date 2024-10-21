@@ -289,3 +289,4 @@ e2e/*.map
 .idea/*
 
 .DS_Store
+*/.DS_Store
