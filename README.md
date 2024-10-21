@@ -2,6 +2,6 @@
 
 
 ### TODOS
-- get an idea what the project should do
-- one run script & hotswapping -> oguz
 - mongodb
+- one run script & hotswapping -> oguz
+- get an idea what the project should do
