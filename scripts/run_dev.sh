@@ -13,7 +13,6 @@ cd scripts/
 podman-compose up -d mongo
 
 # Step 2: Install dependencies (if needed)
-# Optionally, you can check if node_modules exist before installing.
 echo "Installing dependencies for server and client..."
 cd ../server && npm install --include=dev
 cd ../client && npm install --include=dev
