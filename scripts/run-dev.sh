@@ -15,8 +15,8 @@ docker-compose up -d mongo
 # Step 2: Install dependencies (if needed)
 # Optionally, you can check if node_modules exist before installing.
 echo "Installing dependencies for server and client..."
-cd ../server && npm install
-cd ../client && npm install
+cd ../server && npm install --include=dev
+cd ../client && npm install --include=dev
 cd ..
 
 # Step 3: Start server and client with hot-reloading
