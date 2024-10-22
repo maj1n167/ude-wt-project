@@ -10,7 +10,7 @@ fi
 # Step 1: Launch MongoDB with Podman
 echo "Starting MongoDB..."
 cd scripts/
-docker-compose up -d mongo
+podman-compose up -d mongo
 
 # Step 2: Install dependencies (if needed)
 # Optionally, you can check if node_modules exist before installing.
