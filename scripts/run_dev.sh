@@ -1,15 +1,6 @@
 
-# check current directory
-current_dir=${PWD##*/}
-current_dir=${current_dir:-/} # to correct for the case where PWD=/
-if [[ "$current_dir" == "scripts" ]]; then
-  echo "need to run the script from the project directory"
-  exit 1
-fi
-
 # Step 1: Launch MongoDB with Podman
 echo "Starting MongoDB..."
-cd scripts/
 podman-compose up -d mongo
 
 # Step 2: Install dependencies (if needed)

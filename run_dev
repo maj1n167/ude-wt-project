@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Check the operating system
+OS="$(uname -s)"
+
+case "$OS" in
+    Linux*|Darwin*)
+        echo "Detected Unix-based OS. Running start_project.sh..."
+        cd scripts
+        ./run_dev.sh
+        ;;
+    CYGWIN*|MINGW*|MSYS*|WindowsNT*)
+        echo "Detected Windows OS. Running start_project.bat..."
+        cd scripts
+        run_dev.bat
+        ;;
+    *)
+        echo "Unknown OS. Cannot execute script."
+        exit 1
+        ;;
+esac
