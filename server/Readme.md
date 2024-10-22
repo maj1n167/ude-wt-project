@@ -1,5 +1,4 @@
 # How to start the Server / Setup
-
 ## Setup 
 #### create .env file 
  ```
