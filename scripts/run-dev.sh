@@ -7,7 +7,7 @@ if [[ "$current_dir" == "scripts" ]]; then
   exit 1
 fi
 
-# Step 1: Launch MongoDB with Docker
+# Step 1: Launch MongoDB with Podman
 echo "Starting MongoDB..."
 cd scripts/
 docker-compose up -d mongo
@@ -23,4 +23,4 @@ cd ..
 echo "Starting server and client with hot-reloading..."
 npx concurrently \
     "cd server && npx nodemon app.js" \
-    "cd client && npm run dev"
+    "cd client && npm start"

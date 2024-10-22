@@ -27,7 +27,7 @@ app.use(errorHandler);
 // Start the server
 
 
-const PORT = process.env.PORT || 1337;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
