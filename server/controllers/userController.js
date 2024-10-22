@@ -52,7 +52,7 @@ exports.createUser = async (req, res, next) => {
 
 
 // User login
-exports.login = async (req, res,next) => {
+exports.loginUser = async (req, res,next) => {
   try {
     const {email, password} = req.body;
 

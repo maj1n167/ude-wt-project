@@ -1,8 +1,3 @@
-# WIP
-# looking for a way to have one dev runner,
-# who launches mongodb, server and client.
-# backend and frontend should be hotswapping
-# when finished, add to run configurations
 
 # check current directory
 current_dir=${PWD##*/}
