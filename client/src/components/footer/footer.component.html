@@ -1,0 +1,46 @@
+<nz-footer>
+  <div nz-row nzJustify="space-between" nzAlign="middle">
+    <div nz-col>
+      <p nz-typography>
+        Copyright ©
+        <a href="https://www.uni-due.de/soco" target="_blank" color="inherit">
+          Social Computing Group
+        </a>
+        {{ currentYear }}.
+      </p>
+    </div>
+
+    <div nz-col>
+      <div nz-row nzJustify="center" nzAlign="middle" [nzGutter]="16">
+        <div nz-col>
+          <p nz-typography>Follow us</p>
+        </div>
+        <div nz-col>
+          <button
+            nz-button
+            nzType="primary"
+            nzDanger
+            nzShape="circle"
+            (click)="
+              openLink(
+                'https://www.youtube.com/channel/UCQV36Dfq-mfmAG0SqrQ_QbA'
+              )
+            "
+          >
+            <span nz-icon nzType="youtube" nzTheme="outline"></span>
+          </button>
+        </div>
+        <div nz-col>
+          <button
+            nz-button
+            nzType="primary"
+            nzShape="circle"
+            (click)="openLink('https://github.com/ude-soco')"
+          >
+            <span nz-icon nzType="github" nzTheme="outline"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nz-footer>

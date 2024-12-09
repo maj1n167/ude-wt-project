@@ -1,70 +1,58 @@
-# Getting Started with Create React App
+# Angular Hands-on
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 🚀 Get Started
 
-## Available Scripts
+#### Step 1: Pre-requisites
 
-In the project directory, you can run:
+Download and install the following software:
 
-### `npm start`
+- Node.js on [Ubuntu](https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-22-04)/[Windows](https://nodejs.org/dist/v20.17.0/)
+  - Preferred to install Node Version Manager (NVM) for [Ubuntu](https://tecadmin.net/how-to-install-nvm-on-ubuntu-22-04/)/[Windows](https://github.com/coreybutler/nvm-windows/releases).
+  - Open a terminal and then type `nvm install 20.17.0` to install Node.js v20.17.0
+  - Then type `nvm use 20.17.0` to use the Node.js v20.17.0 to install node packages
+- Code editor
+  - Visual Studio Code (VSCode) ([official Link](https://code.visualstudio.com/Download))
+  - IntelliJ Ultimate [Ubuntu](https://www.golinuxcloud.com/install-maven-ubuntu/)/[Windows](https://www.jetbrains.com/de-de/idea/download/#section=windows)
+- Git on [Ubuntu](https://www.digitalocean.com/community/tutorials/how-to-install-git-on-ubuntu-22-04#installing-git-with-default-packages)/ [Windows](https://git-scm.com/downloads)
+- Github Desktop on [Ubuntu](https://www.linuxcapable.com/how-to-install-github-desktop-on-ubuntu-linux/)/[Windows](https://desktop.github.com/)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+#### Step 2: Clone the repository
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- If you have GitHub Desktop installed
+  - Clone the repository by clicking the green `Code` button and then `Open with GitHub Desktop`.
+  - Select the location where you want to clone the repository and click the `Clone` button.
+- Open a terminal and type the command below to clone the repository.
+  ```bash
+  git clone https://github.com/shoebjoarder/angular-hands-on
+  ```
 
-### `npm test`
+#### Step 3: Install dependencies and run the application
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Open the project using a code editor.
+- In VSCode, click `Terminal` menu from the top menu and click `New Terminal`.
 
-### `npm run build`
+- Switch between branches to view the different topics. Type `git checkout <branch_name>` in the terminal to switch between the branches. Remember to replace `<branch_name>` with the actual branch name, e.g.,
+  ```bash
+  git checkout 4-angular-2-hands-on-fullcode
+  ```
+- Open a terminal and install Angular CLI (if not installed)
+  ```bash
+  npm install -g @angular/cli
+  ```
+- In the same terminal and type the following command to install the node packages.
+  ```bash
+  npm ci
+  ```
+  - If you get an error, try typing the `npm install` or `npm install --force` command.
+- Run the following command in the terminal to start the server.
+  ```bash
+  ng serve
+  ```
+- Click this [link](http://localhost:4200/) to open the application using your default browser.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+<p align="center">
+    <img style="max-width: 400px; width:100%;" src="public/preview-final-state-1.png" alt="re-frame logo">
+</p>
+<p align="center">
+    <img style="max-width: 400px; width:100%;" src="public/preview-final-state-2.png" alt="re-frame logo">
+</p>

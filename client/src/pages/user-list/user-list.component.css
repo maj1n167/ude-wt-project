@@ -1,0 +1,19 @@
+.container {
+  padding: 16px;
+  min-height: 89vh;
+}
+
+.grid-container {
+  max-width: 600px;
+  padding: 2rem;
+  border-radius: 6px;
+  border: 3px solid #d6d4d4;
+}
+
+nz-card {
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+nz-card:hover {
+  box-shadow: 10px 10px 20px rgba(36, 36, 36, 0.5);
+}

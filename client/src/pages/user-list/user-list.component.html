@@ -1,0 +1,85 @@
+<nz-content>
+  <div class="container">
+    <div nz-row nzJustify="center" [nzGutter]="[8, 8]">
+      <div nz-col nzXs="24" nzLg="18">
+        <h3 nz-typography>Create new user</h3>
+        <nz-input-group
+          nzSearch
+          nzSize="large"
+          [nzPrefix]="prefixTemplateUser"
+          [nzAddOnAfter]="suffixButton"
+        >
+          <input
+            type="text"
+            [(ngModel)]="name"
+            nz-input
+            placeholder="Enter a username"
+            (keyup.enter)="name.length ? onCreateUser() : ''"
+          />
+        </nz-input-group>
+        <ng-template #prefixTemplateUser
+          ><span nz-icon nzType="user"></span
+        ></ng-template>
+        <ng-template #suffixButton>
+          <button
+            nz-button
+            nzType="primary"
+            nzSize="large"
+            nzSearch
+            [disabled]="!name.length"
+            (click)="onCreateUser()"
+          >
+            Create
+          </button>
+        </ng-template>
+      </div>
+    </div>
+    <div nz-row nzJustify="center">
+      <nz-divider />
+    </div>
+    <div nz-row nzJustify="center" [nzGutter]="[8, 8]">
+      <div
+        *ngFor="let user of users"
+        nz-col
+        nzXs="24"
+        nzSm="12"
+        nzMd="8"
+        nzLg="6"
+      >
+        <nz-card [nzActions]="[viewTodo, deleteUser]">
+          <nz-card-meta
+            [nzAvatar]="avatarTemplate"
+            [nzTitle]="user.name"
+            [nzDescription]="
+              'Created At: ' + (user.createdAt | date : 'dd/MM/yyyy')
+            "
+          />
+        </nz-card>
+        <ng-template #avatarTemplate>
+          <nz-avatar [nzSize]="64" [nzIcon]="'user'" />
+        </ng-template>
+        <ng-template #viewTodo>
+          <button
+            nz-button
+            nzType="link"
+            (click)="onNavigateToUserTodo('users/' + user._id)"
+          >
+            <i nz-icon nzType="eye" nzTheme="outline"></i>
+            <span style="margin-left: 4px">View Todos</span>
+          </button>
+        </ng-template>
+        <ng-template #deleteUser>
+          <button
+            nz-button
+            nzDanger
+            nzType="link"
+            (click)="onDeleteConfirm(user._id)"
+          >
+            <i nz-icon nzType="delete" nzTheme="outline"></i>
+            <span style="margin-left: 4px">Delete User</span>
+          </button>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</nz-content>

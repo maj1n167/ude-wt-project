@@ -1,0 +1,13 @@
+.todo-card {
+  padding: 12px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease-in-out;
+  border-radius: 6px;
+  border: 1px solid #b7b7b7;
+}
+
+p {
+  margin-bottom: 0px;
+}

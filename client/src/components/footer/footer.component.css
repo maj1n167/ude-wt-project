@@ -1,0 +1,19 @@
+.footer-container {
+    padding: 8px 16px;
+    align-items: center;
+  }
+  
+  .follow-us {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .follow-us span {
+    margin-right: 8px;
+  }
+  
+  p {
+    margin-bottom: 0;
+  }
+  
