@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 
 const connectToDatabase = () => {
 // * Task 4: Continues from server/.env (A)
-  const mongoURI = "mongodb://127.0.0.1:27017/mean-mern-hands-on";
+  require('dotenv').config();
+  const mongoURI = process.env.MONGO_URI;
 // * Task 4: Continues to server/src/server.js (B)
 
   mongoose
