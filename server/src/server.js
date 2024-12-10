@@ -12,14 +12,7 @@ const app = express();
 
 app.use(express.json());
 
-if (process.env.NODE_ENV !== "production") {
-  console.log("NODE_ENV", process.env.NODE_ENV);
-  app.use(
-    cors({
-      origin: ["http://localhost:4200"],
-    })
-  );
-}
+app.use(cors());
 
 app.use("/users", userRouter);
 
