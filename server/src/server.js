@@ -22,10 +22,7 @@ app.use(errorHandler);
 app.use(express.static("../client/dist/client/browser"));
 app.get('*', (req, res) => {
   res.sendFile(
-      path.resolve(
-          __dirname,
-          '../../client/dist/client/browser/index.html'
-      )
+      express.static('../client/dist/client/browser/index.html')
   );
 });
 // * Task 4: Ends here
