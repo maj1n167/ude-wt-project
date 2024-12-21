@@ -3,7 +3,9 @@
     <package-json value="$PROJECT_DIR$/client/package.json" />
     <command value="start" />
     <node-interpreter value="project" />
-    <envs />
+    <envs>
+      <env name="NG_APP_BASE_URL" value="http://localhost:8000" />
+    </envs>
     <method v="2" />
   </configuration>
 </component>
