@@ -7,10 +7,6 @@ const stackSchema = new Schema({
         type: String,
         required: true,
     },
-    cards: {
-        type: [ObjectId],
-        required: true,
-    }
 });
 
 stackSchema.pre('findOneAndDelete', async function(next) {

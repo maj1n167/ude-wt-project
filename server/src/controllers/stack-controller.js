@@ -12,7 +12,7 @@ exports.getStacks = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-}
+};
 
 exports.createStack = async (req, res, next) => {
     const { name, cards } = req.body;
@@ -29,7 +29,7 @@ exports.createStack = async (req, res, next) => {
         }
         next(error);
     }
-}
+};
 
 exports.deleteStack = async (req, res, next) => {
     const stackId = req.params.stackId;
@@ -47,4 +47,4 @@ exports.deleteStack = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-}
+};
