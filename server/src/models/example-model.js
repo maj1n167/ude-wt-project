@@ -4,6 +4,6 @@ const ObjectId = mongoose.ObjectId;
 
 const exampleSchema = new Schema({
     // here you add your schema
-})
+});
 
 module.exports = mongoose.model("Example", exampleSchema);
