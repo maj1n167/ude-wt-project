@@ -11,6 +11,12 @@ const stackSchema = new Schema({
         type: [ObjectId],
         required: true,
     }
-})
+});
+
+stackSchema.pre('findOneAndDelete', async function(next) {
+    const Card = mongoose.model('Card');
+    await Card.deleteMany({ stackId: this._id });
+    next();
+});
 
 module.exports = mongoose.model("Stack", stackSchema);
