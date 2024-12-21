@@ -1,9 +1,9 @@
 const express = require("express");
 const userRouter = express.Router();
 
-const userController = require("../controllers/user-controllers");
-const todoController = require("../controllers/todo-controllers");
-const requestLogger = require("../middleware/logger-middleware");
+const userController = require("../controllers/user-controller");
+const todoController = require("../controllers/todo-controller");
+const requestLogger = require("../middlewares/logger-middleware");
 
 userRouter.get("/", requestLogger, userController.getAllUsers);
 

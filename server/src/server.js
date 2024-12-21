@@ -2,8 +2,12 @@ const express = require("express");
 const path = require("path");
 const cors = require("cors");
 require("dotenv").config();
+
+// create routers here like example
+// const exampleRouter = require("./routes/example-routes");
 const userRouter = require("./routes/user-routes");
-const errorHandler = require("./middleware/error-handler-middleware");
+
+const errorHandler = require("./middlewares/error-handler-middleware");
 const connectDB = require("./database/connectDB");
 
 PORT = process.env.PORT | 3000;
@@ -14,6 +18,8 @@ app.use(express.json());
 
 app.use(cors());
 
+// add routes here like example
+// app.use("/example", exampleRouter);
 app.use("/users", userRouter);
 
 app.use(errorHandler);
