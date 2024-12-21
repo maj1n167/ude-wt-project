@@ -5,7 +5,7 @@ require("dotenv").config();
 
 // create routers here like example
 // const exampleRouter = require("./routes/example-routes");
-const cardStackRouter = require("./routes/cardstack-routes");
+const stackRouter = require("./routes/stack-routes");
 const userRouter = require("./routes/user-routes");
 
 const errorHandler = require("./middlewares/error-handler-middleware");
@@ -21,7 +21,7 @@ app.use(cors());
 
 // add routes here like example
 // app.use("/example", exampleRouter);
-app.use("/card-stacks", cardStackRouter);
+app.use("/stacks", stackRouter);
 app.use("/users", userRouter);
 
 app.use(errorHandler);
