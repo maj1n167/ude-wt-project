@@ -2,6 +2,8 @@ const express = require('express');
 const requestLogger = require('../middlewares/logger-middleware');
 const router = express.Router();
 
-const cardstackController = require('../controllers/cardstack-controller');
+const cardStackController = require('../controllers/cardstack-controller');
+
+router.get('/', requestLogger, cardStackController.getCardStacks);
 
 module.exports = router;
