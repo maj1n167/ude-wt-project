@@ -3,7 +3,7 @@
 ## 🚀 Get Started
 
 ### general todos
-- select name for project
+- All commits starts like this: "#\<issue_number> \<commit_message>"
 
 ### Step 1: Pre-requisites
 Download and install the following software:
