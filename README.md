@@ -13,11 +13,24 @@ Download and install the following software:
 - run code: ```nvm alias default lts/iron```
 
 ### Step 2: Setup Development environment
+#### Configurate your mongo atlas cloud:
+- create cluster
+- create user and password for cluster (use only alpha-numeric passwords)
+- extract mongo_uri
+
 #### Configurate your render:
 - select right branch to deploy on render
 - select server as root directory
 - build command: ```npm install```
 - run command: ```npm run start```
-- Configurate local client environment
+- add environment variables:
+  - NODE_ENV: production
+  - MONGO_URI: mongodb+srv://\<username>:\<password>@\<uri>
 
-#### Configurate your mongo atlas cloud:
+### Step 3: Usage of Development environment
+When you made changes to the client:
+- start "Build Client" run configuration
+- commit and push all changed files to your branch.
+- let render re-deploy the service
+
+You can also use a local development environment(configure yourself)
