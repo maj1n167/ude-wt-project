@@ -4,6 +4,7 @@
 
 ### general todos
 - All commits starts like this: "#\<issue_number> \<commit_message>"
+- Use material UI : https://v18.material.angular.io/guide/getting-started
 
 ### Step 1: Pre-requisites
 Download and install the following software:
