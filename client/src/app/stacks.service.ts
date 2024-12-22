@@ -18,7 +18,7 @@ export class StacksService {
     'Content-Type': 'application/json',
   });
 
-  requestAllStacks(): Observable<Array<IStack>> {
+  getAllStacks(): Observable<Array<IStack>> {
     return this.http
       .get<AllStackResponse>(`${environment.api}/stacks`, {
         headers: this.jsonHeaders,
@@ -31,7 +31,7 @@ export class StacksService {
       );
   }
 
-  requestCreateStack(title: string): Observable<IStack> {
+  createStack(title: string): Observable<IStack> {
     return this.http
       .post<StackResponse>(
         `${environment.api}/stacks/create`,
@@ -48,9 +48,9 @@ export class StacksService {
       );
   }
 
-  requestDeleteStack(_id: string): Observable<IStack> {
+  deleteStack(stackId: string): Observable<IStack> {
     return this.http
-      .delete<StackResponse>(`${environment.api}/stacks/${_id}`, {
+      .delete<StackResponse>(`${environment.api}/stacks/${stackId}`, {
         headers: this.jsonHeaders,
       })
       .pipe(
@@ -61,10 +61,10 @@ export class StacksService {
       );
   }
 
-  requestUpdateStack(_id: string, title: string): Observable<IStack> {
+  updateStack(stackId: string, title: string): Observable<IStack> {
     return this.http
       .put<StackResponse>(
-        `${environment.api}/stacks/${_id}`,
+        `${environment.api}/stacks/${stackId}`,
         { title },
         {
           headers: this.jsonHeaders,
@@ -75,6 +75,19 @@ export class StacksService {
         catchError((error: HttpErrorResponse) => {
           return throwError(() => new Error(error.error.error.message));
         })
-      )
+      );
+  }
+
+  getStack(stackId: string): Observable<IStack> {
+    return this.http
+      .get<StackResponse>(`${environment.api}/stacks/${stackId}`, {
+        headers: this.jsonHeaders,
+      })
+      .pipe(
+        map((response: StackResponse) => response.data),
+        catchError((error: HttpErrorResponse) => {
+          return throwError(() => new Error(error.error.error.message));
+        })
+      );
   }
 }

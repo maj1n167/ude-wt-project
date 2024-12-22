@@ -1,3 +1,4 @@
+
 // add models needed here
 const Stack = require("../models/stack-model");
 
@@ -13,6 +14,24 @@ exports.getStacks = async (req, res, next) => {
         next(error);
     }
 };
+
+exports.getStackById = async (req, res, next) => {
+    const stackId = req.params.stackId;
+    try {
+        const foundStack = await Stack.findOne({ _id: stackId });
+        if (!foundStack) {
+            let error = new Error(`Stack not found with id: ${stackId}`);
+            error.status = 404;
+            throw error;
+        }
+        return res.status(200).json({
+            message: `Found stack with id: ${stackId}`,
+            data: foundStack,
+        })
+    } catch (error) {
+        next(error);
+    }
+}
 
 exports.createStack = async (req, res, next) => {
     const { name } = req.body;

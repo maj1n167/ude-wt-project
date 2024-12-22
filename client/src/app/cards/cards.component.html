@@ -1,1 +1,25 @@
-<p>cards works!</p>
+<div *ngIf="stack !== null">
+  <div>
+    <button (click)="onGoBack">Go Back</button>
+  </div>
+  <h1>{{ stack.name }}</h1>
+  <ng-container *ngIf="cards.length > 0;">
+    <div *ngFor="let card of cards">
+      <div>
+        <h2>{{ card.front }}</h2>
+        <p>{{ card.back }}</p>
+        <button>
+          Edit Card
+        </button>
+        <button (click)="onDeleteCard(card._id)">
+          Delete Card
+        </button>
+      </div>
+    </div>
+  </ng-container>
+  <div>
+    <h2>Create Card</h2>
+    <button (click)="onAddCard()">
+      Create Card
+    </button>
+</div>

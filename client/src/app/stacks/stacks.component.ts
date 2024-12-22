@@ -1,10 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {NgForOf, NgIf} from "@angular/common";
 import { NzModalService } from 'ng-zorro-antd/modal';
 
 import IStack from '../../models/stack';
 import { StacksService } from '../stacks.service';
-import {NgForOf, NgIf} from "@angular/common";
+
 
 @Component({
   selector: 'app-stacks',
@@ -24,7 +25,7 @@ export class StacksComponent implements OnInit {
     // modal = inject(NzModalService);
 
     ngOnInit(): void {
-        this.stacksService.requestAllStacks().subscribe({
+        this.stacksService.getAllStacks().subscribe({
         next: (stackList: Array<IStack>) => {
             this.stacks = stackList;
         },
@@ -35,7 +36,7 @@ export class StacksComponent implements OnInit {
     }
 
     onAddStack() {
-        this.stacksService.requestCreateStack('New Stack').subscribe({
+        this.stacksService.createStack('New Stack').subscribe({
             next: (stack: IStack) => {
                 this.stacks.push(stack);
             },
@@ -46,7 +47,7 @@ export class StacksComponent implements OnInit {
     }
 
     onDeleteStack(_id: string) {
-        this.stacksService.requestDeleteStack(_id).subscribe({
+        this.stacksService.deleteStack(_id).subscribe({
             next: (deletedStack: IStack) => {
                 this.stacks = this.stacks.filter(
                     (stack: IStack) => stack._id !== deletedStack._id
