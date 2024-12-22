@@ -30,6 +30,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+        cache-dependency-path: client/package-lock.json
     - name: Install dependencies in client folder
       run: npm install
     - name: Run build in client folder
