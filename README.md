@@ -12,6 +12,7 @@ Download and install the following software:
 - install nvm (do this on your own please)
 - run code: ```nvm install lts/iron```
 - run code: ```nvm alias default lts/iron```
+!!!: On windows, you just need to specify version: ```nvm install 20.18.1```
 
 ### Step 2: Setup Development environment
 #### Configurate your mongo atlas cloud:
