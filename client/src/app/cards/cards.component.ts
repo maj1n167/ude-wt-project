@@ -55,9 +55,23 @@ export class CardsComponent {
     if (this.stack !== null) {
       const front = 'Front';
       const back = 'Back';
-      this.cardsService.createCard(this.stack.name, front, back).subscribe({
+      this.cardsService.createCard(this.stack._id, front, back).subscribe({
         next: (card: ICard) => {
           this.cards.push(card);
+        },
+        error: (err: Error) => {
+          console.error(err.message);
+        }
+      });
+    }
+  }
+
+  onUpdateCard(cardId: string, front: string, back: string) {
+    let card = this.cards.find((card) => card._id === cardId);
+    if (card) {
+      this.cardsService.updateCard(card._id, front, back).subscribe({
+        next: (updatedCard: ICard) => {
+          card = updatedCard;
         },
         error: (err: Error) => {
           console.error(err.message);

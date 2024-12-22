@@ -1,6 +1,6 @@
 <div *ngIf="stack !== null">
   <div>
-    <button (click)="onGoBack">Go Back</button>
+    <button (click)="onGoBack()">Go Back</button>
   </div>
   <h1>{{ stack.name }}</h1>
   <ng-container *ngIf="cards.length > 0;">

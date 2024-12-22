@@ -35,7 +35,24 @@ export class CardsService {
   createCard(stackId: string, front: string, back: string): Observable<ICard> {
     return this.http
       .post<CardResponse>(
-        `${environment.api}/cards/${stackId}/create`,
+        `${environment.api}/cards/${stackId}`,
+        { front, back },
+        {
+          headers: this.jsonHeaders,
+        }
+      )
+      .pipe(
+        map((response: CardResponse) => response.data),
+        catchError((error: HttpErrorResponse) => {
+          return throwError(() => new Error(error.error.error.message));
+        })
+      );
+  }
+
+  updateCard(cardId: string, front: string, back: string): Observable<ICard> {
+    return this.http
+      .put<CardResponse>(
+        `${environment.api}/cards/${cardId}`,
         { front, back },
         {
           headers: this.jsonHeaders,
