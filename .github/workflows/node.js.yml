@@ -30,11 +30,8 @@ jobs:
         cache: 'npm'
     - name: Install dependencies in client folder
       run: npm install
-      continue-on-error: false
     - name: Run build in client folder
       run: npm run build
-      continue-on-error: false
     - name: Check for uncommitted changes in client folder
       run: |
         git diff --exit-code
-      continue-on-error: false
