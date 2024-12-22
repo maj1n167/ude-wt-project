@@ -1,13 +1,18 @@
 {
-  "name": "mean-mern-hands-on",
-  "version": "1.0.0",
+  "name": "server",
+  "version": "0.1.0",
   "main": "server.js",
   "scripts": {
     "server": "nodemon src/server.js",
     "start": "node src/server"
   },
   "keywords": [],
-  "author": "shoeb.joarder@uni-due.de",
+  "authors": [
+    {
+      "name": "Oguzhan Kaluk",
+      "email": "oguzhan.kaluk@gmail.com"
+    }
+  ],
   "license": "ISC",
   "description": "",
   "dependencies": {
