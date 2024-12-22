@@ -57,4 +57,8 @@ export class StacksComponent implements OnInit {
             }
         });
     }
+
+  goToCards(_id: string) {
+    this.router.navigate(['cards', _id]);
+  }
 }

@@ -2,7 +2,7 @@
   <h1>Stacks</h1>
   <ng-container *ngIf="stacks.length > 0;">
     <div *ngFor="let stack of stacks">
-      <div>
+      <div (click)="goToCards(stack._id)">
         <h2>{{ stack.name }}</h2>
         <button>
           Edit Stack
