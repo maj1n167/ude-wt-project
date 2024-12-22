@@ -30,9 +30,4 @@ Download and install the following software:
   - MONGO_URI: mongodb+srv://\<username>:\<password>@\<uri>
 
 ### Step 3: Usage of Development environment
-When you made changes to the client:
-- start "Build Client" run configuration
-- commit and push all changed files to your branch.
-- let render re-deploy the service
-
-You can also use a local development environment(configure yourself)
+Use Local configuration for development!
