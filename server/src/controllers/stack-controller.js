@@ -15,9 +15,9 @@ exports.getStacks = async (req, res, next) => {
 };
 
 exports.createStack = async (req, res, next) => {
-    const { name, cards } = req.body;
+    const { name } = req.body;
     try {
-        const newStack = await new Stack({ name, cards }).save();
+        const newStack = await new Stack({ name }).save();
         return res.status(201).json({
             message: `New stack created: ${name}`,
             data: newStack,
@@ -43,6 +43,25 @@ exports.deleteStack = async (req, res, next) => {
         return res.status(200).json({
             message: `Stack deleted: ${foundStack.name}`,
             data: foundStack,
+        })
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.updateStack = async (req, res, next) => {
+    const stackId = req.params.stackId;
+    const { name } = req.body;
+    try {
+        const updatedStack = await Stack.findOneAndUpdate({_id: stackId}, {name}, null);
+        if (!updatedStack) {
+            let error = new Error(`Stack not found with id: ${stackId}`);
+            error.status = 404;
+            throw error;
+        }
+        return res.status(200).json({
+            message: `Stack updated: ${name}`,
+            data: updatedStack,
         })
     } catch (error) {
         next(error);

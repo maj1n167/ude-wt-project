@@ -7,7 +7,7 @@ const stackController = require('../controllers/stack-controller');
 router.get('/', requestLogger, stackController.getStacks);
 
 router.post('/create', requestLogger, stackController.createStack);
-
 router.delete('/:stackId', requestLogger, stackController.deleteStack);
+router.post('/:stackId', requestLogger, stackController.updateStack);
 
 module.exports = router;
