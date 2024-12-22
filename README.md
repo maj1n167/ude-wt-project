@@ -4,6 +4,7 @@
 
 ### general todos
 - All commits starts like this: "#\<issue_number> \<commit_message>"
+- Use material UI : https://v18.material.angular.io/guide/getting-started
 
 ### Step 1: Pre-requisites
 Download and install the following software:
@@ -11,6 +12,7 @@ Download and install the following software:
 - install nvm (do this on your own please)
 - run code: ```nvm install lts/iron```
 - run code: ```nvm alias default lts/iron```
+!!!: On windows, you just need to specify version: ```nvm install 20.18.1```
 
 ### Step 2: Setup Development environment
 #### Configurate your mongo atlas cloud:
