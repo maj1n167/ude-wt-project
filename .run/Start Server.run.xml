@@ -3,7 +3,7 @@
     <package-json value="$PROJECT_DIR$/server/package.json" />
     <command value="run" />
     <scripts>
-      <script value="server" />
+      <script value="start" />
     </scripts>
     <node-interpreter value="project" />
     <envs />
