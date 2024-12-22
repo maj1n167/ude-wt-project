@@ -23,8 +23,6 @@ jobs:
         working-directory: ./client
     steps:
     - uses: actions/checkout@v4
-      with:
-        path: client
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
