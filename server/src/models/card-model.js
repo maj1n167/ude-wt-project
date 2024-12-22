@@ -16,6 +16,6 @@ const cardSchema = new Schema({
         ref: "Stack",
         required: true,
     },
-})
+});
 
 module.exports = mongoose.model("Card", cardSchema);
