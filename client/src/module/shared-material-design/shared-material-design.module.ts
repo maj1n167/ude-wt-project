@@ -7,7 +7,7 @@ import {MatButtonModule} from '@angular/material/button';
 
 
 
-const angularDesignComponents = [
+const materialDesignComponents = [
   // add Angular Modules here
     MatDividerModule,
     MatIconModule,
@@ -19,7 +19,7 @@ const angularDesignComponents = [
 
 @NgModule({
   declarations: [],
-  imports: angularDesignComponents,
-  exports: angularDesignComponents,
+  imports: materialDesignComponents,
+  exports: materialDesignComponents,
 })
-export class SharedAngularDesignModule {}
+export class SharedMaterialDesignModule {}
