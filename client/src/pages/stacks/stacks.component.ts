@@ -1,10 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgForOf, NgIf} from "@angular/common";
-import { NzModalService } from 'ng-zorro-antd/modal';
 
 import IStack from '../../models/stack';
 import { StacksService } from '../../services/stacks-service/stacks.service';
+import {SharedMaterialDesignModule} from '../../module/shared-material-design/shared-material-design.module';
 
 
 @Component({
@@ -12,7 +12,8 @@ import { StacksService } from '../../services/stacks-service/stacks.service';
   standalone: true,
     imports: [
         NgForOf,
-        NgIf
+        NgIf,
+        SharedMaterialDesignModule,
     ],
   templateUrl: './stacks.component.html',
   styleUrl: './stacks.component.css'
@@ -22,7 +23,6 @@ export class StacksComponent implements OnInit {
     router = inject(Router);
     stacksService = inject(StacksService);
     // activatedRoute = inject(ActivatedRoute);
-    // modal = inject(NzModalService);
 
     ngOnInit(): void {
         this.stacksService.getAllStacks().subscribe({
