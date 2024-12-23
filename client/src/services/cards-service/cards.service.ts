@@ -1,14 +1,14 @@
 // general
 import { inject, Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {environment} from '../environments/environment';
+import {environment} from '../../environments/environment';
 import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {HttpErrorResponse} from '@angular/common/http';
 
 // specific
-import {AllCardResponse, CardResponse} from '../models/response/card-response';
-import ICard from '../models/card';
+import {AllCardResponse, CardResponse} from '../../models/response/card-response';
+import ICard from '../../models/card';
 
 @Injectable({
   providedIn: 'root'

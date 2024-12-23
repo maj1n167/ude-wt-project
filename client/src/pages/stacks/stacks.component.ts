@@ -4,7 +4,7 @@ import {NgForOf, NgIf} from "@angular/common";
 import { NzModalService } from 'ng-zorro-antd/modal';
 
 import IStack from '../../models/stack';
-import { StacksService } from '../stacks.service';
+import { StacksService } from '../../services/stacks-service/stacks.service';
 
 
 @Component({

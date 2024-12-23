@@ -1,13 +1,13 @@
 import { inject, Injectable } from '@angular/core';
 
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {environment} from '../environments/environment';
+import {environment} from '../../environments/environment';
 import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {HttpErrorResponse} from '@angular/common/http';
 
-import {AllStackResponse, StackResponse} from '../models/response/stack-response';
-import IStack from '../models/stack';
+import {AllStackResponse, StackResponse} from '../../models/response/stack-response';
+import IStack from '../../models/stack';
 
 @Injectable({
   providedIn: 'root'

@@ -5,8 +5,8 @@ import {NgForOf, NgIf} from "@angular/common";
 import {Observable} from 'rxjs';
 
 // services
-import {StacksService} from '../stacks.service';
-import {CardsService} from '../cards.service';
+import {StacksService} from '../../services/stacks-service/stacks.service';
+import {CardsService} from '../../services/cards-service/cards.service';
 
 // models
 import IStack from '../../models/stack';

@@ -6,8 +6,8 @@ import {
 import { provideRouter } from '@angular/router';
 
 // import routes here
-import { cardsRoutes } from './cards/cards.routes';
-import { stacksRoutes } from './stacks/stacks.routes';
+import { cardsRoutes } from '../pages/cards/cards.routes';
+import { stacksRoutes } from '../pages/stacks/stacks.routes';
 import { routes } from './app.routes';
 
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
