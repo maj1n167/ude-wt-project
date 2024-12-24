@@ -4,10 +4,10 @@
     <div *ngFor="let stack of stacks">
       <div>
         <h2>{{ stack.name }}</h2>
-        <button (click)="goToCards(stack._id)">
+        <button mat-button (click)="goToCards(stack._id)">
           Edit Cards
         </button>
-        <button (click)="onDeleteStack(stack._id)">
+        <button mat-button (click)="onDeleteStack(stack._id)">
           Delete Stack
         </button>
       </div>
@@ -15,7 +15,7 @@
   </ng-container>
   <div>
     <h2>Create Stack</h2>
-    <button (click)="onAddStack()">
+    <button mat-raised-button (click)="onAddStack()">
       Create Stack
     </button>
   </div>

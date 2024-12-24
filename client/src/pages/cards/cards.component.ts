@@ -2,7 +2,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgForOf, NgIf} from "@angular/common";
-import {Observable} from 'rxjs';
 
 // services
 import {StacksService} from '../../services/stacks-service/stacks.service';
@@ -11,6 +10,7 @@ import {CardsService} from '../../services/cards-service/cards.service';
 // models
 import IStack from '../../models/stack';
 import ICard from '../../models/card';
+import {SharedMaterialDesignModule} from '../../module/shared-material-design/shared-material-design.module';
 
 
 @Component({
@@ -18,12 +18,13 @@ import ICard from '../../models/card';
   standalone: true,
   imports: [
     NgForOf,
-    NgIf
+    NgIf,
+    SharedMaterialDesignModule
   ],
   templateUrl: './cards.component.html',
   styleUrl: './cards.component.css'
 })
-export class CardsComponent {
+export class CardsComponent implements OnInit {
   stack: IStack | null = null;
   cards: Array<ICard> = [];
   router = inject(Router);
