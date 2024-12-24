@@ -6,7 +6,7 @@ const Card = require("../models/card-model");
 exports.getCards = async (req, res, next) => {
     const stackId = req.params.stackId;
     try {
-        const foundCards = await Card.findById(stackId, null, null);
+        const foundCards = await Card.find({stackId: stackId}, null, null);
         return res.status(200).json({
             message: "Found cards for stack with id: " + stackId,
             data: foundCards,
@@ -21,7 +21,7 @@ exports.createCard = async (req, res, next) => {
     const stackId = req.params.stackId;
     const { front, back } = req.body;
     try {
-        const newCard = await new Card({ front, back, stackId }).save();
+        const newCard = await new Card({ front: front, back: back, stackId: stackId }).save();
         return res.status(201).json({
             message: "New card created",
             data: newCard,

@@ -18,7 +18,7 @@ exports.getStacks = async (req, res, next) => {
 exports.getStackById = async (req, res, next) => {
     const stackId = req.params.stackId;
     try {
-        const foundStack = await Stack.findOne({ _id: stackId });
+        const foundStack = await Stack.findById(stackId);
         if (!foundStack) {
             let error = new Error(`Stack not found with id: ${stackId}`);
             error.status = 404;
@@ -36,7 +36,7 @@ exports.getStackById = async (req, res, next) => {
 exports.createStack = async (req, res, next) => {
     const { name } = req.body;
     try {
-        const newStack = await new Stack({ name }).save();
+        const newStack = await new Stack({ name: name }).save();
         return res.status(201).json({
             message: `New stack created: ${name}`,
             data: newStack,
@@ -53,7 +53,7 @@ exports.createStack = async (req, res, next) => {
 exports.deleteStack = async (req, res, next) => {
     const stackId = req.params.stackId;
     try {
-        const foundStack = await Stack.findOneAndDelete({ _id: stackId }, null);
+        const foundStack = await Stack.findByIdAndDelete(stackId, null);
         if (!foundStack) {
             let error = new Error(`Stack not found with id: ${stackId}`);
             error.status = 404;
@@ -72,7 +72,7 @@ exports.updateStack = async (req, res, next) => {
     const stackId = req.params.stackId;
     const { name } = req.body;
     try {
-        const updatedStack = await Stack.findOneAndUpdate({_id: stackId}, {name}, null);
+        const updatedStack = await Stack.findByIdAndUpdate(stackId, {name: name}, null);
         if (!updatedStack) {
             let error = new Error(`Stack not found with id: ${stackId}`);
             error.status = 404;

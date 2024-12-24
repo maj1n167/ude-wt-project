@@ -9,7 +9,7 @@ const stackSchema = new Schema({
     },
 });
 
-stackSchema.pre('findByIdAndDelete', null, async function(next) {
+stackSchema.pre('findByIdAndDelete', async function(next) {
     const Card = mongoose.model('Card');
     await Card.deleteMany({ stackId: this._id });
     next();
