@@ -1,16 +1,18 @@
 <div class="deck-container">
   <h2>Deck of Flashcards</h2>
 <p>this is the training session</p>
+  <p>{{current}}/{{desklength}}</p>
   <app-card
-    frontContent="What is the speed of light?"
-    backContent="Approximately 299,792 kilometers per second.">
+    [frontContent]=frontcard
+    [backContent]=backcard>
   </app-card>
+
+
   <section>
     <div class="rate-buttons">
-      <button mat-button id="good-button">Good</button>
-      <button mat-button id="medium-button">Medium</button>
-      <button mat-button id="bad-button">Bad</button>
+      <button mat-button id="good-button" (click)="good()">Good</button>
+      <button mat-button id="medium-button"(click)="medium()">Medium</button>
+      <button mat-button id="bad-button" (click)="bad()">Bad</button>
     </div>
   </section>
-
 </div>

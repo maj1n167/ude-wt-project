@@ -1,4 +1,5 @@
 import { Component , Input} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
 @Component({
   selector: 'app-card',
@@ -10,8 +11,7 @@ import { Component , Input} from '@angular/core';
 export class CardComponent {
   @Input() frontContent: string = 'Front of the card';
   @Input() backContent: string = 'Back of the card';
-
-  isFlipped: boolean = false;
+  @Input() isFlipped: boolean =false;
 
   flipCard() {
     this.isFlipped = !this.isFlipped;
