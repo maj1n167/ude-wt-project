@@ -60,7 +60,7 @@ exports.deleteStack = async (req, res, next) => {
             error.status = 404;
             throw error;
         }
-        await Card.deleteMany({ stackId: stackId });
+        Card.deleteMany({ stackId: stackId });
         return res.status(200).json({
             message: `Stack deleted: ${foundStack.name}`,
             data: foundStack,
