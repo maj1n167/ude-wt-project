@@ -13,52 +13,63 @@ export class FlashcardService {
     {
       id: 1,
       front: 'What is the capital of France?',
-      back: 'Paris'
+      back: 'Paris',
+      rating: 0
     },
     {
       id: 2,
       front: 'What is the smallest prime number?',
       back: '2'
+      ,
+      rating: 0
     },
     {
       id: 3,
       front: 'Who wrote "Romeo and Juliet"?',
-      back: 'William Shakespeare'
+      back: 'William Shakespeare',
+      rating: 0
     },
     {
       id: 4,
       front: 'What is the chemical symbol for water?',
-      back: 'H₂O'
+      back: 'H₂O',
+      rating: 0
     },
     {
       id: 5,
       front: 'What planet is known as the Red Planet?',
-      back: 'Mars'
+      back: 'Mars',
+      rating: 0
     },
     {
       id: 6,
       front: 'What is the largest mammal in the world?',
-      back: 'Blue Whale'
+      back: 'Blue Whale',
+      rating: 0
     },
     {
       id: 7,
       front: 'What language is primarily spoken in Brazil?',
-      back: 'Portuguese'
+      back: 'Portuguese',
+      rating: 0
     },
     {
       id: 8,
       front: 'What is the square root of 64?',
-      back: '8'
+      back: '8',
+      rating: 0
     },
     {
       id: 9,
       front: 'Who painted the Mona Lisa?',
-      back: 'Leonardo da Vinci'
+      back: 'Leonardo da Vinci',
+      rating: 0
     },
     {
       id: 10,
       front: 'What is the hardest natural substance on Earth?',
-      back: 'Diamond'
+      back: 'Diamond',
+      rating: 0
     }
     // Add more flashcards as needed
   ];

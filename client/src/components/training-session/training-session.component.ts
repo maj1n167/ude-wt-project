@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {CardComponent} from '../card/card.component';
 import {Flashcard} from '../../models/flashcard.model';
 import {FlashcardService} from '../../services/flashcard-service/flashcard.service';
-import {delay} from 'rxjs';
+
 
 @Component({
   selector: 'app-training-session',
@@ -31,6 +31,8 @@ export class TrainingSessionComponent implements OnInit{
 // rating if rated go to next Card and place rate into DB object
 
   ngOnInit(): void {
+
+      //change this so specific desk
     this.flashcards= this.flashcardservice.getFlashcards();
     this.desklength = this.flashcards.length
     this.frontcard = this.flashcards[0].front
@@ -39,16 +41,9 @@ export class TrainingSessionComponent implements OnInit{
 
 
   rating(type:number) {
-    switch (type) {
-      case 1:
-        //todo
-        break;
-      case 2:
-        //todo
-        break;
-      case 3:
-        //todo
-        break
+    if (type === 1) {//todo
+    } else if (type === 2) {//todo
+    } else if (type === 3) {//todo
     }
     if(this.counter < this.desklength-1){
       this.counter++
