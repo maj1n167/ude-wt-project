@@ -37,38 +37,23 @@ export class TrainingSessionComponent implements OnInit{
     this.backcard = this.flashcards[0].back
   }
 
-  good() {
+
+  rating(type:number) {
+    switch (type) {
+      case 1:
+        //todo
+        break;
+      case 2:
+        //todo
+        break;
+      case 3:
+        //todo
+        break
+    }
     if(this.counter < this.desklength-1){
       this.counter++
       this.current++
       this.cardComponent.flipCard()
-      this.frontcard = this.flashcards[this.counter].front
-      this.backcard = this.flashcards[this.counter].back
-    } else {
-      console.log("training ended")
-    }
-
-    // To do put rating into card deck
-  }
-
-  medium() {
-    if(this.counter < this.desklength-1){
-      this.counter++
-      this.current++
-      this.cardComponent.flipCard()
-      this.frontcard = this.flashcards[this.counter].front
-      this.backcard = this.flashcards[this.counter].back
-    } else {
-      console.log("training ended")
-    }
-  }
-
-  async bad() {
-    if (this.counter < this.desklength - 1) {
-      this.counter++
-      this.current++
-      this.cardComponent.flipCard()
-      await delay(1000000)
       this.frontcard = this.flashcards[this.counter].front
       this.backcard = this.flashcards[this.counter].back
     } else {
