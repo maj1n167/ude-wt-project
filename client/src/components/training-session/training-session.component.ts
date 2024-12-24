@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {CardComponent} from '../card/card.component';
 import {Flashcard} from '../../models/flashcard.model';
 import {FlashcardService} from '../../services/flashcard-service/flashcard.service';
-import {CommonModule} from '@angular/common';
+import {delay} from 'rxjs';
 
 @Component({
   selector: 'app-training-session',
@@ -21,6 +21,10 @@ export class TrainingSessionComponent implements OnInit{
   counter : number = 0
   current: number = 1
   desklength: number = 0
+
+
+  @ViewChild(CardComponent) cardComponent!: CardComponent;
+
     constructor(private flashcardservice: FlashcardService) {
   }
 
@@ -37,8 +41,11 @@ export class TrainingSessionComponent implements OnInit{
     if(this.counter < this.desklength-1){
       this.counter++
       this.current++
+      this.cardComponent.flipCard()
       this.frontcard = this.flashcards[this.counter].front
       this.backcard = this.flashcards[this.counter].back
+    } else {
+      console.log("training ended")
     }
 
     // To do put rating into card deck
@@ -48,17 +55,24 @@ export class TrainingSessionComponent implements OnInit{
     if(this.counter < this.desklength-1){
       this.counter++
       this.current++
+      this.cardComponent.flipCard()
       this.frontcard = this.flashcards[this.counter].front
       this.backcard = this.flashcards[this.counter].back
+    } else {
+      console.log("training ended")
     }
   }
 
-  bad() {
-    if(this.counter < this.desklength-1){
+  async bad() {
+    if (this.counter < this.desklength - 1) {
       this.counter++
       this.current++
+      this.cardComponent.flipCard()
+      await delay(1000000)
       this.frontcard = this.flashcards[this.counter].front
       this.backcard = this.flashcards[this.counter].back
+    } else {
+      console.log("training ended")
     }
   }
 }
