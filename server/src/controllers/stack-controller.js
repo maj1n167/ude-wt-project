@@ -1,6 +1,7 @@
 
 // add models needed here
 const Stack = require("../models/stack-model");
+const Card = require("../models/card-model");
 
 // add all functions here
 exports.getStacks = async (req, res, next) => {
@@ -53,12 +54,13 @@ exports.createStack = async (req, res, next) => {
 exports.deleteStack = async (req, res, next) => {
     const stackId = req.params.stackId;
     try {
-        const foundStack = await Stack.findByIdAndDelete(stackId, null);
+        const foundStack = await Stack.findOneAndDelete(stackId, null);
         if (!foundStack) {
             let error = new Error(`Stack not found with id: ${stackId}`);
             error.status = 404;
             throw error;
         }
+        await Card.deleteMany({ stackId: stackId });
         return res.status(200).json({
             message: `Stack deleted: ${foundStack.name}`,
             data: foundStack,
