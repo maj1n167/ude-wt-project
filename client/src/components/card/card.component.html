@@ -1,15 +1,9 @@
-<div>
-  <div>
-    Progress bar
+<div><div class="flash-card" [class.flipped]="isFlipped" (click)="flipCard()">
+  <div class="front">
+    <p>{{ frontContent }}</p>
   </div>
-  <div>
-    Hier soll der text stehen
-  </div>
-  <div>
-    hier stehen die antwort möglichkeiten
+  <div class="back">
+    <p>{{ backContent }}</p>
   </div>
 </div>
-
-
-
-
+</div>

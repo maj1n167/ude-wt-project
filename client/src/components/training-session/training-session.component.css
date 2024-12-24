@@ -1,0 +1,14 @@
+.deck-container {
+  align-content: center;
+}
+
+#medium-button {
+  background: yellow;
+}
+#bad-button {
+  background: red;
+}
+#good-button  {
+  background: green;
+
+}
