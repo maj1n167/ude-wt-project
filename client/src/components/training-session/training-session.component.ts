@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {CardComponent} from '../card/card.component';
 import {Flashcard} from '../../models/flashcard.model';
 import {FlashcardService} from '../../services/flashcard-service/flashcard.service';
-import {delay} from 'rxjs';
+
 
 
 @Component({
@@ -35,29 +35,31 @@ export class TrainingSessionComponent implements OnInit{
 
       //change this so specific desk
     this.flashcards= this.flashcardservice.getFlashcards();
+    //specify if any tags are set like only bad and medium and so on
     this.desklength = this.flashcards.length
     this.frontcard = this.flashcards[0].front
     this.backcard = this.flashcards[0].back
   }
 
   rating(type:number) {
+    if(this.cardComponent.isFlipped){
+      this.cardComponent.flipCard()
+    }
     if (type === 1) {//todo
     } else if (type === 2) {//todo
     } else if (type === 3) {//todo
     }
 
-
-
     if(this.counter < this.desklength-1){
       this.counter++
       this.current++
-      if(this.cardComponent.isFlipped){
-        this.cardComponent.flipCard()
-      }
       this.frontcard = this.flashcards[this.counter].front
       this.backcard = this.flashcards[this.counter].back
     } else {
       console.log("training ended")
     }
+  }
+  endTraining() {
+
   }
 }
