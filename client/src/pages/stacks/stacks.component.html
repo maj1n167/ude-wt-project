@@ -1,6 +1,6 @@
 <div>
   <h1>Stacks</h1>
-  <ng-container *ngIf="stacks.length > 0;">
+  <ng-container *ngIf="stacks.length > 0">
     <div *ngFor="let stack of stacks">
       <div>
         <h2 (click)="goToCards(stack._id)">{{ stack.name }}</h2>
@@ -14,8 +14,6 @@
     </div>
   </ng-container>
   <div>
-    <button mat-raised-button (click)="onAddStack()">
-      Create Stack
-    </button>
+    <button mat-raised-button (click)="onAddStack()">Create Stack</button>
   </div>
 </div>

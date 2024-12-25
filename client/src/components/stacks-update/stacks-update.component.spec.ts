@@ -8,9 +8,8 @@ describe('StacksEditComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [StacksUpdateComponent]
-    })
-    .compileComponents();
+      imports: [StacksUpdateComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(StacksUpdateComponent);
     component = fixture.componentInstance;

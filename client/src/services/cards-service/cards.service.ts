@@ -1,17 +1,20 @@
 // general
 import { inject, Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {environment} from '../../environments/environment';
-import {Observable, throwError} from 'rxjs';
-import {catchError, map} from 'rxjs/operators';
-import {HttpErrorResponse} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
 
 // specific
-import {AllCardResponse, CardResponse} from '../../models/response/card-response';
+import {
+  AllCardResponse,
+  CardResponse,
+} from '../../models/response/card-response';
 import ICard from '../../models/card';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CardsService {
   http = inject(HttpClient);
@@ -28,7 +31,7 @@ export class CardsService {
         map((response: AllCardResponse) => response.data),
         catchError((error: HttpErrorResponse) => {
           return throwError(() => new Error(error.error.error.message));
-        })
+        }),
       );
   }
 
@@ -39,13 +42,13 @@ export class CardsService {
         { front, back },
         {
           headers: this.jsonHeaders,
-        }
+        },
       )
       .pipe(
         map((response: CardResponse) => response.data),
         catchError((error: HttpErrorResponse) => {
           return throwError(() => new Error(error.error.error.message));
-        })
+        }),
       );
   }
 
@@ -56,13 +59,13 @@ export class CardsService {
         { front, back },
         {
           headers: this.jsonHeaders,
-        }
+        },
       )
       .pipe(
         map((response: CardResponse) => response.data),
         catchError((error: HttpErrorResponse) => {
           return throwError(() => new Error(error.error.error.message));
-        })
+        }),
       );
   }
 
@@ -75,8 +78,7 @@ export class CardsService {
         map((response: CardResponse) => response.data),
         catchError((error: HttpErrorResponse) => {
           return throwError(() => new Error(error.error.error.message));
-        })
+        }),
       );
   }
-
 }

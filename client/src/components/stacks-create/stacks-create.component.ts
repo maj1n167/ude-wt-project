@@ -1,20 +1,16 @@
-import {Component, inject} from '@angular/core';
-import {SharedMaterialDesignModule} from '../../module/shared-material-design/shared-material-design.module';
-import {FormsModule} from '@angular/forms';
-import {StacksService} from '../../services/stacks-service/stacks.service';
+import { Component, inject } from '@angular/core';
+import { SharedMaterialDesignModule } from '../../module/shared-material-design/shared-material-design.module';
+import { FormsModule } from '@angular/forms';
+import { StacksService } from '../../services/stacks-service/stacks.service';
 import IStack from '../../models/stack';
-import {MatDialogRef} from '@angular/material/dialog';
-
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-stacks-create',
   standalone: true,
-  imports: [
-    FormsModule,
-    SharedMaterialDesignModule
-  ],
+  imports: [FormsModule, SharedMaterialDesignModule],
   templateUrl: './stacks-create.component.html',
-  styleUrl: './stacks-create.component.css'
+  styleUrl: './stacks-create.component.css',
 })
 export class StacksCreateComponent {
   stacksService = inject(StacksService);
@@ -29,8 +25,8 @@ export class StacksCreateComponent {
       },
       error: (err: Error) => {
         console.error(err.message);
-      }
-    })
+      },
+    });
   }
 
   close() {

@@ -1,27 +1,21 @@
-
 <div>
   <button mat-button (click)="onGoBack()">Go Back</button>
 </div>
 <div *ngIf="stack !== null">
   <h1>{{ stack.name }}</h1>
-  <ng-container *ngIf="cards.length > 0;">
+  <ng-container *ngIf="cards.length > 0">
     <div *ngFor="let card of cards">
       <div>
         <h2>{{ card.front }}</h2>
         <p>{{ card.back }}</p>
-        <button mat-button>
-          Edit Card
-        </button>
-        <button mat-button (click)="onDeleteCard(card._id)">
-          Delete Card
-        </button>
+        <button mat-button>Edit Card</button>
+        <button mat-button (click)="onDeleteCard(card._id)">Delete Card</button>
       </div>
     </div>
   </ng-container>
   <mat-divider></mat-divider>
   <div>
     <h2>Create Card</h2>
-    <button mat-button (click)="onAddCard()">
-      Create Card
-    </button>
+    <button mat-button (click)="onAddCard()">Create Card</button>
+  </div>
 </div>

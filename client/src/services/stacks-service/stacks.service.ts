@@ -1,16 +1,19 @@
 import { inject, Injectable } from '@angular/core';
 
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {environment} from '../../environments/environment';
-import {Observable, throwError} from 'rxjs';
-import {catchError, map} from 'rxjs/operators';
-import {HttpErrorResponse} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
 
-import {AllStackResponse, StackResponse} from '../../models/response/stack-response';
+import {
+  AllStackResponse,
+  StackResponse,
+} from '../../models/response/stack-response';
 import IStack from '../../models/stack';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class StacksService {
   http = inject(HttpClient);
@@ -27,7 +30,7 @@ export class StacksService {
         map((response: AllStackResponse) => response.data),
         catchError((error: HttpErrorResponse) => {
           return throwError(() => new Error(error.error.error.message));
-        })
+        }),
       );
   }
 
@@ -38,13 +41,13 @@ export class StacksService {
         { name },
         {
           headers: this.jsonHeaders,
-        }
+        },
       )
       .pipe(
         map((response: StackResponse) => response.data),
         catchError((error: HttpErrorResponse) => {
           return throwError(() => new Error(error.error.error.message));
-        })
+        }),
       );
   }
 
@@ -57,7 +60,7 @@ export class StacksService {
         map((response: StackResponse) => response.data),
         catchError((error: HttpErrorResponse) => {
           return throwError(() => new Error(error.error.error.message));
-        })
+        }),
       );
   }
 
@@ -68,13 +71,13 @@ export class StacksService {
         { name },
         {
           headers: this.jsonHeaders,
-        }
+        },
       )
       .pipe(
         map((response: StackResponse) => response.data),
         catchError((error: HttpErrorResponse) => {
           return throwError(() => new Error(error.error.error.message));
-        })
+        }),
       );
   }
 
@@ -87,7 +90,7 @@ export class StacksService {
         map((response: StackResponse) => response.data),
         catchError((error: HttpErrorResponse) => {
           return throwError(() => new Error(error.error.error.message));
-        })
+        }),
       );
   }
 }
