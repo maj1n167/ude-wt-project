@@ -38,7 +38,7 @@ export class TodoService {
         map((response: AllTodoResponse) => response.data),
         catchError((error: HttpErrorResponse) => {
           return throwError(() => new Error(error.error.error.message));
-        })
+        }),
       );
   }
 
@@ -49,13 +49,13 @@ export class TodoService {
         { title },
         {
           headers: this.jsonHeaders,
-        }
+        },
       )
       .pipe(
         map((response: TodoResponse) => response.data),
         catchError((error: HttpErrorResponse) => {
           return throwError(() => new Error(error.error.error.message));
-        })
+        }),
       );
   }
 
@@ -65,13 +65,13 @@ export class TodoService {
         `${environment.api}/users/${userId}/todos/${todoId}`,
         {
           headers: this.jsonHeaders,
-        }
+        },
       )
       .pipe(
         map((response: TodoResponse) => response.data),
         catchError((error: HttpErrorResponse) => {
           return throwError(() => new Error(error.error.error.message));
-        })
+        }),
       );
   }
 }
