@@ -11,6 +11,9 @@ import {CardsService} from '../../services/cards-service/cards.service';
 import IStack from '../../models/stack';
 import ICard from '../../models/card';
 import {SharedMaterialDesignModule} from '../../module/shared-material-design/shared-material-design.module';
+import {StacksCreateComponent} from '../../components/stacks-create/stacks-create.component';
+import {MatDialog} from '@angular/material/dialog';
+import {CardsCreateComponent} from '../../components/cards-create/cards-create.component';
 
 
 @Component({
@@ -28,6 +31,7 @@ export class CardsComponent implements OnInit {
   stack: IStack | null = null;
   cards: Array<ICard> = [];
   router = inject(Router);
+  dialog = inject(MatDialog);
   activatedRoute = inject(ActivatedRoute);
   stacksService = inject(StacksService);
   cardsService = inject(CardsService);
@@ -52,19 +56,18 @@ export class CardsComponent implements OnInit {
     });
   }
   onAddCard() {
-  //onAddCard(front: string, back: string) {
-    if (this.stack !== null) {
-      const front = 'Front';
-      const back = 'Back';
-      this.cardsService.createCard(this.stack._id, front, back).subscribe({
-        next: (card: ICard) => {
+    // @ts-ignore
+    const dialogRef = this.dialog.open(CardsCreateComponent, { width: '50%', height: '50%', data: { stackId: this.stack._id }});
+    dialogRef.afterClosed().subscribe({
+      next: (card: ICard) => {
+        if (card) {
           this.cards.push(card);
-        },
-        error: (err: Error) => {
-          console.error(err.message);
         }
-      });
-    }
+      },
+      error: (err: Error) => {
+        console.error(err.message);
+      }
+    });
   }
 
   onUpdateCard(cardId: string, front: string, back: string) {
