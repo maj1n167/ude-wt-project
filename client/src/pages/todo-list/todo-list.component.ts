@@ -64,7 +64,7 @@ export class TodoListComponent implements OnInit {
     this.todoService.requestDeleteTodo(this.userId, todoId).subscribe({
       next: (deletedTodo: ITodo) => {
         this.todos = this.todos.filter(
-          (todo: ITodo) => todo._id !== deletedTodo._id
+          (todo: ITodo) => todo._id !== deletedTodo._id,
         );
       },
     });
