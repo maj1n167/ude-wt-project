@@ -2,14 +2,15 @@ import { Component, Inject, inject, OnInit } from '@angular/core';
 import { StacksService } from '../../services/stacks-service/stacks.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
-import { MatButton } from '@angular/material/button';
-import { MatFormField } from '@angular/material/form-field';
-import { MatInput } from '@angular/material/input';
+import {SharedMaterialDesignModule} from '../../module/shared-material-design/shared-material-design.module';
 
 @Component({
   selector: 'app-stacks-update',
   standalone: true,
-  imports: [FormsModule, MatButton, MatFormField, MatInput],
+  imports: [
+    FormsModule,
+    SharedMaterialDesignModule
+  ],
   templateUrl: './stacks-update.component.html',
   styleUrl: './stacks-update.component.css',
 })

@@ -8,12 +8,12 @@ import { StacksService } from '../../services/stacks-service/stacks.service';
 import { CardsService } from '../../services/cards-service/cards.service';
 
 // models
-import IStack from '../../models/stack';
 import ICard from '../../models/card';
 import { SharedMaterialDesignModule } from '../../module/shared-material-design/shared-material-design.module';
-import { StacksCreateComponent } from '../../components/stacks-create/stacks-create.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CardsCreateComponent } from '../../components/cards-create/cards-create.component';
+import {CardsUpdateComponent} from '../../components/cards-update/cards-update.component';
+import IStack from '../../models/stack';
 
 @Component({
   selector: 'app-cards',
@@ -23,25 +23,27 @@ import { CardsCreateComponent } from '../../components/cards-create/cards-create
   styleUrl: './cards.component.css',
 })
 export class CardsComponent implements OnInit {
-  stack: IStack | null = null;
   cards: Array<ICard> = [];
+  stack: IStack | null = null;
   router = inject(Router);
   dialog = inject(MatDialog);
   activatedRoute = inject(ActivatedRoute);
-  stacksService = inject(StacksService);
   cardsService = inject(CardsService);
+  stacksService = inject(StacksService);
 
   ngOnInit(): void {
-    this.stacksService
-      .getStack(this.activatedRoute.snapshot.params['stackId'])
-      .subscribe({
-        next: (stack: IStack) => {
-          this.stack = stack;
-        },
-        error: (err: Error) => {
-          this.onGoBack();
-        },
-      });
+    this.loadCards();
+  }
+
+  loadCards() {
+    this.stacksService.getStack(this.activatedRoute.snapshot.params['stackId']).subscribe({
+      next: (stack) => {
+        this.stack = stack;
+      },
+      error: (err: Error) => {
+        console.error(err.message);
+      },
+    });
 
     this.cardsService
       .getCards(this.activatedRoute.snapshot.params['stackId'])
@@ -51,17 +53,17 @@ export class CardsComponent implements OnInit {
         },
         error: (err: Error) => {
           console.error(err.message);
+          this.onGoBack();
         },
       });
   }
+
   onAddCard() {
-    if (!this.stack) {
-      return;
-    }
+
     const dialogRef = this.dialog.open(CardsCreateComponent, {
       width: '50%',
       height: '50%',
-      data: { stackId: this.stack._id },
+      data: { stackId: this.activatedRoute.snapshot.params['stackId'] },
     });
     dialogRef.afterClosed().subscribe({
       next: (card: ICard) => {
@@ -75,18 +77,23 @@ export class CardsComponent implements OnInit {
     });
   }
 
-  onUpdateCard(cardId: string, front: string, back: string) {
-    let card = this.cards.find((card) => card._id === cardId);
-    if (card) {
-      this.cardsService.updateCard(card._id, front, back).subscribe({
-        next: (updatedCard: ICard) => {
-          card = updatedCard;
-        },
-        error: (err: Error) => {
-          console.error(err.message);
-        },
-      });
-    }
+  onUpdateCard(card: ICard) {
+    const dialogRef = this.dialog.open(CardsUpdateComponent, {
+      width: '50%',
+      height: '50%',
+      data: { card },
+    });
+
+    dialogRef.afterClosed().subscribe({
+      next: (card: ICard) => {
+        if (card) {
+          this.loadCards();
+        }
+      },
+      error: (err: Error) => {
+        console.error(err.message);
+      },
+    });
   }
 
   onDeleteCard(_id: string) {

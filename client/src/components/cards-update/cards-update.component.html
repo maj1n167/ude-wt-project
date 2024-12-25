@@ -1,1 +1,6 @@
-<p>cards-edit works!</p>
+<mat-form-field>
+  <input matInput value="{{ front }}" [(ngModel)]="front" />
+  <input matInput value="{{ back }}" [(ngModel)]="back" />
+</mat-form-field>
+<button mat-raised-button color="primary" (click)="updateCard()">Update</button>
+<button mat-raised-button color="secondary" (click)="close()">Abort</button>
