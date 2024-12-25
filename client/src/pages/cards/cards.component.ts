@@ -55,7 +55,9 @@ export class CardsComponent implements OnInit {
       });
   }
   onAddCard() {
-    // @ts-ignore
+    if (!this.stack) {
+      return;
+    }
     const dialogRef = this.dialog.open(CardsCreateComponent, {
       width: '50%',
       height: '50%',
