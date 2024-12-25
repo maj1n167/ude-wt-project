@@ -49,7 +49,7 @@ export class UserService {
             this.message.error(error.message);
           }
           return throwError(() => new Error('Could not fetch users.'));
-        })
+        }),
       );
   }
 
@@ -60,7 +60,7 @@ export class UserService {
         { name },
         {
           headers: this.jsonHeaders,
-        }
+        },
       )
       .pipe(
         map((response: UserResponse) => {
@@ -75,7 +75,7 @@ export class UserService {
             this.message.error(error.message);
           }
           return throwError(() => new Error('Could not create user.'));
-        })
+        }),
       );
   }
 
@@ -94,7 +94,7 @@ export class UserService {
             this.message.error(error.message);
           }
           return throwError(() => new Error('Could not delete user'));
-        })
+        }),
       );
   }
 }
