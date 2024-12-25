@@ -16,7 +16,7 @@ userRouter.delete("/:userId", requestLogger, userController.deleteUser);
 userRouter.post(
   "/:userId/todos/create",
   requestLogger,
-  todoController.createTodo
+  todoController.createTodo,
 );
 
 userRouter.get("/:userId/todos", requestLogger, todoController.getAllUserTodos);
@@ -24,7 +24,7 @@ userRouter.get("/:userId/todos", requestLogger, todoController.getAllUserTodos);
 userRouter.delete(
   "/:userId/todos/:todoId/",
   requestLogger,
-  todoController.deleteTodo
+  todoController.deleteTodo,
 );
 
 module.exports = userRouter;

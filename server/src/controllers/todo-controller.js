@@ -59,7 +59,7 @@ exports.deleteTodo = async (req, res, next) => {
     if (!foundUser.todos.includes(todoId)) {
       const error = new Error(
         `Todo with id ${todoId} does not 
-            belong to the user: ${foundUser.username}`
+            belong to the user: ${foundUser.username}`,
       );
       error.status = 403;
       throw error;
@@ -74,7 +74,7 @@ exports.deleteTodo = async (req, res, next) => {
     }
 
     foundUser.todos = foundUser.todos.filter(
-      (todo) => todo.toString() !== todoId.toString()
+      (todo) => todo.toString() !== todoId.toString(),
     );
     await foundUser.save();
 
