@@ -7,6 +7,7 @@ import { StacksService } from '../../services/stacks-service/stacks.service';
 import {SharedMaterialDesignModule} from '../../module/shared-material-design/shared-material-design.module';
 import {MatDialog} from '@angular/material/dialog';
 import {StacksCreateComponent} from '../../components/stacks-create/stacks-create.component';
+import {StacksUpdateComponent} from '../../components/stacks-update/stacks-update.component';
 
 
 @Component({
@@ -25,7 +26,6 @@ export class StacksComponent implements OnInit {
     router = inject(Router);
     stacksService = inject(StacksService);
     dialog = inject(MatDialog);
-    // activatedRoute = inject(ActivatedRoute);
 
     ngOnInit(): void {
         this.stacksService.getAllStacks().subscribe({
@@ -49,6 +49,25 @@ export class StacksComponent implements OnInit {
             error: (err: Error) => {
                 console.error(err.message);
             }
+        });
+    }
+
+    onUpdateStack(_id: string) {
+      const stack = this.stacks.find((s: IStack) => s._id === _id);
+        const dialogRef = this.dialog.open(StacksUpdateComponent, {width: '50%', height: '50%', data: { stack }});
+
+        dialogRef.afterClosed().subscribe({
+          next: (stack: IStack) => {
+            if (stack) {
+              const index = this.stacks.findIndex((s: IStack) => s._id === stack._id);
+              if (index !== -1) {
+                this.stacks[index] = stack;
+              }
+            }
+          },
+          error: (err: Error) => {
+            console.error(err.message);
+          }
         });
     }
 

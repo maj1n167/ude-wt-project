@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StacksEditComponent } from './stacks-edit.component';
+import { StacksUpdateComponent } from './stacks-update.component';
 
 describe('StacksEditComponent', () => {
-  let component: StacksEditComponent;
-  let fixture: ComponentFixture<StacksEditComponent>;
+  let component: StacksUpdateComponent;
+  let fixture: ComponentFixture<StacksUpdateComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [StacksEditComponent]
+      imports: [StacksUpdateComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(StacksEditComponent);
+    fixture = TestBed.createComponent(StacksUpdateComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
