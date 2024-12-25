@@ -28,14 +28,18 @@ export class StacksComponent implements OnInit {
     dialog = inject(MatDialog);
 
     ngOnInit(): void {
-        this.stacksService.getAllStacks().subscribe({
+        this.loadStacks();
+    }
+
+    loadStacks() {
+      this.stacksService.getAllStacks().subscribe({
         next: (stackList: Array<IStack>) => {
-            this.stacks = stackList;
+          this.stacks = stackList;
         },
         error: (err: Error) => {
-            console.error(err.message);
+          console.error(err.message);
         }
-        });
+      });
     }
 
     onAddStack() {
@@ -59,10 +63,7 @@ export class StacksComponent implements OnInit {
         dialogRef.afterClosed().subscribe({
           next: (stack: IStack) => {
             if (stack) {
-              const index = this.stacks.findIndex((s: IStack) => s._id === stack._id);
-              if (index !== -1) {
-                this.stacks[index] = stack;
-              }
+              this.loadStacks();
             }
           },
           error: (err: Error) => {

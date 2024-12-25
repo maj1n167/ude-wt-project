@@ -31,11 +31,11 @@ export class StacksService {
       );
   }
 
-  createStack(title: string): Observable<IStack> {
+  createStack(name: string): Observable<IStack> {
     return this.http
       .post<StackResponse>(
         `${environment.api}/stacks/create`,
-        { name: title },
+        { name },
         {
           headers: this.jsonHeaders,
         }
@@ -61,11 +61,11 @@ export class StacksService {
       );
   }
 
-  updateStack(stackId: string, title: string): Observable<IStack> {
+  updateStack(stackId: string, name: string): Observable<IStack> {
     return this.http
       .put<StackResponse>(
         `${environment.api}/stacks/${stackId}`,
-        { title },
+        { name },
         {
           headers: this.jsonHeaders,
         }
