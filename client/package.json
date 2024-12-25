@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "prepare": "cd .. && husky"
+    "prepare": "cd .. && husky client/.husky"
   },
   "private": true,
   "dependencies": {

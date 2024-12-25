@@ -1,1 +1,2 @@
-npm test
+cd client
+npx prettier . --write
