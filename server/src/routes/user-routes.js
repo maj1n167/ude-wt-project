@@ -1,9 +1,10 @@
 const express = require("express");
 const userRouter = express.Router();
-
+const registerController = require('../controllers/register-controller');
 const userController = require("../controllers/user-controller");
 const todoController = require("../controllers/todo-controller");
 const requestLogger = require("../middlewares/logger-middleware");
+const loginController = require('../controllers/login-controller');
 
 userRouter.get("/", requestLogger, userController.getAllUsers);
 
@@ -26,5 +27,13 @@ userRouter.delete(
   requestLogger,
   todoController.deleteTodo,
 );
+
+
+userRouter.post("/register", registerController.registerUser);
+
+
+userRouter.post("/login", loginController.loginUser);
+
+
 
 module.exports = userRouter;
