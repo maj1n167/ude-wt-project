@@ -12,7 +12,7 @@ import ICard from '../../models/card';
 import { SharedMaterialDesignModule } from '../../module/shared-material-design/shared-material-design.module';
 import { MatDialog } from '@angular/material/dialog';
 import { CardsCreateComponent } from '../../components/cards-create/cards-create.component';
-import {CardsUpdateComponent} from '../../components/cards-update/cards-update.component';
+import { CardsUpdateComponent } from '../../components/cards-update/cards-update.component';
 import IStack from '../../models/stack';
 
 @Component({
@@ -36,14 +36,16 @@ export class CardsComponent implements OnInit {
   }
 
   loadCards() {
-    this.stacksService.getStack(this.activatedRoute.snapshot.params['stackId']).subscribe({
-      next: (stack) => {
-        this.stack = stack;
-      },
-      error: (err: Error) => {
-        console.error(err.message);
-      },
-    });
+    this.stacksService
+      .getStack(this.activatedRoute.snapshot.params['stackId'])
+      .subscribe({
+        next: (stack) => {
+          this.stack = stack;
+        },
+        error: (err: Error) => {
+          console.error(err.message);
+        },
+      });
 
     this.cardsService
       .getCards(this.activatedRoute.snapshot.params['stackId'])
@@ -59,7 +61,6 @@ export class CardsComponent implements OnInit {
   }
 
   onAddCard() {
-
     const dialogRef = this.dialog.open(CardsCreateComponent, {
       width: '50%',
       height: '50%',

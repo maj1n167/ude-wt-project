@@ -1,9 +1,15 @@
 <div *ngIf="stack !== null">
-  <div style="display:flex; flex-direction: row; justify-content: space-between; align-items: center">
+  <div
+    style="
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    "
+  >
     <h1>{{ stack.name }}</h1>
     <button mat-button (click)="onGoBack()">Go Back</button>
   </div>
-
 
   <ng-container *ngIf="cards.length > 0">
     <div *ngFor="let card of cards">
