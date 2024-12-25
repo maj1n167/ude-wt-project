@@ -1,9 +1,9 @@
-const express = require('express');
-const requestLogger = require('../middlewares/logger-middleware');
+const express = require("express");
+const requestLogger = require("../middlewares/logger-middleware");
 const router = express.Router();
 
 // controllers, multiple ones if needed
-const exampleController = require('../controllers/example-controller');
+const exampleController = require("../controllers/example-controller");
 
 // append your routes between these two comments.
 

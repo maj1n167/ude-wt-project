@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 
 const connectToDatabase = () => {
-// * Task 4: Continues from server/.env (A)
-  require('dotenv').config();
+  // * Task 4: Continues from server/.env (A)
+  require("dotenv").config();
   const mongoURI = process.env.MONGO_URI;
-// * Task 4: Continues to server/src/server.js (B)
+  // * Task 4: Continues to server/src/server.js (B)
 
   mongoose
     .connect(mongoURI)
