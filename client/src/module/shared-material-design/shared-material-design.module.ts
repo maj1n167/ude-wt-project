@@ -4,6 +4,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 
 
 
@@ -14,6 +16,8 @@ const materialDesignComponents = [
     MatAutocompleteModule,
     MatButtonModule,
     MatDialogModule,
+    MatInputModule,
+    MatFormFieldModule,
 ];
 
 

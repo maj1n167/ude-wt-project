@@ -5,6 +5,8 @@ import {NgForOf, NgIf} from "@angular/common";
 import IStack from '../../models/stack';
 import { StacksService } from '../../services/stacks-service/stacks.service';
 import {SharedMaterialDesignModule} from '../../module/shared-material-design/shared-material-design.module';
+import {MatDialog} from '@angular/material/dialog';
+import {StacksCreateComponent} from '../../components/stacks-create/stacks-create.component';
 
 
 @Component({
@@ -22,6 +24,7 @@ export class StacksComponent implements OnInit {
     stacks: Array<IStack> = [];
     router = inject(Router);
     stacksService = inject(StacksService);
+    dialog = inject(MatDialog);
     // activatedRoute = inject(ActivatedRoute);
 
     ngOnInit(): void {
@@ -36,9 +39,12 @@ export class StacksComponent implements OnInit {
     }
 
     onAddStack() {
-        this.stacksService.createStack('New Stack').subscribe({
+        const dialogRef = this.dialog.open(StacksCreateComponent, {width: '50%', height: '50%'});
+        dialogRef.afterClosed().subscribe({
             next: (stack: IStack) => {
-                this.stacks.push(stack);
+                if (stack) {
+                    this.stacks.push(stack);
+                }
             },
             error: (err: Error) => {
                 console.error(err.message);
