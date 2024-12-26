@@ -15,6 +15,15 @@ body {
   padding: 24px 50px;
 }
 
+.root-header {
+  display: flex;
+  flex-direction: row;
+  justify-items: center;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
 .dialog-root {
   display: flex;
   flex-direction: column;
