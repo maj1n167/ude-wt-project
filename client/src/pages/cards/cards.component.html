@@ -8,7 +8,7 @@
     "
   >
     <h1>{{ stack.name }}</h1>
-    <button mat-button (click)="onGoBack()">Go Back</button>
+    <button mat-flat-button (click)="onGoBack()">Go Back</button>
   </div>
 
   <ng-container *ngIf="cards.length > 0">
@@ -16,14 +16,16 @@
       <div>
         <h2>{{ card.front }}</h2>
         <p>{{ card.back }}</p>
-        <button mat-button (click)="onUpdateCard(card)">Edit Card</button>
-        <button mat-button (click)="onDeleteCard(card._id)">Delete Card</button>
+        <button mat-flat-button (click)="onUpdateCard(card)">Edit Card</button>
+        <button mat-flat-button (click)="onDeleteCard(card._id)">
+          Delete Card
+        </button>
       </div>
     </div>
   </ng-container>
   <mat-divider></mat-divider>
   <div>
     <h2>Create Card</h2>
-    <button mat-button (click)="onAddCard()">Create Card</button>
+    <button mat-flat-button (click)="onAddCard()">Create Card</button>
   </div>
 </div>
