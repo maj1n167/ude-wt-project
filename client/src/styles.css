@@ -9,3 +9,8 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.root {
+  height: calc(100vh - 80px - 64px);
+  padding: 24px 50px;
+}
