@@ -1,7 +1,7 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
-name: Server CI
+name: CI
 
 on:
   push:
@@ -19,7 +19,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./server
+        working-directory: ./client
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
@@ -27,6 +27,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-          cache-dependency-path: server
-      - name: Install dependencies in server folder
-        run: npm install
+          cache-dependency-path: client
+      - name: Install dependencies in client folder
+        run: npm install --include-dev
+      - name: Run prettier in root folder
+        run: npx prettier --write ../.
+      - name: Check for uncommitted changes in client folder
+        run: |
+          git diff --exit-code
