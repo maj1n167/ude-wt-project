@@ -30,8 +30,10 @@ jobs:
           cache-dependency-path: client
       - name: Install dependencies in client folder
         run: npm install --include-dev
-      - name: Run prettier in root folder
-        run: npx prettier --write ../.
+      - name: Run prettier in client folder
+        run: npx prettier --write .
+      - name: Run prettier in server folder
+        run: cd ../server && npx prettier --write .
       - name: Check for uncommitted changes in client folder
         run: |
           git diff --exit-code
