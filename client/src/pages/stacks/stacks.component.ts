@@ -38,10 +38,7 @@ export class StacksComponent implements OnInit {
   }
 
   onAddStack() {
-    const dialogRef = this.dialog.open(StacksCreateComponent, {
-      width: '50%',
-      height: '50%',
-    });
+    const dialogRef = this.dialog.open(StacksCreateComponent);
     dialogRef.afterClosed().subscribe({
       next: (stack: IStack) => {
         if (stack) {
@@ -57,8 +54,6 @@ export class StacksComponent implements OnInit {
   onUpdateStack(_id: string) {
     const stack = this.stacks.find((s: IStack) => s._id === _id);
     const dialogRef = this.dialog.open(StacksUpdateComponent, {
-      width: '50%',
-      height: '50%',
       data: { stack },
     });
 

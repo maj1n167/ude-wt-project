@@ -11,7 +11,9 @@
   >
     <h1>Stacks</h1>
     <div>
-      <button mat-flat-button (click)="onAddStack()">Create Stack</button>
+      <button mat-flat-button class="button-end" (click)="onAddStack()">
+        Create Stack
+      </button>
     </div>
   </div>
   <mat-divider></mat-divider>
@@ -19,23 +21,24 @@
     <ng-container *ngIf="stacks.length > 0">
       <div *ngFor="let stack of stacks; let last = last">
         <div class="stack-container">
-          <button mat-flat-button (click)="goToCards(stack._id)">
+          <button
+            mat-flat-button
+            class="button-start"
+            (click)="goToCards(stack._id)"
+          >
             Edit Cards
           </button>
           <h2 style="margin-left: auto; margin-right: auto">
             {{ stack.name }}
           </h2>
           <div>
-            <button
-              mat-flat-button
-              style="margin: 0 10px"
-              (click)="onUpdateStack(stack._id)"
-            >
+            <button mat-flat-button (click)="onUpdateStack(stack._id)">
               Edit Stack
             </button>
             <button
               mat-flat-button
               color="warn"
+              class="button-end"
               (click)="onDeleteStack(stack._id)"
             >
               Delete Stack

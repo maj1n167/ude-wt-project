@@ -14,3 +14,19 @@ body {
   height: calc(100vh - 80px - 64px);
   padding: 24px 50px;
 }
+
+.dialog-root {
+  padding: 24px 50px;
+}
+
+button {
+  margin: 0 5px;
+}
+
+.button-start {
+  margin-left: 0;
+}
+
+.button-end {
+  margin-right: 0;
+}

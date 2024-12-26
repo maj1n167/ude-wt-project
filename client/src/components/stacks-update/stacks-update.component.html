@@ -1,5 +1,7 @@
-<mat-form-field>
-  <input matInput value="{{ stackName }}" [(ngModel)]="stackName" />
-</mat-form-field>
-<button mat-flat-button color="primary" (click)="updateStack()">Update</button>
-<button mat-flat-button color="secondary" (click)="close()">Abort</button>
+<div class="dialog-root">
+  <mat-form-field>
+    <input matInput value="{{ stackName }}" [(ngModel)]="stackName" />
+  </mat-form-field>
+  <button mat-flat-button (click)="updateStack()">Update</button>
+  <button mat-flat-button color="warn" (click)="close()">Abort</button>
+</div>
