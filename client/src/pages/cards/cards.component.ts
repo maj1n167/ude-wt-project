@@ -62,8 +62,6 @@ export class CardsComponent implements OnInit {
 
   onAddCard() {
     const dialogRef = this.dialog.open(CardsCreateComponent, {
-      width: '50%',
-      height: '50%',
       data: { stackId: this.activatedRoute.snapshot.params['stackId'] },
     });
     dialogRef.afterClosed().subscribe({
@@ -80,8 +78,6 @@ export class CardsComponent implements OnInit {
 
   onUpdateCard(card: ICard) {
     const dialogRef = this.dialog.open(CardsUpdateComponent, {
-      width: '50%',
-      height: '50%',
       data: { card },
     });
 

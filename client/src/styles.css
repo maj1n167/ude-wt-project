@@ -16,7 +16,17 @@ body {
 }
 
 .dialog-root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   padding: 24px 50px;
+}
+
+.dialog-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 button {
