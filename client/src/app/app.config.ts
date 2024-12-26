@@ -1,8 +1,4 @@
-import {
-  ApplicationConfig,
-  provideZoneChangeDetection,
-  importProvidersFrom,
-} from '@angular/core';
+import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 // import routes here
@@ -13,7 +9,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { en_US, provideNzI18n } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { authInterceptor } from '../services/auth-service/auth.service';
 
 registerLocaleData(en);
 
@@ -27,6 +24,6 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideNzI18n(en_US),
     provideAnimationsAsync(),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([authInterceptor])),
   ],
 };
