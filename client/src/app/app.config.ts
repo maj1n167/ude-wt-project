@@ -6,8 +6,7 @@ import {
 import { provideRouter } from '@angular/router';
 
 // import routes here
-import { cardsRoutes } from '../pages/cards/cards.routes';
-import { stacksRoutes } from '../pages/stacks/stacks.routes';
+import { pagesRoutes } from '../pages/pages.routes';
 import { routes } from './app.routes';
 
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -22,8 +21,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     // add routes here
-    provideRouter(cardsRoutes),
-    provideRouter(stacksRoutes),
+    provideRouter(pagesRoutes),
     // routes should always be last
     provideRouter(routes),
     provideAnimationsAsync(),
