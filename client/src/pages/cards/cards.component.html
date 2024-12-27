@@ -1,6 +1,6 @@
-<div class="root" *ngIf="stack !== null">
+<div class="root-container">
   <div class="root-header">
-    <h1>{{ stack.name }}</h1>
+    <h1 *ngIf="stack !== null">{{ stack.name }}</h1>
     <div>
       <button mat-flat-button class="button-end" (click)="onAddCard()">
         Create Card
