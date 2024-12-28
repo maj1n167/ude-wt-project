@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { NgForOf, NgIf } from '@angular/common';
 
 import IStack from '../../models/stack';
@@ -8,11 +8,25 @@ import { SharedMaterialDesignModule } from '../../module/shared-material-design/
 import { MatDialog } from '@angular/material/dialog';
 import { StacksCreateComponent } from '../../components/stacks-create/stacks-create.component';
 import { StacksUpdateComponent } from '../../components/stacks-update/stacks-update.component';
+import {
+  MatMenu,
+  MatMenuContent,
+  MatMenuItem,
+  MatMenuTrigger,
+} from '@angular/material/menu';
 
 @Component({
   selector: 'app-stacks',
   standalone: true,
-  imports: [NgForOf, NgIf, SharedMaterialDesignModule],
+  imports: [
+    NgForOf,
+    NgIf,
+    SharedMaterialDesignModule,
+    MatMenuItem,
+    MatMenu,
+    MatMenuTrigger,
+    MatMenuContent,
+  ],
   templateUrl: './stacks.component.html',
   styleUrl: './stacks.component.css',
 })

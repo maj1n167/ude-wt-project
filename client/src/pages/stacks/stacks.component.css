@@ -1,6 +1,16 @@
 .stack-container {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-between;
   padding: 10px;
+}
+
+.stack-title {
+  width: 100%;
+}
+
+.stack-title > span {
+  font-size: 1.5em;
+  font-weight: bold;
+  text-align: center;
 }
