@@ -9,3 +9,43 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.root-container {
+  height: calc(100vh - 80px - 64px);
+  padding: 24px 50px;
+}
+
+.root-header {
+  display: flex;
+  flex-direction: row;
+  justify-items: center;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.dialog-root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 50px;
+}
+
+.dialog-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+button {
+  margin: 0 5px;
+}
+
+.button-start {
+  margin-left: 0;
+}
+
+.button-end {
+  margin-right: 0;
+}

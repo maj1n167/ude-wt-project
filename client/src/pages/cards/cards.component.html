@@ -1,0 +1,35 @@
+<div class="root-container">
+  <div class="root-header">
+    <h1 *ngIf="stack !== null">{{ stack.name }}</h1>
+    <div>
+      <button mat-flat-button class="button-end" (click)="onAddCard()">
+        Create Card
+      </button>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <ng-container *ngIf="cards.length > 0">
+    <div *ngFor="let card of cards; let last = last">
+      <div class="cards-container">
+        <div>
+          <h2>{{ card.front }}</h2>
+          <p>{{ card.back }}</p>
+        </div>
+        <div>
+          <button mat-flat-button (click)="onUpdateCard(card)">
+            Edit Card
+          </button>
+          <button
+            mat-flat-button
+            color="warn"
+            class="button-end"
+            (click)="onDeleteCard(card._id)"
+          >
+            Delete Card
+          </button>
+        </div>
+      </div>
+      <mat-divider *ngIf="!last"></mat-divider>
+    </div>
+  </ng-container>
+</div>
