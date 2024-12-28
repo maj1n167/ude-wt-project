@@ -34,6 +34,6 @@ jobs:
         run: npx prettier --write .
       - name: Run prettier in server folder
         run: cd ../server && npx prettier --write .
-      - name: Check for uncommitted changes in client folder
+      - name: Check for uncommitted changes
         run: |
           git diff --exit-code

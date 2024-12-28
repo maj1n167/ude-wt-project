@@ -1,0 +1,12 @@
+<div class="dialog-root">
+  <mat-form-field>
+    <input matInput value="{{ front }}" [(ngModel)]="front" />
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput value="{{ back }}" [(ngModel)]="back" />
+  </mat-form-field>
+  <div class="dialog-buttons">
+    <button mat-flat-button (click)="updateCard()">Update</button>
+    <button mat-flat-button color="warn" (click)="close()">Abort</button>
+  </div>
+</div>

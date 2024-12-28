@@ -1,0 +1,9 @@
+<div class="dialog-root">
+  <mat-form-field>
+    <input matInput placeholder="Name" [(ngModel)]="stackName" />
+  </mat-form-field>
+  <div class="dialog-buttons">
+    <button mat-flat-button (click)="createStack()">Create</button>
+    <button mat-flat-button color="warn" (click)="close()">Abort</button>
+  </div>
+</div>

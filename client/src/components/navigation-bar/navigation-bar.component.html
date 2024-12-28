@@ -1,5 +1,21 @@
-<nz-header>
-  <h2 nz-typography style="color: white; margin-bottom: 0px">
-    MEAN Stack Hands-on
-  </h2>
+<nz-header
+  style="display: flex; flex-direction: row; justify-content: space-between"
+>
+  <div class="logo">
+    <img src="favicon.ico" alt="logo" style="width: 50px; height: 50px" />
+  </div>
+  <ul nz-menu nzTheme="dark" nzMode="horizontal">
+    <li nz-menu-item nzSelected="true">
+      <a routerLink="/home">Home</a>
+    </li>
+    <li nz-menu-item>
+      <a routerLink="/stacks">Stacks</a>
+    </li>
+    <li nz-menu-item>
+      <a routerLink="/about">About</a>
+    </li>
+    <li nz-menu-item>
+      <a routerLink="/contact">Contact</a>
+    </li>
+  </ul>
 </nz-header>
