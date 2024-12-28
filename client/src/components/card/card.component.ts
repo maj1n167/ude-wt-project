@@ -1,5 +1,4 @@
-import { Component , Input} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
   selector: 'app-card',
@@ -11,9 +10,11 @@ import {CommonModule} from '@angular/common';
 export class CardComponent {
   @Input() frontContent: string = 'Front of the card';
   @Input() backContent: string = 'Back of the card';
-  @Input() isFlipped: boolean =false;
+  @Output() buttonClicked = new EventEmitter<boolean>();
+  isFlipped: boolean =false;
 
   flipCard() {
     this.isFlipped = !this.isFlipped;
+    this.buttonClicked.emit(this.isFlipped)
   }
 }
