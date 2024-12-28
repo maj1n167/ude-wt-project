@@ -8,6 +8,8 @@ import { SharedAntDesignModule } from '../module/shared-ant-design/shared-ant-de
 import { NavigationBarComponent } from '../components/navigation-bar/navigation-bar.component';
 import { FooterComponent } from '../components/footer/footer.component';
 import { RouterModule } from '@angular/router';
+import { CardComponent } from '../components/card/card.component';
+import { TrainingSessionComponent } from '../components/training-session/training-session.component';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +19,8 @@ import { RouterModule } from '@angular/router';
     SharedAntDesignModule,
     NavigationBarComponent,
     FooterComponent,
+    CardComponent,
+    TrainingSessionComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
