@@ -53,7 +53,7 @@ exports.createStack = async (req, res, next) => {
 exports.deleteStack = async (req, res, next) => {
   const stackId = req.params.stackId;
   try {
-    const foundStack = await Stack.findOneAndDelete(stackId, null);
+    const foundStack = await Stack.findByIdAndDelete(stackId, null);
     if (!foundStack) {
       let error = new Error(`Stack not found with id: ${stackId}`);
       error.status = 404;
