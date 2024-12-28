@@ -3,6 +3,7 @@ import { CardComponent } from '../card/card.component';
 import { Flashcard } from '../../models/flashcard.model';
 import { FlashcardService } from '../../services/flashcard-service/flashcard.service';
 import { MatButton } from '@angular/material/button';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-training-session',
@@ -21,7 +22,10 @@ export class TrainingSessionComponent implements OnInit {
   desklength: number = 0;
   flipped: boolean = true;
 
-  constructor(private flashcardservice: FlashcardService) {}
+  constructor(
+    private flashcardservice: FlashcardService,
+    private router: Router,
+  ) {}
 
   // rating if rated go to next Card and place rate into DB object
 
@@ -58,5 +62,7 @@ export class TrainingSessionComponent implements OnInit {
       console.log('training ended');
     }
   }
-  endTraining() {}
+  endTraining() {
+    this.router.navigate(['']);
+  }
 }
