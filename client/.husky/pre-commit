@@ -1,4 +1,4 @@
 cd client
-npx prettier . --write
+npx prettier . --check
 cd ../server
-npx prettier . --write
+npx prettier . --check
