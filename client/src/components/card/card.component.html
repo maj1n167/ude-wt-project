@@ -1,9 +1,10 @@
-<div><div class="flash-card" [class.flipped]="isFlipped" (click)="flipCard()">
-  <div class="front">
-    <p>{{ frontContent }}</p>
+<div>
+  <div class="flash-card" [class.flipped]="isFlipped" (click)="flipCard()">
+    <div class="front">
+      <p>{{ frontContent }}</p>
+    </div>
+    <div class="back">
+      <p>{{ backContent }}</p>
+    </div>
   </div>
-  <div class="back">
-    <p>{{ backContent }}</p>
-  </div>
-</div>
 </div>
