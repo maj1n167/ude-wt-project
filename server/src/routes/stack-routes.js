@@ -1,7 +1,8 @@
 const express = require("express");
-const requestLogger = require("../middlewares/logger-middleware");
 const router = express.Router();
 
+const auth = require("../middlewares/auth-middleware");
+const requestLogger = require("../middlewares/logger-middleware");
 const stackController = require("../controllers/stack-controller");
 
 router.get("/", requestLogger, stackController.getStacks);

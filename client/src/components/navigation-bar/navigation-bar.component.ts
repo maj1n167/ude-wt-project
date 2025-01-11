@@ -10,6 +10,7 @@ import { MatMenu, MatMenuItem } from '@angular/material/menu';
 import { MatTabLabel, MatTabLink, MatTabNav } from '@angular/material/tabs';
 import { NzMenuDirective, NzMenuItemComponent } from 'ng-zorro-antd/menu';
 import { NzTypographyComponent } from 'ng-zorro-antd/typography';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -27,6 +28,7 @@ import { NzTypographyComponent } from 'ng-zorro-antd/typography';
     NzMenuItemComponent,
     RouterLink,
     NzTypographyComponent,
+    NgIf,
   ],
   templateUrl: './navigation-bar.component.html',
   styleUrl: './navigation-bar.component.css',

@@ -11,11 +11,21 @@
     <li nz-menu-item>
       <a routerLink="/stacks">Stacks</a>
     </li>
-    <li nz-menu-item>
-      <a routerLink="/about">About</a>
-    </li>
-    <li nz-menu-item>
-      <a routerLink="/contact">Contact</a>
-    </li>
+    <ng-container *ngIf="loggedIn === true">
+      <li nz-menu-item>
+        <a routerLink="/my-stacks">Your Stacks</a>
+      </li>
+      <li nz-menu-item>
+        <a (click)="logout()">Logout</a>
+      </li>
+    </ng-container>
+    <ng-container *ngIf="loggedIn === false">
+      <li nz-menu-item>
+        <a routerLink="/register">Register</a>
+      </li>
+      <li nz-menu-item>
+        <a routerLink="/login">Login</a>
+      </li>
+    </ng-container>
   </ul>
 </nz-header>

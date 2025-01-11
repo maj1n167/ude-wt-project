@@ -1,7 +1,11 @@
 const User = require("../models/user-model");
+const auth = require("../middlewares/auth-middleware");
 const bcrypt = require("bcryptjs"); // bcrypt importieren
 
 exports.register = async (req, res) => {
+  /**
+   * This function registers a new user
+   */
   const { username, email, password } = req.body;
 
   try {
@@ -35,6 +39,9 @@ exports.register = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
+  /**
+   * This function logs in the user
+   */
   const { username, password } = req.body;
 
   try {
@@ -48,11 +55,15 @@ exports.login = async (req, res) => {
       return res.status(401).send({ message: "Invalid password!" });
     }
 
+    // create auth token and write it to the database
+    const token = await auth.createToken(user);
+
     return res.status(200).send({
       message: "Login successful!",
       user: {
         username: user.username,
         email: user.email,
+        token: token,
       },
     });
   } catch (err) {
@@ -62,20 +73,20 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.createUser = async (req, res, next) => {
-  const { name } = req.body;
+exports.logout = async (req, res) => {
+  /**
+   * This function logs out the user
+   */
+  const token = req.headers["Token"]?.split(" ")[1]; // Token aus dem Header extrahieren
   try {
-    const newUser = await new User({ name }).save();
-
-    return res.status(201).json({
-      message: `New user created: ${name}`,
-      data: newUser,
-    });
-  } catch (error) {
-    if (error.code === 11000) {
-      error.message = "Name already taken!";
-      error.code = 400;
+    const tokenDeleted = await auth.removeToken(token);
+    if (!tokenDeleted) {
+      return res.status(404).send({ message: "Token not found!" });
     }
-    next(error);
+    return res.status(200).send({ message: "Logout successful!" });
+  } catch (err) {
+    return res
+      .status(500)
+      .send({ message: "Error during logout", error: err.message });
   }
 };

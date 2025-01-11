@@ -22,6 +22,13 @@ export class AuthService {
 
   // Login des Benutzers
   login(user: { username: string; password: string }): Observable<any> {
-    return this.http.post(`http://localhost:3000/users/login`, user);
+    const response = this.http.post(`http://localhost:3000/users/login`, user);
+
+    debugger;
+    return response;
+  }
+
+  logout() {
+    localStorage.removeItem('token');
   }
 }
