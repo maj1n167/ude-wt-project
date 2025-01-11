@@ -1,0 +1,24 @@
+<div class="deck-container">
+  <h2>Deck of Flashcards</h2>
+  <p>this is the training session</p>
+  <p>{{ current }}/{{ desklength }}</p>
+  <app-card
+    [frontContent]="frontcard"
+    [backContent]="backcard"
+    (buttonClicked)="onChildButtonClick($event)"
+  >
+  </app-card>
+
+  <section>
+    <div class="rate-buttons" [hidden]="flipped">
+      <button mat-flat-button id="good-button" (click)="rating(1)">Good</button>
+      <button mat-flat-button id="medium-button" (click)="rating(2)">
+        Medium
+      </button>
+      <button mat-flat-button id="bad-button" (click)="rating(3)">Bad</button>
+      <button mat-flat-button id="end-button" (click)="endTraining()">
+        Stop
+      </button>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,39 @@
+.flash-card {
+  width: 300px;
+  height: 200px;
+  perspective: 1000px;
+  cursor: pointer;
+  margin: 20px auto;
+}
+
+.flash-card > div {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  backface-visibility: hidden;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.6s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.flash-card .front {
+  background-color: mediumseagreen;
+  z-index: 2;
+}
+
+.flash-card .back {
+  background-color: mediumseagreen;
+  transform: rotateY(180deg);
+}
+
+.flash-card.flipped .front {
+  transform: rotateY(180deg);
+}
+
+.flash-card.flipped .back {
+  transform: rotateY(360deg);
+}
