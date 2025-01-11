@@ -1,25 +1,12 @@
 const mongoose = require("mongoose");
 
-const Schema = mongoose.Schema;
-const ObjectId = mongoose.ObjectId;
-
-const userSchema = new Schema({
-  name: {
-    type: String,
-    required: [true, "Name is required"],
-    unique: true,
-    maxLength: 30,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now(),
-  },
-  todos: [
-    {
-      type: ObjectId,
-      ref: "Todo",
-    },
-  ],
+const userSchema = new mongoose.Schema({
+  username: { type: String, required: true, unique: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
 });
 
-module.exports = mongoose.model("User", userSchema);
+// Erstelle das Modell, indem du das benannte Schema verwendest
+const User = mongoose.model("User", userSchema);
+
+module.exports = User;

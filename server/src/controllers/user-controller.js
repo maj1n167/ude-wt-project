@@ -1,15 +1,64 @@
-const Todo = require("../models/todo-model");
 const User = require("../models/user-model");
+const bcrypt = require("bcryptjs"); // bcrypt importieren
 
-exports.getAllUsers = async (_, res, next) => {
+exports.register = async (req, res) => {
+  const { username, email, password } = req.body;
+
   try {
-    const foundUsers = await User.find({});
-    return res.status(200).json({
-      message: "Found all users",
-      data: foundUsers,
+    // Überprüfen, ob der Benutzername bereits existiert
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      return res.status(400).send({ message: "Username is already in use!" });
+    }
+
+    // Überprüfen, ob die E-Mail-Adresse bereits existiert
+    const existingEmail = await User.findOne({ email });
+    if (existingEmail) {
+      return res.status(400).send({ message: "Email is already in use!" });
+    }
+
+    // Passwort hashen
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Neuen Benutzer erstellen
+    const newUser = new User({ username, email, password: hashedPassword });
+    await newUser.save();
+
+    return res
+      .status(201)
+      .send({ message: "User registered successfully!", user: newUser });
+  } catch (err) {
+    return res
+      .status(500)
+      .send({ message: "Error during user registration", error: err.message });
+  }
+};
+
+exports.login = async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(404).send({ message: "User not found!" });
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).send({ message: "Invalid password!" });
+    }
+
+    return res.status(200).send({
+      message: "Login successful!",
+      user: {
+        username: user.username,
+        email: user.email,
+      },
     });
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    return res
+      .status(500)
+      .send({ message: "Error during login", error: err.message });
   }
 };
 
@@ -27,48 +76,6 @@ exports.createUser = async (req, res, next) => {
       error.message = "Name already taken!";
       error.code = 400;
     }
-    next(error);
-  }
-};
-
-exports.getUserDetails = async (req, res, next) => {
-  const userId = req.params.userId;
-  try {
-    const foundUser = await User.findOne({ _id: userId }, { todos: 0 });
-    if (!foundUser) {
-      let error = new Error(`User not found with id: ${userId}`);
-      error.status = 404;
-      throw error;
-    }
-    return res.status(200).json({
-      message: "User found",
-      data: foundUser,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-exports.deleteUser = async (req, res, next) => {
-  const userId = req.params.userId;
-  try {
-    const foundUser = await User.findOne({ _id: userId }).populate("todos");
-    if (!foundUser) {
-      let error = new Error(`User not found with id: ${userId}`);
-      error.status = 404;
-      throw error;
-    }
-
-    if (foundUser.todos.length) {
-      await Todo.deleteMany({ _id: { $in: foundUser.todos } });
-    }
-    const deletedUser = await User.findByIdAndDelete(userId);
-
-    return res.status(200).json({
-      message: `User deleted with id: ${userId}`,
-      data: deletedUser,
-    });
-  } catch (error) {
     next(error);
   }
 };
