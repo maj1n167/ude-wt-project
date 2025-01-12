@@ -6,8 +6,8 @@ exports.register = async (req, res, next) => {
   /**
    * This function registers a new user
    */
-  const { username, email, password } = req.body;
-
+  const username = req.body.username;
+  const email = req.body.email;
   try {
     // Überprüfen, ob der Benutzername bereits existiert
     const existingUser = await User.findOne({ username });
@@ -26,13 +26,11 @@ exports.register = async (req, res, next) => {
     }
 
     // Passwort hashen
-    const hashedPassword = await bcrypt.hash(password, 10);
-
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
     // Neuen Benutzer erstellen
     const newUser = new User({ username, email, password: hashedPassword });
     await newUser.save();
-
-    return res.status(201).json({
+    return res.status(200).json({
       message: "User registered successfully!",
       user: newUser,
     });
