@@ -30,7 +30,13 @@ const authenticateToken = async (req, _, next) => {
     return next();
   }
 
-  req.user = await User.findById(userId);
+  const user = await User.findById(userId);
+  if (!user) {
+    req.user = null;
+    return next();
+  }
+
+  req.user = user;
   return next();
 };
 
