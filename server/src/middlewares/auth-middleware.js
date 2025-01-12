@@ -10,14 +10,14 @@ const authenticateToken = async (req, _, next) => {
    * user = null -> invalid token
    * user = user -> valid token
    */
-  const token = req.headers["Token"]?.split(" ")[1]; // Token aus dem Header extrahieren
+  const token = req.headers["token"]; // Token aus dem Header extrahieren
 
   if (!token) {
     req.user = undefined;
     return next();
   }
 
-  const userId = req.headers["User"]?.split(" ")[1]; // Token aus dem Header extrahieren
+  const userId = req.headers["user"]; // Token aus dem Header extrahieren
 
   if (!userId) {
     req.user = undefined;
@@ -30,7 +30,7 @@ const authenticateToken = async (req, _, next) => {
     return next();
   }
 
-  req.user = User.findById(userId);
+  req.user = await User.findById(userId);
   return next();
 };
 
