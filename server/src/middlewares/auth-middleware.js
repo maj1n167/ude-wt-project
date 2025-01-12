@@ -68,4 +68,12 @@ const removeToken = async (user) => {
   }
 };
 
-module.exports = { authenticateToken, createToken, removeToken };
+const userGiven = async (req) => {
+  if (req.user === undefined || req.user === null) {
+    let error = new Error("Unauthorized");
+    error.status = 401;
+    throw error;
+  }
+};
+
+module.exports = { authenticateToken, createToken, removeToken, userGiven };

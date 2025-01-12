@@ -80,7 +80,7 @@ export class CardsComponent implements OnInit {
 
   onUpdateCard(card: ICard) {
     const dialogRef = this.dialog.open(CardsUpdateComponent, {
-      data: { card },
+      data: { stackId: this.activatedRoute.snapshot.params['stackId'], card },
     });
 
     dialogRef.afterClosed().subscribe({
@@ -96,16 +96,18 @@ export class CardsComponent implements OnInit {
   }
 
   onDeleteCard(_id: string) {
-    this.cardsService.deleteCard(_id).subscribe({
-      next: (deletedCard: ICard) => {
-        this.cards = this.cards.filter(
-          (card: ICard) => card._id !== deletedCard._id,
-        );
-      },
-      error: (err: Error) => {
-        console.error(err.message);
-      },
-    });
+    this.cardsService
+      .deleteCard(this.activatedRoute.snapshot.params['stackId'], _id)
+      .subscribe({
+        next: (deletedCard: ICard) => {
+          this.cards = this.cards.filter(
+            (card: ICard) => card._id !== deletedCard._id,
+          );
+        },
+        error: (err: Error) => {
+          console.error(err.message);
+        },
+      });
   }
 
   onGoBack() {

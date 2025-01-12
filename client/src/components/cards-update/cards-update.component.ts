@@ -28,7 +28,7 @@ export class CardsUpdateComponent implements OnInit {
 
   updateCard() {
     this.cardsService
-      .updateCard(this.data.card._id, this.front, this.back)
+      .updateCard(this.data.stackId, this.data.card._id, this.front, this.back)
       .subscribe({
         next: (card) => {
           this.dialogRef.close(card);

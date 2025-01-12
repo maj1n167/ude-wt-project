@@ -99,16 +99,15 @@ exports.updateStack = async (req, res, next) => {
 
     const stackId = req.params.stackId;
     const userId = req.user._id.toString();
-    const { name, published } = req.body;
 
     const updatedStack = await Stack.findOne({ _id: stackId, creator: userId });
-
     if (!updatedStack) {
       let error = new Error(`Stack not found with id: ${stackId}`);
       error.status = 404;
       throw error;
     }
 
+    const { name, published } = req.body;
     await Stack.findByIdAndUpdate(stackId, { name, published });
 
     return res.status(200).json({
