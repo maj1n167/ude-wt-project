@@ -14,11 +14,26 @@ import { MatDialog } from '@angular/material/dialog';
 import { CardsCreateComponent } from '../../components/cards-create/cards-create.component';
 import { CardsUpdateComponent } from '../../components/cards-update/cards-update.component';
 import IStack from '../../models/stack';
+import {
+  MatMenu,
+  MatMenuContent,
+  MatMenuItem,
+  MatMenuTrigger,
+} from '@angular/material/menu';
+import { AuthService } from '../../services/auth-service/auth.service';
 
 @Component({
   selector: 'app-cards',
   standalone: true,
-  imports: [NgForOf, NgIf, SharedMaterialDesignModule],
+  imports: [
+    NgForOf,
+    NgIf,
+    SharedMaterialDesignModule,
+    MatMenu,
+    MatMenuContent,
+    MatMenuItem,
+    MatMenuTrigger,
+  ],
   templateUrl: './cards.component.html',
   styleUrl: './cards.component.css',
 })
@@ -30,10 +45,15 @@ export class CardsComponent implements OnInit {
   activatedRoute = inject(ActivatedRoute);
   cardsService = inject(CardsService);
   stacksService = inject(StacksService);
+  authService = inject(AuthService);
+  loggedIn: boolean | null = null;
   protected access: boolean = false;
 
   ngOnInit(): void {
     this.loadCards();
+    this.authService.loggedIn$.subscribe((status) => {
+      this.loggedIn = status;
+    });
   }
 
   loadCards() {
