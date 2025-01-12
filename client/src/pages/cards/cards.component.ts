@@ -30,6 +30,7 @@ export class CardsComponent implements OnInit {
   activatedRoute = inject(ActivatedRoute);
   cardsService = inject(CardsService);
   stacksService = inject(StacksService);
+  protected access: boolean = false;
 
   ngOnInit(): void {
     this.loadCards();
@@ -41,6 +42,7 @@ export class CardsComponent implements OnInit {
       .subscribe({
         next: (stack) => {
           this.stack = stack;
+          this.access = this.stack.creator == localStorage.getItem('user');
         },
         error: (err: Error) => {
           console.error(err.message);

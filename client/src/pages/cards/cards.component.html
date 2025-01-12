@@ -1,7 +1,7 @@
 <div class="root-container">
   <div class="root-header">
     <h1 *ngIf="stack !== null">{{ stack.name }}</h1>
-    <div>
+    <div *ngIf="access">
       <button mat-flat-button class="button-end" (click)="onAddCard()">
         Create Card
       </button>
@@ -15,7 +15,7 @@
           <h2>{{ card.front }}</h2>
           <p>{{ card.back }}</p>
         </div>
-        <div>
+        <div *ngIf="access">
           <button mat-flat-button (click)="onUpdateCard(card)">
             Edit Card
           </button>
