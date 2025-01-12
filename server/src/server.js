@@ -9,6 +9,7 @@ const cardRouter = require("./routes/card-routes");
 const stackRouter = require("./routes/stack-routes");
 const userRouter = require("./routes/user-routes");
 
+const auth = require("./middlewares/auth-middleware");
 const errorHandler = require("./middlewares/error-handler-middleware");
 const connectDB = require("./database/connectDB");
 
@@ -19,6 +20,8 @@ const app = express();
 app.use(express.json());
 
 app.use(cors());
+
+app.use(auth.authenticateToken);
 
 // add routes here like example
 // app.use("/example", exampleRouter);

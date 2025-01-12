@@ -43,7 +43,7 @@ export class LoginComponent {
     this.authService.login(user).subscribe(
       (response) => {
         console.log('Login successful:', response);
-        this.router.navigate(['/login']); // Weiterleitung zur Profil-Seite
+        this.router.navigate(['/']); // Weiterleitung zur Profil-Seite
       },
       (error) => {
         console.error('Login failed:', error);

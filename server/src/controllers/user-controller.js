@@ -1,81 +1,98 @@
 const User = require("../models/user-model");
+const auth = require("../middlewares/auth-middleware");
 const bcrypt = require("bcryptjs"); // bcrypt importieren
 
-exports.register = async (req, res) => {
-  const { username, email, password } = req.body;
-
+exports.register = async (req, res, next) => {
+  /**
+   * This function registers a new user
+   */
+  const username = req.body.username;
+  const email = req.body.email;
   try {
     // Überprüfen, ob der Benutzername bereits existiert
     const existingUser = await User.findOne({ username });
     if (existingUser) {
-      return res.status(400).send({ message: "Username is already in use!" });
+      let error = new Error(`Username is already in use!`);
+      error.status = 400;
+      throw error;
     }
 
     // Überprüfen, ob die E-Mail-Adresse bereits existiert
     const existingEmail = await User.findOne({ email });
     if (existingEmail) {
-      return res.status(400).send({ message: "Email is already in use!" });
+      let error = new Error(`Email is already in use!`);
+      error.status = 400;
+      throw error;
     }
 
     // Passwort hashen
-    const hashedPassword = await bcrypt.hash(password, 10);
-
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
     // Neuen Benutzer erstellen
     const newUser = new User({ username, email, password: hashedPassword });
     await newUser.save();
-
-    return res
-      .status(201)
-      .send({ message: "User registered successfully!", user: newUser });
+    return res.status(200).json({
+      message: "User registered successfully!",
+      user: newUser,
+    });
   } catch (err) {
-    return res
-      .status(500)
-      .send({ message: "Error during user registration", error: err.message });
+    next(err);
   }
 };
 
-exports.login = async (req, res) => {
+exports.login = async (req, res, next) => {
+  /**
+   * This function logs in the user
+   */
   const { username, password } = req.body;
 
   try {
     const user = await User.findOne({ username });
     if (!user) {
-      return res.status(404).send({ message: "User not found!" });
+      let error = new Error(`User not found!`);
+      error.status = 404;
+      throw error;
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res.status(401).send({ message: "Invalid password!" });
+      let error = new Error(`Invalid password!`);
+      error.status = 401;
+      throw error;
     }
 
-    return res.status(200).send({
+    // create auth token and write it to the database
+    const token = await auth.createToken(user);
+    if (!token) {
+      let error = new Error(`Error creating token!`);
+      error.status = 500;
+      throw error;
+    }
+    return res.status(200).json({
       message: "Login successful!",
-      user: {
-        username: user.username,
-        email: user.email,
+      data: {
+        user: user._id,
+        token: token,
       },
     });
   } catch (err) {
-    return res
-      .status(500)
-      .send({ message: "Error during login", error: err.message });
+    next(err);
   }
 };
 
-exports.createUser = async (req, res, next) => {
-  const { name } = req.body;
+exports.logout = async (req, res, next) => {
+  /**
+   * This function logs out the user
+   */
+  const token = req.headers["Token"]?.split(" ")[1]; // Token aus dem Header extrahieren
   try {
-    const newUser = await new User({ name }).save();
-
-    return res.status(201).json({
-      message: `New user created: ${name}`,
-      data: newUser,
-    });
-  } catch (error) {
-    if (error.code === 11000) {
-      error.message = "Name already taken!";
-      error.code = 400;
+    const tokenDeleted = await auth.removeToken(token);
+    if (!tokenDeleted) {
+      let error = new Error(`Token not found!`);
+      error.status = 404;
+      throw error;
     }
-    next(error);
+    return res.status(200).send({ message: "Logout successful!" });
+  } catch (err) {
+    next(err);
   }
 };
