@@ -1,0 +1,13 @@
+<div class="dialog-root">
+  <mat-form-field>
+    <textarea
+      matInput
+      placeholder="Write your post here..."
+      [(ngModel)]="newPostContent"
+    ></textarea>
+  </mat-form-field>
+  <div class="dialog-buttons">
+    <button mat-flat-button (click)="createPost()">Create</button>
+    <button mat-flat-button color="warn" (click)="close()">Abort</button>
+  </div>
+</div>

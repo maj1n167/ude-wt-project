@@ -10,6 +10,7 @@ import { FooterComponent } from '../components/footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { CardComponent } from '../components/card/card.component';
 import { TrainingSessionComponent } from '../components/training-session/training-session.component';
+import { ForumComponent } from '../pages/forum/forum.component';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +22,7 @@ import { TrainingSessionComponent } from '../components/training-session/trainin
     FooterComponent,
     CardComponent,
     TrainingSessionComponent,
+    ForumComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
