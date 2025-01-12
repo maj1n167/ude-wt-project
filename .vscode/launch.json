@@ -8,6 +8,7 @@
       "cwd": "${workspaceFolder}/client",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "start"],
+      "console": "integratedTerminal",
       "env": {}
     },
     {
@@ -17,6 +18,7 @@
       "cwd": "${workspaceFolder}/server",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "server"],
+      "console": "integratedTerminal",
       "env": {}
     },
     {
