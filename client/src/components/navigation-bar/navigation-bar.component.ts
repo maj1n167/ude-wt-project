@@ -1,5 +1,5 @@
 // Angular modules
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 
 // Custom modules
 import { SharedAntDesignModule } from '../../module/shared-ant-design/shared-ant-design.module';
@@ -11,6 +11,7 @@ import { MatTabLabel, MatTabLink, MatTabNav } from '@angular/material/tabs';
 import { NzMenuDirective, NzMenuItemComponent } from 'ng-zorro-antd/menu';
 import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 import { NgIf } from '@angular/common';
+import { AuthService } from '../../services/auth-service/auth.service';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -33,8 +34,17 @@ import { NgIf } from '@angular/common';
   templateUrl: './navigation-bar.component.html',
   styleUrl: './navigation-bar.component.css',
 })
-export class NavigationBarComponent {
+export class NavigationBarComponent implements OnInit {
   router = inject(Router);
+  loggedIn = false;
+
+  constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.authService.loggedIn$.subscribe((status) => {
+      this.loggedIn = status;
+    });
+  }
 
   goStacks() {
     this.router.navigate(['/stacks']);
@@ -42,5 +52,10 @@ export class NavigationBarComponent {
 
   goHome() {
     this.router.navigate(['/']);
+  }
+
+  logout() {
+    this.authService.logout();
+    this.goHome();
   }
 }

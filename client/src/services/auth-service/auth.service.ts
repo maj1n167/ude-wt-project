@@ -7,7 +7,7 @@ import {
   HttpRequest,
   HttpInterceptorFn,
 } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { UserResponse } from '../../models/response/user-response';
 import { catchError, map } from 'rxjs/operators';
 
@@ -17,8 +17,25 @@ import { catchError, map } from 'rxjs/operators';
 export class AuthService {
   // URL der Backend-API für Login und Registrierung
   private apiUrl = 'http://localhost:3000/users';
+  private loggedInSubject = new BehaviorSubject<boolean>(false);
+  public loggedIn$ = this.loggedInSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.checkLoginStatus();
+  }
+
+  /**
+   * Checks localStorage for token and user, and updates loggedIn status.
+   */
+  checkLoginStatus(): void {
+    const token = localStorage.getItem('token') ?? '';
+    const user = localStorage.getItem('user') ?? '';
+    if (token === '' || user === '') {
+      this.loggedInSubject.next(false);
+    } else {
+      this.loggedInSubject.next(true);
+    }
+  }
 
   // Registrierung des Benutzers
   register(user: {
@@ -42,6 +59,7 @@ export class AuthService {
     response.subscribe((data) => {
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', data.user);
+      this.loggedInSubject.next(true);
     });
     return response;
   }
@@ -49,6 +67,7 @@ export class AuthService {
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    this.loggedInSubject.next(false);
   }
 }
 
