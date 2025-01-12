@@ -15,6 +15,7 @@ import {
   MatMenuItem,
   MatMenuTrigger,
 } from '@angular/material/menu';
+import { ConfirmComponent } from '../../components/confirm/confirm.component';
 
 @Component({
   selector: 'app-stacks',
@@ -91,15 +92,25 @@ export class StacksComponent implements OnInit {
   }
 
   onDeleteStack(_id: string) {
-    this.stacksService.deleteStack(_id).subscribe({
-      next: (deletedStack: IStack) => {
-        this.stacks = this.stacks.filter(
-          (stack: IStack) => stack._id !== deletedStack._id,
-        );
-      },
-      error: (err: Error) => {
-        console.error(err.message);
-      },
+    const dialogRef = this.dialog.open(ConfirmComponent, {
+      data: { prompt: 'Are you sure you want to delete this stack?' },
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (!result) {
+        return;
+      }
+
+      this.stacksService.deleteStack(_id).subscribe({
+        next: (deletedStack: IStack) => {
+          this.stacks = this.stacks.filter(
+            (stack: IStack) => stack._id !== deletedStack._id,
+          );
+        },
+        error: (err: Error) => {
+          console.error(err.message);
+        },
+      });
     });
   }
 

@@ -21,6 +21,7 @@ import {
   MatMenuTrigger,
 } from '@angular/material/menu';
 import { AuthService } from '../../services/auth-service/auth.service';
+import { ConfirmComponent } from '../../components/confirm/confirm.component';
 
 @Component({
   selector: 'app-cards',
@@ -116,18 +117,28 @@ export class CardsComponent implements OnInit {
   }
 
   onDeleteCard(_id: string) {
-    this.cardsService
-      .deleteCard(this.activatedRoute.snapshot.params['stackId'], _id)
-      .subscribe({
-        next: (deletedCard: ICard) => {
-          this.cards = this.cards.filter(
-            (card: ICard) => card._id !== deletedCard._id,
-          );
-        },
-        error: (err: Error) => {
-          console.error(err.message);
-        },
-      });
+    const dialogRef = this.dialog.open(ConfirmComponent, {
+      data: { prompt: 'Are you sure you want to delete this card?' },
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (!result) {
+        return;
+      }
+
+      this.cardsService
+        .deleteCard(this.activatedRoute.snapshot.params['stackId'], _id)
+        .subscribe({
+          next: (deletedCard: ICard) => {
+            this.cards = this.cards.filter(
+              (card: ICard) => card._id !== deletedCard._id,
+            );
+          },
+          error: (err: Error) => {
+            console.error(err.message);
+          },
+        });
+    });
   }
 
   onGoBack() {
