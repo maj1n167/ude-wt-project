@@ -30,7 +30,13 @@ const authenticateToken = async (req, _, next) => {
     return next();
   }
 
-  req.user = await User.findById(userId);
+  const user = await User.findById(userId);
+  if (!user) {
+    req.user = null;
+    return next();
+  }
+
+  req.user = user;
   return next();
 };
 
@@ -62,4 +68,12 @@ const removeToken = async (user) => {
   }
 };
 
-module.exports = { authenticateToken, createToken, removeToken };
+const userGiven = async (req) => {
+  if (req.user === undefined || req.user === null) {
+    let error = new Error("Unauthorized");
+    error.status = 401;
+    throw error;
+  }
+};
+
+module.exports = { authenticateToken, createToken, removeToken, userGiven };

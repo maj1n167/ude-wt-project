@@ -52,10 +52,15 @@ export class CardsService {
       );
   }
 
-  updateCard(cardId: string, front: string, back: string): Observable<ICard> {
+  updateCard(
+    stackId: string,
+    cardId: string,
+    front: string,
+    back: string,
+  ): Observable<ICard> {
     return this.http
       .put<CardResponse>(
-        `${environment.api}/cards/${cardId}`,
+        `${environment.api}/cards/${stackId}/${cardId}`,
         { front, back },
         {
           headers: this.jsonHeaders,
@@ -69,9 +74,9 @@ export class CardsService {
       );
   }
 
-  deleteCard(cardId: string): Observable<ICard> {
+  deleteCard(stackId: string, cardId: string): Observable<ICard> {
     return this.http
-      .delete<CardResponse>(`${environment.api}/cards/${cardId}`, {
+      .delete<CardResponse>(`${environment.api}/cards/${stackId}/${cardId}`, {
         headers: this.jsonHeaders,
       })
       .pipe(

@@ -14,6 +14,7 @@ import { SharedMaterialDesignModule } from '../../module/shared-material-design/
 export class StacksUpdateComponent implements OnInit {
   stacksService = inject(StacksService);
   stackName: string = '';
+  published: boolean = false;
 
   constructor(
     private dialogRef: MatDialogRef<StacksUpdateComponent>,
@@ -22,11 +23,12 @@ export class StacksUpdateComponent implements OnInit {
 
   ngOnInit() {
     this.stackName = this.data.stack.name;
+    this.published = this.data.stack.published;
   }
 
   updateStack() {
     this.stacksService
-      .updateStack(this.data.stack._id, this.stackName)
+      .updateStack(this.data.stack._id, this.stackName, this.published)
       .subscribe({
         next: (stack) => {
           this.dialogRef.close(stack);

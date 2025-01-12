@@ -14,11 +14,27 @@ import { MatDialog } from '@angular/material/dialog';
 import { CardsCreateComponent } from '../../components/cards-create/cards-create.component';
 import { CardsUpdateComponent } from '../../components/cards-update/cards-update.component';
 import IStack from '../../models/stack';
+import {
+  MatMenu,
+  MatMenuContent,
+  MatMenuItem,
+  MatMenuTrigger,
+} from '@angular/material/menu';
+import { AuthService } from '../../services/auth-service/auth.service';
+import { ConfirmComponent } from '../../components/confirm/confirm.component';
 
 @Component({
   selector: 'app-cards',
   standalone: true,
-  imports: [NgForOf, NgIf, SharedMaterialDesignModule],
+  imports: [
+    NgForOf,
+    NgIf,
+    SharedMaterialDesignModule,
+    MatMenu,
+    MatMenuContent,
+    MatMenuItem,
+    MatMenuTrigger,
+  ],
   templateUrl: './cards.component.html',
   styleUrl: './cards.component.css',
 })
@@ -30,9 +46,15 @@ export class CardsComponent implements OnInit {
   activatedRoute = inject(ActivatedRoute);
   cardsService = inject(CardsService);
   stacksService = inject(StacksService);
+  authService = inject(AuthService);
+  loggedIn: boolean | null = null;
+  protected access: boolean = false;
 
   ngOnInit(): void {
     this.loadCards();
+    this.authService.loggedIn$.subscribe((status) => {
+      this.loggedIn = status;
+    });
   }
 
   loadCards() {
@@ -41,6 +63,7 @@ export class CardsComponent implements OnInit {
       .subscribe({
         next: (stack) => {
           this.stack = stack;
+          this.access = this.stack.creator == localStorage.getItem('user');
         },
         error: (err: Error) => {
           console.error(err.message);
@@ -78,7 +101,7 @@ export class CardsComponent implements OnInit {
 
   onUpdateCard(card: ICard) {
     const dialogRef = this.dialog.open(CardsUpdateComponent, {
-      data: { card },
+      data: { stackId: this.activatedRoute.snapshot.params['stackId'], card },
     });
 
     dialogRef.afterClosed().subscribe({
@@ -94,15 +117,27 @@ export class CardsComponent implements OnInit {
   }
 
   onDeleteCard(_id: string) {
-    this.cardsService.deleteCard(_id).subscribe({
-      next: (deletedCard: ICard) => {
-        this.cards = this.cards.filter(
-          (card: ICard) => card._id !== deletedCard._id,
-        );
-      },
-      error: (err: Error) => {
-        console.error(err.message);
-      },
+    const dialogRef = this.dialog.open(ConfirmComponent, {
+      data: { prompt: 'Are you sure you want to delete this card?' },
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (!result) {
+        return;
+      }
+
+      this.cardsService
+        .deleteCard(this.activatedRoute.snapshot.params['stackId'], _id)
+        .subscribe({
+          next: (deletedCard: ICard) => {
+            this.cards = this.cards.filter(
+              (card: ICard) => card._id !== deletedCard._id,
+            );
+          },
+          error: (err: Error) => {
+            console.error(err.message);
+          },
+        });
     });
   }
 
