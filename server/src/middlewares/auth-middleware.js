@@ -1,28 +1,37 @@
 // Middleware zur Überprüfung des Tokens
 const Token = require("../models/token-model");
+const User = require("../models/user-model");
+const bcrypt = require("bcryptjs");
 
-const authenticateToken = async (req, res, next) => {
+const authenticateToken = async (req, _, next) => {
   /**
    * This function checks if the token is valid
+   * user = undefined -> no token
+   * user = null -> invalid token
+   * user = user -> valid token
    */
-
   const token = req.headers["Token"]?.split(" ")[1]; // Token aus dem Header extrahieren
 
   if (!token) {
-    return res.status(403).send({ message: "Token is required!" });
+    req.user = undefined;
+    return next();
   }
 
-  const user_id = req.headers["User"]?.split(" ")[1]; // Token aus dem Header extrahieren
+  const userId = req.headers["User"]?.split(" ")[1]; // Token aus dem Header extrahieren
 
-  if (!user_id) {
-    return res.status(403).send({ message: "User is required!" });
+  if (!userId) {
+    req.user = undefined;
+    return next();
   }
 
-  const tokenExists = await Token.findOne({ token, user_id });
+  const tokenExists = await Token.findOne({ token, userId });
   if (!tokenExists) {
-    return res.status(401).send({ message: "Unauthorized!" });
+    req.user = null;
+    return next();
   }
-  next();
+
+  req.user = User.findById(userId);
+  return next();
 };
 
 const createToken = async (user) => {
@@ -30,8 +39,11 @@ const createToken = async (user) => {
    * This function creates a token for the user
    * */
   try {
-    const token = await bcrypt.hash(user._id, 10);
-    await new Token({ token, user_id: user._id }).save();
+    const token = await bcrypt.hash(user._id.toString(), 10);
+    const newToken = await new Token({ token, userId: user._id }).save();
+    if (!newToken) {
+      throw new Error("Error creating the token");
+    }
     return token;
   } catch (error) {
     throw new Error("Error creating the token");
@@ -44,7 +56,7 @@ const removeToken = async (user) => {
    */
 
   try {
-    await Token.deleteOne({ user_id: user._id });
+    await Token.deleteOne({ userId: user._id });
   } catch (error) {
     throw new Error("Error deleting the token");
   }

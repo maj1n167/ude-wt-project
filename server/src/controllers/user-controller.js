@@ -2,7 +2,7 @@ const User = require("../models/user-model");
 const auth = require("../middlewares/auth-middleware");
 const bcrypt = require("bcryptjs"); // bcrypt importieren
 
-exports.register = async (req, res) => {
+exports.register = async (req, res, next) => {
   /**
    * This function registers a new user
    */
@@ -12,13 +12,17 @@ exports.register = async (req, res) => {
     // Überprüfen, ob der Benutzername bereits existiert
     const existingUser = await User.findOne({ username });
     if (existingUser) {
-      return res.status(400).send({ message: "Username is already in use!" });
+      let error = new Error(`Username is already in use!`);
+      error.status = 400;
+      throw error;
     }
 
     // Überprüfen, ob die E-Mail-Adresse bereits existiert
     const existingEmail = await User.findOne({ email });
     if (existingEmail) {
-      return res.status(400).send({ message: "Email is already in use!" });
+      let error = new Error(`Email is already in use!`);
+      error.status = 400;
+      throw error;
     }
 
     // Passwort hashen
@@ -28,17 +32,16 @@ exports.register = async (req, res) => {
     const newUser = new User({ username, email, password: hashedPassword });
     await newUser.save();
 
-    return res
-      .status(201)
-      .send({ message: "User registered successfully!", user: newUser });
+    return res.status(201).json({
+      message: "User registered successfully!",
+      user: newUser,
+    });
   } catch (err) {
-    return res
-      .status(500)
-      .send({ message: "Error during user registration", error: err.message });
+    next(err);
   }
 };
 
-exports.login = async (req, res) => {
+exports.login = async (req, res, next) => {
   /**
    * This function logs in the user
    */
@@ -47,33 +50,39 @@ exports.login = async (req, res) => {
   try {
     const user = await User.findOne({ username });
     if (!user) {
-      return res.status(404).send({ message: "User not found!" });
+      let error = new Error(`User not found!`);
+      error.status = 404;
+      throw error;
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res.status(401).send({ message: "Invalid password!" });
+      let error = new Error(`Invalid password!`);
+      error.status = 401;
+      throw error;
     }
 
     // create auth token and write it to the database
     const token = await auth.createToken(user);
-
-    return res.status(200).send({
+    if (!token) {
+      let error = new Error(`Error creating token!`);
+      error.status = 500;
+      throw error;
+    }
+    return res.status(200).json({
       message: "Login successful!",
-      user: {
+      data: {
         username: user.username,
         email: user.email,
         token: token,
       },
     });
   } catch (err) {
-    return res
-      .status(500)
-      .send({ message: "Error during login", error: err.message });
+    next(err);
   }
 };
 
-exports.logout = async (req, res) => {
+exports.logout = async (req, res, next) => {
   /**
    * This function logs out the user
    */
@@ -81,12 +90,12 @@ exports.logout = async (req, res) => {
   try {
     const tokenDeleted = await auth.removeToken(token);
     if (!tokenDeleted) {
-      return res.status(404).send({ message: "Token not found!" });
+      let error = new Error(`Token not found!`);
+      error.status = 404;
+      throw error;
     }
     return res.status(200).send({ message: "Logout successful!" });
   } catch (err) {
-    return res
-      .status(500)
-      .send({ message: "Error during logout", error: err.message });
+    next(err);
   }
 };
