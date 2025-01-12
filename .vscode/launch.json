@@ -1,0 +1,43 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Start Client",
+      "cwd": "${workspaceFolder}/client",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "start"],
+      "env": {}
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Start Server",
+      "cwd": "${workspaceFolder}/server",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "server"],
+      "env": {}
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Prettier Write WIN",
+      "program": "${workspaceFolder}/scripts/prettier.ps1",
+      "cwd": "${workspaceFolder}/client",
+      "runtimeExecutable": "powershell",
+      "args": [],
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Prettier Write UNIX",
+      "program": "${workspaceFolder}/scripts/prettier.sh",
+      "cwd": "${workspaceFolder}/client",
+      "runtimeExecutable": "/bin/bash",
+      "args": [],
+      "console": "integratedTerminal"
+    }
+  ]
+}
