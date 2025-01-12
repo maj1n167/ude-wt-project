@@ -1,74 +1,98 @@
-const Todo = require("../models/todo-model");
 const User = require("../models/user-model");
+const auth = require("../middlewares/auth-middleware");
+const bcrypt = require("bcryptjs"); // bcrypt importieren
 
-exports.getAllUsers = async (_, res, next) => {
+exports.register = async (req, res, next) => {
+  /**
+   * This function registers a new user
+   */
+  const username = req.body.username;
+  const email = req.body.email;
   try {
-    const foundUsers = await User.find({});
-    return res.status(200).json({
-      message: "Found all users",
-      data: foundUsers,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-exports.createUser = async (req, res, next) => {
-  const { name } = req.body;
-  try {
-    const newUser = await new User({ name }).save();
-
-    return res.status(201).json({
-      message: `New user created: ${name}`,
-      data: newUser,
-    });
-  } catch (error) {
-    if (error.code === 11000) {
-      error.message = "Name already taken!";
-      error.code = 400;
-    }
-    next(error);
-  }
-};
-
-exports.getUserDetails = async (req, res, next) => {
-  const userId = req.params.userId;
-  try {
-    const foundUser = await User.findOne({ _id: userId }, { todos: 0 });
-    if (!foundUser) {
-      let error = new Error(`User not found with id: ${userId}`);
-      error.status = 404;
+    // Überprüfen, ob der Benutzername bereits existiert
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      let error = new Error(`Username is already in use!`);
+      error.status = 400;
       throw error;
     }
+
+    // Überprüfen, ob die E-Mail-Adresse bereits existiert
+    const existingEmail = await User.findOne({ email });
+    if (existingEmail) {
+      let error = new Error(`Email is already in use!`);
+      error.status = 400;
+      throw error;
+    }
+
+    // Passwort hashen
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    // Neuen Benutzer erstellen
+    const newUser = new User({ username, email, password: hashedPassword });
+    await newUser.save();
     return res.status(200).json({
-      message: "User found",
-      data: foundUser,
+      message: "User registered successfully!",
+      user: newUser,
     });
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    next(err);
   }
 };
 
-exports.deleteUser = async (req, res, next) => {
-  const userId = req.params.userId;
+exports.login = async (req, res, next) => {
+  /**
+   * This function logs in the user
+   */
+  const { username, password } = req.body;
+
   try {
-    const foundUser = await User.findOne({ _id: userId }).populate("todos");
-    if (!foundUser) {
-      let error = new Error(`User not found with id: ${userId}`);
+    const user = await User.findOne({ username });
+    if (!user) {
+      let error = new Error(`User not found!`);
       error.status = 404;
       throw error;
     }
 
-    if (foundUser.todos.length) {
-      await Todo.deleteMany({ _id: { $in: foundUser.todos } });
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      let error = new Error(`Invalid password!`);
+      error.status = 401;
+      throw error;
     }
-    const deletedUser = await User.findByIdAndDelete(userId);
 
+    // create auth token and write it to the database
+    const token = await auth.createToken(user);
+    if (!token) {
+      let error = new Error(`Error creating token!`);
+      error.status = 500;
+      throw error;
+    }
     return res.status(200).json({
-      message: `User deleted with id: ${userId}`,
-      data: deletedUser,
+      message: "Login successful!",
+      data: {
+        user: user._id,
+        token: token,
+      },
     });
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.logout = async (req, res, next) => {
+  /**
+   * This function logs out the user
+   */
+  const token = req.headers["Token"]?.split(" ")[1]; // Token aus dem Header extrahieren
+  try {
+    const tokenDeleted = await auth.removeToken(token);
+    if (!tokenDeleted) {
+      let error = new Error(`Token not found!`);
+      error.status = 404;
+      throw error;
+    }
+    return res.status(200).send({ message: "Logout successful!" });
+  } catch (err) {
+    next(err);
   }
 };
