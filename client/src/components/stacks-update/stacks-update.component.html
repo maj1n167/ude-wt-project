@@ -2,6 +2,7 @@
   <mat-form-field>
     <input matInput value="{{ stackName }}" [(ngModel)]="stackName" />
   </mat-form-field>
+  <mat-checkbox [(ngModel)]="published">Published</mat-checkbox>
   <div class="dialog-buttons">
     <button mat-flat-button (click)="updateStack()">Update</button>
     <button mat-flat-button color="warn" (click)="close()">Abort</button>

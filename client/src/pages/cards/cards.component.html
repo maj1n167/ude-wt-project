@@ -1,13 +1,22 @@
 <div class="root-container">
   <div class="root-header">
     <h1 *ngIf="stack !== null">{{ stack.name }}</h1>
-    <div>
+    <div *ngIf="access">
       <button mat-flat-button class="button-end" (click)="onAddCard()">
         Create Card
       </button>
     </div>
   </div>
   <mat-divider></mat-divider>
+  <!-- Menu definition -->
+  <mat-menu #cardMenu="matMenu">
+    <ng-template matMenuContent let-card="card">
+      <button mat-menu-item (click)="onUpdateCard(card)">Edit Stack</button>
+      <button mat-menu-item (click)="onDeleteCard(card._id)">
+        Delete Stack
+      </button>
+    </ng-template>
+  </mat-menu>
   <ng-container *ngIf="cards.length > 0">
     <div *ngFor="let card of cards; let last = last">
       <div class="cards-container">
@@ -15,19 +24,17 @@
           <h2>{{ card.front }}</h2>
           <p>{{ card.back }}</p>
         </div>
-        <div>
-          <button mat-flat-button (click)="onUpdateCard(card)">
-            Edit Card
-          </button>
+        <ng-container *ngIf="loggedIn && access">
           <button
-            mat-flat-button
-            color="warn"
-            class="button-end"
-            (click)="onDeleteCard(card._id)"
+            mat-icon-button
+            [matMenuTriggerFor]="cardMenu"
+            [matMenuTriggerData]="{ card: card }"
           >
-            Delete Card
+            <mat-icon aria-hidden="false" aria-label="more icon"
+              >more_vert</mat-icon
+            >
           </button>
-        </div>
+        </ng-container>
       </div>
       <mat-divider *ngIf="!last"></mat-divider>
     </div>

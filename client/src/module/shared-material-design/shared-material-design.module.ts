@@ -6,6 +6,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 const materialDesignComponents = [
   // add Angular Modules here
@@ -16,6 +17,7 @@ const materialDesignComponents = [
   MatDialogModule,
   MatInputModule,
   MatFormFieldModule,
+  MatCheckboxModule,
 ];
 
 @NgModule({

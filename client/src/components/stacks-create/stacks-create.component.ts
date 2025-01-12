@@ -15,11 +15,12 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class StacksCreateComponent {
   stacksService = inject(StacksService);
   stackName: string = '';
+  published: boolean = false;
 
   constructor(private dialogRef: MatDialogRef<StacksCreateComponent>) {}
 
   createStack() {
-    this.stacksService.createStack(this.stackName).subscribe({
+    this.stacksService.createStack(this.stackName, this.published).subscribe({
       next: (stack: IStack) => {
         this.dialogRef.close(stack);
       },

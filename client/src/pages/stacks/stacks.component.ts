@@ -1,18 +1,34 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { NgForOf, NgIf } from '@angular/common';
 
 import IStack from '../../models/stack';
+import { AuthService } from '../../services/auth-service/auth.service';
 import { StacksService } from '../../services/stacks-service/stacks.service';
 import { SharedMaterialDesignModule } from '../../module/shared-material-design/shared-material-design.module';
 import { MatDialog } from '@angular/material/dialog';
 import { StacksCreateComponent } from '../../components/stacks-create/stacks-create.component';
 import { StacksUpdateComponent } from '../../components/stacks-update/stacks-update.component';
+import {
+  MatMenu,
+  MatMenuContent,
+  MatMenuItem,
+  MatMenuTrigger,
+} from '@angular/material/menu';
+import { ConfirmComponent } from '../../components/confirm/confirm.component';
 
 @Component({
   selector: 'app-stacks',
   standalone: true,
-  imports: [NgForOf, NgIf, SharedMaterialDesignModule],
+  imports: [
+    NgForOf,
+    NgIf,
+    SharedMaterialDesignModule,
+    MatMenuItem,
+    MatMenu,
+    MatMenuTrigger,
+    MatMenuContent,
+  ],
   templateUrl: './stacks.component.html',
   styleUrl: './stacks.component.css',
 })
@@ -21,9 +37,15 @@ export class StacksComponent implements OnInit {
   router = inject(Router);
   stacksService = inject(StacksService);
   dialog = inject(MatDialog);
+  loggedIn: boolean | null = null;
+
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     this.loadStacks();
+    this.authService.loggedIn$.subscribe((status) => {
+      this.loggedIn = status;
+    });
   }
 
   loadStacks() {
@@ -70,19 +92,33 @@ export class StacksComponent implements OnInit {
   }
 
   onDeleteStack(_id: string) {
-    this.stacksService.deleteStack(_id).subscribe({
-      next: (deletedStack: IStack) => {
-        this.stacks = this.stacks.filter(
-          (stack: IStack) => stack._id !== deletedStack._id,
-        );
-      },
-      error: (err: Error) => {
-        console.error(err.message);
-      },
+    const dialogRef = this.dialog.open(ConfirmComponent, {
+      data: { prompt: 'Are you sure you want to delete this stack?' },
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (!result) {
+        return;
+      }
+
+      this.stacksService.deleteStack(_id).subscribe({
+        next: (deletedStack: IStack) => {
+          this.stacks = this.stacks.filter(
+            (stack: IStack) => stack._id !== deletedStack._id,
+          );
+        },
+        error: (err: Error) => {
+          console.error(err.message);
+        },
+      });
     });
   }
 
   goToCards(_id: string) {
     this.router.navigate(['cards', _id]);
+  }
+
+  access(stack: IStack) {
+    return stack.creator == localStorage.getItem('user');
   }
 }
