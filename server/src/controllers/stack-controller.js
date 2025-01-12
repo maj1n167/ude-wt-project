@@ -1,6 +1,7 @@
 // add models needed here
 const Stack = require("../models/stack-model");
 const Card = require("../models/card-model");
+const auth = require("../middlewares/auth-middleware");
 
 // add all functions here
 exports.getStacks = async (req, res, next) => {
@@ -43,13 +44,9 @@ exports.getStackById = async (req, res, next) => {
 
 exports.createStack = async (req, res, next) => {
   try {
-    const { name, published } = req.body;
-    if (req.user === undefined) {
-      let error = new Error("Unauthorized");
-      error.status = 401;
-      throw error;
-    }
+    await auth.userGiven(req);
 
+    const { name, published } = req.body;
     const creator = req.user._id.toString();
     const newStack = await new Stack({ name, published, creator }).save();
     return res.status(201).json({
@@ -63,11 +60,7 @@ exports.createStack = async (req, res, next) => {
 
 exports.deleteStack = async (req, res, next) => {
   try {
-    if (req.user === undefined || req.user === null) {
-      let error = new Error("Unauthorized");
-      error.status = 401;
-      throw error;
-    }
+    await auth.userGiven(req);
 
     const stackId = req.params.stackId;
     const userId = req.user._id.toString();
@@ -91,11 +84,7 @@ exports.deleteStack = async (req, res, next) => {
 
 exports.updateStack = async (req, res, next) => {
   try {
-    if (req.user === undefined || req.user === null) {
-      let error = new Error("Unauthorized");
-      error.status = 401;
-      throw error;
-    }
+    await auth.userGiven(req);
 
     const stackId = req.params.stackId;
     const userId = req.user._id.toString();

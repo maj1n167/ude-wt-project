@@ -72,6 +72,17 @@ exports.updateCard = async (req, res, next) => {
   try {
     await auth.userGiven(req);
 
+    const stackId = req.params.stackId;
+    const foundStack = await Stack.findOne({
+      _id: stackId,
+      creator: req.user._id.toString(),
+    });
+    if (!foundStack) {
+      let error = new Error(`Stack not found with id: ${stackId}`);
+      error.status = 404;
+      throw error;
+    }
+
     const cardId = req.params.cardId;
     const { front, back } = req.body;
     const updatedCard = await Card.findByIdAndUpdate(
@@ -94,8 +105,21 @@ exports.updateCard = async (req, res, next) => {
 };
 
 exports.deleteCard = async (req, res, next) => {
-  const cardId = req.params.cardId;
   try {
+    await auth.userGiven(req);
+
+    const stackId = req.params.stackId;
+    const foundStack = await Stack.findOne({
+      _id: stackId,
+      creator: req.user._id.toString(),
+    });
+    if (!foundStack) {
+      let error = new Error(`Stack not found with id: ${stackId}`);
+      error.status = 404;
+      throw error;
+    }
+
+    const cardId = req.params.cardId;
     const foundCard = await Card.findByIdAndDelete(cardId, null);
     if (!foundCard) {
       let error = new Error(`Card not found with id: ${cardId}`);
