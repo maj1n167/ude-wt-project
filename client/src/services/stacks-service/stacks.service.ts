@@ -34,11 +34,11 @@ export class StacksService {
       );
   }
 
-  createStack(name: string): Observable<IStack> {
+  createStack(name: string, published: boolean): Observable<IStack> {
     return this.http
       .post<StackResponse>(
         `${environment.api}/stacks/create`,
-        { name },
+        { name, published },
         {
           headers: this.jsonHeaders,
         },
@@ -64,11 +64,15 @@ export class StacksService {
       );
   }
 
-  updateStack(stackId: string, name: string): Observable<IStack> {
+  updateStack(
+    stackId: string,
+    name: string,
+    published: boolean,
+  ): Observable<IStack> {
     return this.http
       .put<StackResponse>(
         `${environment.api}/stacks/${stackId}`,
-        { name },
+        { name, published },
         {
           headers: this.jsonHeaders,
         },

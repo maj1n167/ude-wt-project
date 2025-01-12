@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgForOf, NgIf } from '@angular/common';
 
 import IStack from '../../models/stack';
+import { AuthService } from '../../services/auth-service/auth.service';
 import { StacksService } from '../../services/stacks-service/stacks.service';
 import { SharedMaterialDesignModule } from '../../module/shared-material-design/shared-material-design.module';
 import { MatDialog } from '@angular/material/dialog';
@@ -35,9 +36,15 @@ export class StacksComponent implements OnInit {
   router = inject(Router);
   stacksService = inject(StacksService);
   dialog = inject(MatDialog);
+  loggedIn: boolean | null = null;
+
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     this.loadStacks();
+    this.authService.loggedIn$.subscribe((status) => {
+      this.loggedIn = status;
+    });
   }
 
   loadStacks() {
@@ -98,5 +105,9 @@ export class StacksComponent implements OnInit {
 
   goToCards(_id: string) {
     this.router.navigate(['cards', _id]);
+  }
+
+  access(stack: IStack) {
+    return stack.creator == localStorage.getItem('user');
   }
 }

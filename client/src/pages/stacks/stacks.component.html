@@ -2,7 +2,7 @@
   <div class="root-header">
     <h1>Stacks</h1>
     <div>
-      <div *ngIf="true">
+      <div *ngIf="loggedIn">
         <!-- if logged in, display this div, else hide it -->
         <button mat-flat-button class="button-end" (click)="onAddStack()">
           Create Stack
@@ -25,15 +25,17 @@
           <span>{{ stack.name }}</span>
         </div>
         <!-- Button to trigger the menu -->
-        <button
-          mat-icon-button
-          [matMenuTriggerFor]="stackMenu"
-          [matMenuTriggerData]="{ id: stack._id }"
-        >
-          <mat-icon aria-hidden="false" aria-label="Example home icon"
-            >more_vert</mat-icon
+        <ng-container *ngIf="loggedIn && access(stack)">
+          <button
+            mat-icon-button
+            [matMenuTriggerFor]="stackMenu"
+            [matMenuTriggerData]="{ id: stack._id }"
           >
-        </button>
+            <mat-icon aria-hidden="false" aria-label="Example home icon"
+              >more_vert</mat-icon
+            >
+          </button>
+        </ng-container>
       </div>
       <mat-divider *ngIf="!last"></mat-divider>
     </div>
