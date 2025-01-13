@@ -15,9 +15,9 @@
       <a routerLink="/stacks">Stacks</a>
     </li>
     <ng-container *ngIf="loggedIn">
-      <li nz-menu-item [nzSelected]="activeRoute == 'my-stacks'">
+      <!--<li nz-menu-item [nzSelected]="activeRoute == 'my-stacks'">
         <a routerLink="/my-stacks">Your Stacks</a>
-      </li>
+      </li>-->
       <li nz-menu-item [nzSelected]="false">
         <a (click)="logout()">Logout</a>
       </li>
