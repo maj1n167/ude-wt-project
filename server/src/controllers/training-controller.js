@@ -9,8 +9,7 @@ exports.getTrainingStatus = async (req, res) => {
    * - A list of all stacks that the user has started training on
    * - For each stack, the progress of the training ( 0, 1, 2, 3, 4, 5)
    */
-
-}
+};
 
 exports.startTraining = async (req, res) => {
   /**
@@ -19,15 +18,14 @@ exports.startTraining = async (req, res) => {
    * It should return the first 10 cards the user should train now.
    * the Cards are sorted if possible by the last time they were trained.
    */
-}
+};
 
 exports.finishTraining = async (req, res) => {
   /**
    * This function finishes the training session for the current user.
    * It recieves the cardIds and ratings the user provided during the training session.
    */
-
-}
+};
 
 // stack section
 exports.deleteStack = async (stackId) => {
@@ -40,7 +38,7 @@ exports.deleteStack = async (stackId) => {
       console.log(err);
     }
   });
-}
+};
 
 // card section
 exports.addCard = async (cardId, stackId) => {
@@ -67,7 +65,7 @@ exports.addCard = async (cardId, stackId) => {
       });
     });
   });
-}
+};
 
 exports.updateCard = async (cardId) => {
   /**
@@ -80,7 +78,7 @@ exports.updateCard = async (cardId) => {
       console.log(err);
     }
   });
-}
+};
 
 exports.deleteCard = async (cardId) => {
   /**
@@ -92,5 +90,4 @@ exports.deleteCard = async (cardId) => {
       console.log(err);
     }
   });
-}
-
+};
