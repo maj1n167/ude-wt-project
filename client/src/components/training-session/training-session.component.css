@@ -16,6 +16,15 @@ body {
   align-items: center; /* Center vertically */
 }
 
+.training-session-container {
+  height: calc(100vh - 80px - 64px);
+  padding: 24px 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Container for the deck */
 .deck-container {
   display: flex;
