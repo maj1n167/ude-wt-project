@@ -1,6 +1,7 @@
 // add models needed here
 const Card = require("../models/card-model");
 const Stack = require("../models/stack-model");
+const training = require("training-controller");
 const auth = require("../middlewares/auth-middleware");
 
 // add all functions here
@@ -59,6 +60,7 @@ exports.createCard = async (req, res, next) => {
       back: back,
       stackId: stackId,
     }).save();
+    await training.addCard(newCard._id, stackId);
     return res.status(201).json({
       message: "New card created",
       data: newCard,
@@ -95,6 +97,7 @@ exports.updateCard = async (req, res, next) => {
       error.status = 404;
       throw error;
     }
+    await training.updateCard(cardId);
     return res.status(200).json({
       message: "Card updated",
       data: updatedCard,
@@ -126,6 +129,7 @@ exports.deleteCard = async (req, res, next) => {
       error.status = 404;
       throw error;
     }
+    await training.deleteCard(cardId);
     return res.status(200).json({
       message: "Card deleted",
       data: foundCard,

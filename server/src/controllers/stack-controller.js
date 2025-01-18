@@ -1,6 +1,7 @@
 // add models needed here
 const Stack = require("../models/stack-model");
 const Card = require("../models/card-model");
+const training = require("./training-controller");
 const auth = require("../middlewares/auth-middleware");
 
 // add all functions here
@@ -70,9 +71,9 @@ exports.deleteStack = async (req, res, next) => {
       error.status = 404;
       throw error;
     }
-    await Card.deleteMany({ stackId: foundStack._id });
-    await Stack.findByIdAndDelete(foundStack._id);
-
+    await Card.deleteMany({ stackId });
+    await Stack.findByIdAndDelete(stackId);
+    await training.deleteStack(stackId);
     return res.status(200).json({
       message: `Stack deleted: ${foundStack.name}`,
       data: foundStack,
