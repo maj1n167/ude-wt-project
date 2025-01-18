@@ -12,20 +12,21 @@ import { SharedMaterialDesignModule } from '../../module/shared-material-design/
 })
 export class PostsCreateComponent {
   newPostContent: string = '';
-  newPostUsername: string = 'User'; // Default username, you can change this as needed
+  newPostUsername: string = localStorage.getItem('username') || 'FAKE'; // Ensure 'username' is stored in localStorage
 
   constructor(private dialogRef: MatDialogRef<PostsCreateComponent>) {}
 
-  createPost() {
-    const newPost = {
-      content: this.newPostContent,
-      username: this.newPostUsername,
-      date: new Date().toLocaleDateString(),
-    };
-    this.dialogRef.close(newPost);
+  createPost(): void {
+    if (this.newPostContent.trim()) {
+      console.log('Creating post with username:', this.newPostUsername); // Debugging statement
+      this.dialogRef.close({
+        username: this.newPostUsername,
+        content: this.newPostContent,
+      });
+    }
   }
 
-  close() {
+  close(): void {
     this.dialogRef.close();
   }
 }

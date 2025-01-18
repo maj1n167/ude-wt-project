@@ -8,7 +8,9 @@
 
   <!-- Create Post Button -->
   <div class="create-post-button">
-    <button mat-flat-button (click)="addNewPost()">Create Post</button>
+    <button mat-flat-button (click)="openCreatePostDialog()">
+      Create Post
+    </button>
   </div>
 
   <!-- Forum Content -->
@@ -19,6 +21,15 @@
         <div class="post-header">
           <span class="username">{{ post.username }}</span>
           <span class="date">{{ post.date }}</span>
+          <button
+            *ngIf="post.username === currentUser"
+            mat-icon-button
+            (click)="onDeletePost(post.id)"
+          >
+            <mat-icon aria-hidden="false" aria-label="delete icon"
+              >delete</mat-icon
+            >
+          </button>
         </div>
         <p class="post-content">{{ post.content }}</p>
         <button class="comments-btn" (click)="toggleComments($event)">

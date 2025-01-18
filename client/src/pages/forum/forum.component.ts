@@ -1,11 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { PostsCreateComponent } from '../../components/posts-create/posts-create.component';
+import { ForumService } from '../../services/forum-service/forum.service';
+import { AuthService } from '../../services/auth-service/auth.service';
+import { ConfirmComponent } from '../../components/confirm/confirm.component';
 
 interface Post {
-  id: number;
+  id: string;
   username: string;
   content: string;
   date: string;
@@ -23,39 +27,75 @@ interface Reply {
   standalone: true,
   templateUrl: './forum.component.html',
   styleUrls: ['./forum.component.css'],
-  imports: [CommonModule, FormsModule, MatDialogModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatDialogModule,
+    MatIconModule,
+    PostsCreateComponent,
+  ],
 })
-export class ForumComponent {
-  posts: Post[] = [
-    {
-      id: 1,
-      username: 'User1',
-      content: 'Does anyone have more flashcards for webtech?',
-      date: '12.12.2024',
-      replies: [
-        {
-          username: 'User2',
-          content: 'Here, I can give you a share link to my flashcards <link>.',
-          replies: [],
-        },
-        {
-          username: 'User3',
-          content: 'Thanks!',
-          replies: [],
-        },
-      ],
-    },
-  ];
-
-  newCommentUsername: string = 'User'; // Default username, you can change this as needed
+export class ForumComponent implements OnInit {
+  posts: Post[] = [];
   newCommentContent: string = '';
+  currentUser: string | null = localStorage.getItem('username'); // Ensure 'username' is stored in localStorage
 
-  constructor(private dialog: MatDialog) {}
+  constructor(
+    private dialog: MatDialog,
+    private forumService: ForumService,
+  ) {}
 
-  selectedPost: Post | null = null;
+  ngOnInit(): void {
+    this.loadPosts();
+  }
 
-  selectPost(post: Post) {
-    this.selectedPost = post;
+  loadPosts(): void {
+    this.forumService.getPosts().subscribe((response) => {
+      console.log('Fetched posts response:', response); // Debugging statement
+      this.posts = Array.isArray(response.data) ? response.data : [];
+      console.log('Assigned posts:', this.posts); // Debugging statement
+    });
+  }
+
+  openCreatePostDialog(): void {
+    const dialogRef = this.dialog.open(PostsCreateComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.forumService.createPost(result).subscribe((post) => {
+          console.log('Created post:', post); // Debugging statement
+          this.posts.push(post);
+        });
+      }
+    });
+  }
+
+  onDeletePost(postId: string): void {
+    if (!postId) {
+      console.error('Post ID is undefined');
+      return;
+    }
+
+    const dialogRef = this.dialog.open(ConfirmComponent, {
+      data: { prompt: 'Are you sure you want to delete this post?' },
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (!result) {
+        return;
+      }
+
+      this.forumService.deletePost(postId).subscribe({
+        next: (deletedPost: Post) => {
+          this.posts = this.posts.filter(
+            (post: Post) => post.id !== deletedPost.id,
+          );
+        },
+        error: (err: Error) => {
+          console.error(err.message);
+        },
+      });
+    });
   }
 
   toggleComments(event: Event) {
@@ -99,41 +139,32 @@ export class ForumComponent {
     }
   }
 
-  addNewPost() {
-    const dialogRef = this.dialog.open(PostsCreateComponent);
-    dialogRef.afterClosed().subscribe((newPost: Post) => {
-      if (newPost) {
-        newPost.id = this.posts.length + 1;
-        newPost.replies = []; // Initialize replies array for new post
-        this.posts.push(newPost);
-      }
-    });
-  }
-
-  addNewComment(postId: number, parentReply?: Reply) {
+  addNewComment(postId: string, parentReply?: Reply): void {
     if (!this.newCommentContent.trim()) {
-      // Do not add empty comments
+      return;
+    }
+
+    if (!postId) {
+      console.error('Post ID is undefined');
       return;
     }
 
     const newReply: Reply = {
-      username: this.newCommentUsername,
+      username: this.currentUser || 'User', // Replace with actual username
       content: this.newCommentContent,
       replies: [],
     };
 
-    if (parentReply) {
-      // Add reply to the parent comment
-      parentReply.replies?.push(newReply);
-    } else {
-      // Add reply to the main post
+    this.forumService.addReply(postId, newReply).subscribe((reply) => {
       const post = this.posts.find((p) => p.id === postId);
       if (post) {
-        post.replies.push(newReply);
+        if (parentReply) {
+          parentReply.replies?.push(reply);
+        } else {
+          post.replies.push(reply);
+        }
       }
-    }
-
-    // Clear the form fields
-    this.newCommentContent = '';
+      this.newCommentContent = '';
+    });
   }
 }

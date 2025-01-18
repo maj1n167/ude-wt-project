@@ -30,8 +30,8 @@ import { MatButton } from '@angular/material/button';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-  username: string = ''; // E-Mail als leere Zeichenkette initialisieren
-  password: string = ''; // Passwort als leere Zeichenkette initialisieren
+  username: string = ''; // Initialize username as an empty string
+  password: string = ''; // Initialize password as an empty string
 
   constructor(
     private authService: AuthService,
@@ -43,11 +43,12 @@ export class LoginComponent {
     this.authService.login(user).subscribe(
       (response) => {
         console.log('Login successful:', response);
-        this.router.navigate(['/']); // Weiterleitung zur Profil-Seite
+        localStorage.setItem('username', this.username); // Store the username in localStorage
+        this.router.navigate(['/']); // Redirect to the profile page
       },
       (error) => {
         console.error('Login failed:', error);
-        // Fehlerbehandlung
+        // Handle error
       },
     );
   }

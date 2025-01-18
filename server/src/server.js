@@ -8,6 +8,7 @@ require("dotenv").config();
 const cardRouter = require("./routes/card-routes");
 const stackRouter = require("./routes/stack-routes");
 const userRouter = require("./routes/user-routes");
+const forumRouter = require("./routes/forum-routes");
 
 const auth = require("./middlewares/auth-middleware");
 const errorHandler = require("./middlewares/error-handler-middleware");
@@ -28,6 +29,7 @@ app.use(auth.authenticateToken);
 app.use("/cards", cardRouter);
 app.use("/stacks", stackRouter);
 app.use("/users", userRouter);
+app.use("/forum", forumRouter);
 
 app.use(errorHandler);
 
