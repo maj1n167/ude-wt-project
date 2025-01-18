@@ -6,20 +6,14 @@ const bcrypt = require("bcryptjs");
 const authenticateToken = async (req, _, next) => {
   /**
    * This function checks if the token is valid
-   * user = undefined -> no token
+   * user = undefined -> no token or no userId
    * user = null -> invalid token
    * user = user -> valid token
    */
   const token = req.headers["token"]; // Token aus dem Header extrahieren
-
-  if (!token) {
-    req.user = undefined;
-    return next();
-  }
-
   const userId = req.headers["user"]; // Token aus dem Header extrahieren
 
-  if (!userId) {
+  if (!token || !userId) {
     req.user = undefined;
     return next();
   }
@@ -56,13 +50,13 @@ const createToken = async (user) => {
   }
 };
 
-const removeToken = async (user) => {
+const removeToken = async (token) => {
   /**
    * This function removes the token for the user
    */
 
   try {
-    await Token.deleteOne({ userId: user._id });
+    await Token.deleteOne({ token: token });
   } catch (error) {
     throw new Error("Error deleting the token");
   }
