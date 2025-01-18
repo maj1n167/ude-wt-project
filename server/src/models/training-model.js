@@ -6,21 +6,18 @@ const trainingSchema = new Schema({
     type: Number,
     default: 0,
     min: [0, "Rating cannot be negative"],
-    max: [5, "Rating cannot exceed 5"],
+    max: [3, "Rating cannot exceed 3"],
   },
   userId: {
-    type: Schema.Types.ObjectId,
+    type: String,
     required: [true, "User ID is required"],
-    ref: "User",
   },
   stackId: {
-    type: Schema.Types.ObjectId,
-    ref: "Stack",
+    type: String,
     required: [true, "Stack ID is required"],
   },
   cardId: {
-    type: Schema.Types.ObjectId,
-    ref: "Card",
+    type: String,
     required: [true, "Card ID is required"],
   },
 });
