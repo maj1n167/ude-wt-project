@@ -122,5 +122,7 @@ export class StacksComponent implements OnInit {
     return stack.creator == localStorage.getItem('user');
   }
 
-  onTrain(_id: string) {}
+  onTrain(_id: string) {
+    this.router.navigate(['training', _id]);
+  }
 }

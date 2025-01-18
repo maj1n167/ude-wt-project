@@ -5,20 +5,20 @@ const trainingSchema = new Schema({
   rating: {
     type: Number,
     default: 0,
-    min: [0, "Rating cannot be negative"],
-    max: [3, "Rating cannot exceed 3"],
+    min: 0,
+    max: 3,
   },
   userId: {
     type: String,
-    required: [true, "User ID is required"],
+    required: true,
   },
   stackId: {
     type: String,
-    required: [true, "Stack ID is required"],
+    required: true,
   },
   cardId: {
     type: String,
-    required: [true, "Card ID is required"],
+    required: true,
   },
 });
 
