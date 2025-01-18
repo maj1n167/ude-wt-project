@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/components/footer/footer.component.css"],
+  "sourcesContent": [".footer-container {\n  padding: 8px 16px;\n  align-items: center;\n}\n\n.follow-us {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n\n.follow-us span {\n  margin-right: 8px;\n}\n\np {\n  margin-bottom: 0;\n}\n"],
+  "mappings": ";AAAA,CAAC;AACC,WAAS,IAAI;AACb,eAAa;AACf;AAEA,CAAC;AACC,WAAS;AACT,eAAa;AACb,OAAK;AACP;AAEA,CANC,UAMU;AACT,gBAAc;AAChB;AAEA;AACE,iBAAe;AACjB;",
+  "names": []
+}

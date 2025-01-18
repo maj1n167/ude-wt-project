@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/pages/stacks/stacks.component.css"],
+  "sourcesContent": [".stack-container {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  padding: 10px;\n}\n\n.stack-title {\n  width: 100%;\n}\n\n.stack-title > span {\n  font-size: 1.5em;\n  font-weight: bold;\n  text-align: center;\n}\n"],
+  "mappings": ";AAAA,CAAC;AACC,WAAS;AACT,kBAAgB;AAChB,mBAAiB;AACjB,WAAS;AACX;AAEA,CAAC;AACC,SAAO;AACT;AAEA,CAJC,YAIY,EAAE;AACb,aAAW;AACX,eAAa;AACb,cAAY;AACd;",
+  "names": []
+}

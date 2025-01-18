@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/components/navigation-bar/navigation-bar.component.css"],
+  "sourcesContent": ["button {\n  margin-left: 4px;\n  margin-right: 4px;\n}\n"],
+  "mappings": ";AAAA;AACE,eAAa;AACb,gBAAc;AAChB;",
+  "names": []
+}
