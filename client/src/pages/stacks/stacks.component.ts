@@ -121,4 +121,6 @@ export class StacksComponent implements OnInit {
   access(stack: IStack) {
     return stack.creator == localStorage.getItem('user');
   }
+
+  onTrain(_id: string) {}
 }

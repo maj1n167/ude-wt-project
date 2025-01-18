@@ -24,6 +24,14 @@
         <div class="stack-title" (click)="goToCards(stack._id)">
           <span>{{ stack.name }}</span>
         </div>
+        <!-- button to start training if logged in -->
+        <div *ngIf="loggedIn">
+          <button mat-icon-button (click)="onTrain(stack._id)">
+            <mat-icon aria-hidden="false" aria-label="train icon"
+              >school</mat-icon
+            >
+          </button>
+        </div>
         <!-- Button to trigger the menu -->
         <ng-container *ngIf="loggedIn && access(stack)">
           <button

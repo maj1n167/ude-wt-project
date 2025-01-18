@@ -1,7 +1,7 @@
 // add models needed here
 const Card = require("../models/card-model");
 const Stack = require("../models/stack-model");
-const training = require("training-controller");
+const training = require("./training-controller");
 
 // add all functions here
 

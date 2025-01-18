@@ -27,6 +27,7 @@
 
 .flash-card .back {
   background-color: mediumseagreen;
+  color: mediumseagreen;
   transform: rotateY(180deg);
 }
 
@@ -36,4 +37,5 @@
 
 .flash-card.flipped .back {
   transform: rotateY(360deg);
+  color: black;
 }
