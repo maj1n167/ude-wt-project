@@ -42,10 +42,10 @@ export class StacksComponent implements OnInit {
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.loadStacks();
     this.authService.loggedIn$.subscribe((status) => {
       this.loggedIn = status;
     });
+    this.loadStacks();
   }
 
   loadStacks() {

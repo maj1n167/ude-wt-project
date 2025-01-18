@@ -2,3 +2,14 @@ button {
   margin-left: 4px;
   margin-right: 4px;
 }
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo > span {
+  font-size: 20px;
+  color: white;
+  padding-left: 1em;
+}
