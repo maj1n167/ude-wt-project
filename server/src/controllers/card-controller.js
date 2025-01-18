@@ -2,7 +2,6 @@
 const Card = require("../models/card-model");
 const Stack = require("../models/stack-model");
 const training = require("training-controller");
-const auth = require("../middlewares/auth-middleware");
 
 // add all functions here
 
@@ -41,8 +40,6 @@ exports.getCards = async (req, res, next) => {
 
 exports.createCard = async (req, res, next) => {
   try {
-    await auth.userGiven(req);
-
     const stackId = req.params.stackId;
     const foundStack = await Stack.findOne({
       _id: stackId,
@@ -72,8 +69,6 @@ exports.createCard = async (req, res, next) => {
 
 exports.updateCard = async (req, res, next) => {
   try {
-    await auth.userGiven(req);
-
     const stackId = req.params.stackId;
     const foundStack = await Stack.findOne({
       _id: stackId,
@@ -109,8 +104,6 @@ exports.updateCard = async (req, res, next) => {
 
 exports.deleteCard = async (req, res, next) => {
   try {
-    await auth.userGiven(req);
-
     const stackId = req.params.stackId;
     const foundStack = await Stack.findOne({
       _id: stackId,

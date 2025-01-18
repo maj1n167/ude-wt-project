@@ -2,7 +2,6 @@
 const Stack = require("../models/stack-model");
 const Card = require("../models/card-model");
 const training = require("./training-controller");
-const auth = require("../middlewares/auth-middleware");
 
 // add all functions here
 exports.getStacks = async (req, res, next) => {
@@ -45,8 +44,6 @@ exports.getStackById = async (req, res, next) => {
 
 exports.createStack = async (req, res, next) => {
   try {
-    await auth.userGiven(req);
-
     const { name, published } = req.body;
     const creator = req.user._id.toString();
     const newStack = await new Stack({ name, published, creator }).save();
@@ -61,8 +58,6 @@ exports.createStack = async (req, res, next) => {
 
 exports.deleteStack = async (req, res, next) => {
   try {
-    await auth.userGiven(req);
-
     const stackId = req.params.stackId;
     const userId = req.user._id.toString();
     const foundStack = await Stack.findOne({ _id: stackId, creator: userId });
@@ -85,8 +80,6 @@ exports.deleteStack = async (req, res, next) => {
 
 exports.updateStack = async (req, res, next) => {
   try {
-    await auth.userGiven(req);
-
     const stackId = req.params.stackId;
     const userId = req.user._id.toString();
 
