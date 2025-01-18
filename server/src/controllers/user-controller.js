@@ -96,3 +96,15 @@ exports.logout = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.checkToken = async (req, res, next) => {
+  /**
+   * This function checks if the token is valid
+   */
+  try {
+    await auth.userGiven(req);
+    return res.status(200).send({ message: true });
+  } catch (err) {
+    next(err);
+  }
+};

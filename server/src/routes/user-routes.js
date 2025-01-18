@@ -6,5 +6,6 @@ const userController = require("../controllers/user-controller");
 router.post("/register", requestLogger, userController.register);
 router.post("/login", requestLogger, userController.login);
 router.post("/logout", requestLogger, userController.logout);
+router.get("/check", requestLogger, userController.checkToken);
 
 module.exports = router;

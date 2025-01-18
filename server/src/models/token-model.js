@@ -9,6 +9,11 @@ const tokenSchema = new Schema({
     ref: "User",
     required: true,
   },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+    expires: 3600 * 24 * 7, // 1 week
+  },
 });
 
 const Token = mongoose.model("Token", tokenSchema);
