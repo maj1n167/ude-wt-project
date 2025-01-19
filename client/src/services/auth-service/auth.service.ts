@@ -7,7 +7,7 @@ import {
   HttpRequest,
   HttpInterceptorFn,
 } from '@angular/common/http';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { UserResponse } from '../../models/response/user-response';
 import { catchError, map } from 'rxjs/operators';
 
@@ -33,8 +33,26 @@ export class AuthService {
     if (token === '' || user === '') {
       this.loggedInSubject.next(false);
     } else {
-      this.loggedInSubject.next(true);
+      this.checkToken().subscribe((state) => {
+        this.loggedInSubject.next(state);
+      });
     }
+  }
+
+  checkToken(): Observable<boolean> {
+    const token = localStorage.getItem('token');
+    const user = localStorage.getItem('user');
+
+    return this.http.get(`${this.apiUrl}/check`).pipe(
+      map((response: any) => {
+        return response.message;
+      }),
+      catchError((error) => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        return of(false); // Return `false` in case of an error
+      }),
+    );
   }
 
   // Registrierung des Benutzers
@@ -49,7 +67,7 @@ export class AuthService {
   // Login des Benutzers
   login(user: { username: string; password: string }): Observable<any> {
     const response = this.http
-      .post<UserResponse>(`http://localhost:3000/users/login`, user)
+      .post<UserResponse>(`${this.apiUrl}/login`, user)
       .pipe(
         map((response: UserResponse) => response.data),
         catchError((error: HttpErrorResponse) => {

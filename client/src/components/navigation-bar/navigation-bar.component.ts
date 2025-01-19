@@ -52,7 +52,6 @@ export class NavigationBarComponent implements OnInit {
       .subscribe((event: NavigationEnd) => {
         const urlSegments = event.urlAfterRedirects.split('/').filter(Boolean); // Split and remove empty strings
         this.activeRoute = urlSegments[0] || ''; // Get the first segment
-        console.log('active Route:', this.activeRoute);
       });
   }
 

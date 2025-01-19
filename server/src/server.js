@@ -9,6 +9,7 @@ const cardRouter = require("./routes/card-routes");
 const stackRouter = require("./routes/stack-routes");
 const userRouter = require("./routes/user-routes");
 const forumRouter = require("./routes/forum-routes");
+const trainingRouter = require("./routes/training-routes");
 
 const auth = require("./middlewares/auth-middleware");
 const errorHandler = require("./middlewares/error-handler-middleware");
@@ -30,6 +31,7 @@ app.use("/cards", cardRouter);
 app.use("/stacks", stackRouter);
 app.use("/users", userRouter);
 app.use("/forum", forumRouter);
+app.use("/training", trainingRouter);
 
 app.use(errorHandler);
 

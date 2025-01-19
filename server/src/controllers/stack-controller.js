@@ -1,7 +1,7 @@
 // add models needed here
 const Stack = require("../models/stack-model");
 const Card = require("../models/card-model");
-const auth = require("../middlewares/auth-middleware");
+const training = require("./training-controller");
 
 // add all functions here
 exports.getStacks = async (req, res, next) => {
@@ -44,8 +44,6 @@ exports.getStackById = async (req, res, next) => {
 
 exports.createStack = async (req, res, next) => {
   try {
-    await auth.userGiven(req);
-
     const { name, published } = req.body;
     const creator = req.user._id.toString();
     const newStack = await new Stack({ name, published, creator }).save();
@@ -60,8 +58,6 @@ exports.createStack = async (req, res, next) => {
 
 exports.deleteStack = async (req, res, next) => {
   try {
-    await auth.userGiven(req);
-
     const stackId = req.params.stackId;
     const userId = req.user._id.toString();
     const foundStack = await Stack.findOne({ _id: stackId, creator: userId });
@@ -70,9 +66,9 @@ exports.deleteStack = async (req, res, next) => {
       error.status = 404;
       throw error;
     }
-    await Card.deleteMany({ stackId: foundStack._id });
-    await Stack.findByIdAndDelete(foundStack._id);
-
+    await Card.deleteMany({ stackId });
+    await Stack.findByIdAndDelete(stackId);
+    await training.deleteStack(stackId);
     return res.status(200).json({
       message: `Stack deleted: ${foundStack.name}`,
       data: foundStack,
@@ -84,8 +80,6 @@ exports.deleteStack = async (req, res, next) => {
 
 exports.updateStack = async (req, res, next) => {
   try {
-    await auth.userGiven(req);
-
     const stackId = req.params.stackId;
     const userId = req.user._id.toString();
 

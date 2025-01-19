@@ -42,10 +42,10 @@ export class StacksComponent implements OnInit {
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.loadStacks();
     this.authService.loggedIn$.subscribe((status) => {
       this.loggedIn = status;
     });
+    this.loadStacks();
   }
 
   loadStacks() {
@@ -120,5 +120,9 @@ export class StacksComponent implements OnInit {
 
   access(stack: IStack) {
     return stack.creator == localStorage.getItem('user');
+  }
+
+  onTrain(_id: string) {
+    this.router.navigate(['training', _id]);
   }
 }

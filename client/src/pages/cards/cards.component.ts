@@ -69,7 +69,6 @@ export class CardsComponent implements OnInit {
           console.error(err.message);
         },
       });
-
     this.cardsService
       .getCards(this.activatedRoute.snapshot.params['stackId'])
       .subscribe({
