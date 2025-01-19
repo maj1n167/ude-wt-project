@@ -1,13 +1,19 @@
 <div class="forum-page" *ngIf="loggedIn">
   <!-- Search Bar -->
   <div class="search-bar">
-    <input type="text" placeholder="Search posts..." [(ngModel)]="searchQuery" />
+    <input
+      type="text"
+      placeholder="Search posts..."
+      [(ngModel)]="searchQuery"
+    />
     <button (click)="searchPosts()">Search</button>
   </div>
 
   <!-- Create Post Button -->
   <div class="create-post-button">
-    <button mat-flat-button (click)="openCreatePostDialog()">Create Post</button>
+    <button mat-flat-button (click)="openCreatePostDialog()">
+      Create Post
+    </button>
   </div>
 
   <!-- Forum Content -->
@@ -23,7 +29,9 @@
             mat-icon-button
             (click)="onDeletePost(post._id)"
           >
-            <mat-icon aria-hidden="false" aria-label="delete icon">delete</mat-icon>
+            <mat-icon aria-hidden="false" aria-label="delete icon"
+              >delete</mat-icon
+            >
           </button>
         </div>
         <p class="post-content">{{ post.content }}</p>

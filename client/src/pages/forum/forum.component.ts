@@ -39,7 +39,7 @@ export class ForumComponent implements OnInit {
     private dialog: MatDialog,
     private forumService: ForumService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -57,7 +57,7 @@ export class ForumComponent implements OnInit {
     this.forumService.getPosts().subscribe({
       next: (PostList: Array<ISPost>) => {
         this.posts = PostList.sort(
-          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
         );
         this.filteredPosts = this.posts; // Initialize filteredPosts with all posts
       },
@@ -72,7 +72,7 @@ export class ForumComponent implements OnInit {
       this.filteredPosts = this.posts;
     } else {
       this.filteredPosts = this.posts.filter((post) =>
-        post.content.toLowerCase().includes(this.searchQuery.toLowerCase())
+        post.content.toLowerCase().includes(this.searchQuery.toLowerCase()),
       );
     }
   }
@@ -121,7 +121,7 @@ export class ForumComponent implements OnInit {
   toggleComments(event: Event) {
     const button = event.target as HTMLElement;
     const threadView = button.parentElement?.querySelector(
-      '.thread-view'
+      '.thread-view',
     ) as HTMLElement;
 
     if (threadView) {
@@ -139,20 +139,21 @@ export class ForumComponent implements OnInit {
     const button = event.target as HTMLElement;
     let answerBox: HTMLElement | null;
     let threadView: HTMLElement | null = null;
-  
+
     if (type === 'main-post') {
       // Main post answer box
       answerBox =
         button.closest('.post-item')?.querySelector('.main-post-answer-box') ||
         null;
       // Ensure comments are displayed
-      threadView = button.closest('.post-item')?.querySelector('.thread-view') || null;
+      threadView =
+        button.closest('.post-item')?.querySelector('.thread-view') || null;
     } else {
       // Comment answer box
       answerBox =
         button.closest('.reply')?.querySelector('.answer-box') || null;
     }
-  
+
     if (answerBox && answerBox.classList.contains('hidden')) {
       answerBox.classList.remove('hidden');
       button.textContent = 'Hide Answer Box';
@@ -160,7 +161,7 @@ export class ForumComponent implements OnInit {
       answerBox.classList.add('hidden');
       button.textContent = 'Answer';
     }
-  
+
     if (threadView && threadView.classList.contains('hidden')) {
       threadView.classList.remove('hidden');
     }
@@ -178,17 +179,19 @@ export class ForumComponent implements OnInit {
       replies: [],
     };
 
-    this.forumService.addReply(postId, newReply, parentReply?._id).subscribe((reply: ISReply) => {
-      const post = this.posts.find((p) => p._id === postId);
-      if (post) {
-        if (parentReply) {
-          parentReply.replies = parentReply.replies || [];
-          parentReply.replies.push(reply);
-        } else {
-          post.replies.push(reply);
+    this.forumService
+      .addReply(postId, newReply, parentReply?._id)
+      .subscribe((reply: ISReply) => {
+        const post = this.posts.find((p) => p._id === postId);
+        if (post) {
+          if (parentReply) {
+            parentReply.replies = parentReply.replies || [];
+            parentReply.replies.push(reply);
+          } else {
+            post.replies.push(reply);
+          }
         }
-      }
-      this.newCommentContent = '';
-    });
+        this.newCommentContent = '';
+      });
   }
 }

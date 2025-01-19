@@ -34,16 +34,19 @@ export class ForumService {
     );
   }
 
-  addReply(postId: string, reply: ISReply, parentReplyId?: string): Observable<ISReply> {
+  addReply(
+    postId: string,
+    reply: ISReply,
+    parentReplyId?: string,
+  ): Observable<ISReply> {
     const body = { ...reply, parentReplyId };
-    return this.http.post<ISReply>(
-      `${this.apiUrl}/posts/${postId}/replies`,
-      body,
-    ).pipe(
-      catchError((error: HttpErrorResponse) => {
-        return throwError(() => new Error(error.error.message));
-      }),
-    );
+    return this.http
+      .post<ISReply>(`${this.apiUrl}/posts/${postId}/replies`, body)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          return throwError(() => new Error(error.error.message));
+        }),
+      );
   }
 
   deletePost(postId: string): Observable<ISPost> {
