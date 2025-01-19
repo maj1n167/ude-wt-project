@@ -22,7 +22,13 @@ exports.createPost = async (req, res, next) => {
 
 exports.getPosts = async (req, res, next) => {
   try {
-    const posts = await Post.find().populate("replies");
+    const posts = await Post.find().populate({
+      path: "replies",
+      populate: {
+        path: "replies",
+        model: "Reply",
+      },
+    });
     return res.status(200).json({
       message: "Posts retrieved successfully!",
       data: posts,
@@ -34,7 +40,7 @@ exports.getPosts = async (req, res, next) => {
 
 exports.addReply = async (req, res, next) => {
   const { postId } = req.params;
-  const { username, content } = req.body;
+  const { username, content, parentReplyId } = req.body;
   try {
     const post = await Post.findById(postId);
     if (!post) {
@@ -44,10 +50,19 @@ exports.addReply = async (req, res, next) => {
       username,
       content,
       postId,
+      parentReplyId: parentReplyId || null,
     });
     await newReply.save();
-    post.replies.push(newReply);
-    await post.save();
+    if (parentReplyId) {
+      const parentReply = await Reply.findById(parentReplyId);
+      if (parentReply) {
+        parentReply.replies.push(newReply._id);
+        await parentReply.save();
+      }
+    } else {
+      post.replies.push(newReply._id);
+      await post.save();
+    }
     return res.status(201).json({
       message: "Reply added successfully!",
       data: newReply,

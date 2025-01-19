@@ -1,24 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-
-interface Post {
-  id: string;
-  username: string;
-  content: string;
-  date: string;
-  replies: Reply[];
-}
-
-interface Reply {
-  username: string;
-  content: string;
-  replies?: Reply[];
-}
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { ISPost, ISReply } from '../../models/post.model';
 
 interface GetPostsResponse {
   message: string;
-  data: Post[];
+  data: ISPost[];
 }
 
 @Injectable({
@@ -29,22 +17,40 @@ export class ForumService {
 
   constructor(private http: HttpClient) {}
 
-  getPosts(): Observable<GetPostsResponse> {
-    return this.http.get<GetPostsResponse>(`${this.apiUrl}/posts`);
-  }
-
-  createPost(post: Post): Observable<Post> {
-    return this.http.post<Post>(`${this.apiUrl}/posts`, post);
-  }
-
-  addReply(postId: string, reply: Reply): Observable<Reply> {
-    return this.http.post<Reply>(
-      `${this.apiUrl}/posts/${postId}/replies`,
-      reply,
+  getPosts(): Observable<ISPost[]> {
+    return this.http.get<GetPostsResponse>(`${this.apiUrl}/posts`).pipe(
+      map((response: GetPostsResponse) => response.data),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => new Error(error.error.message));
+      }),
     );
   }
 
-  deletePost(postId: string): Observable<Post> {
-    return this.http.delete<Post>(`${this.apiUrl}/posts/${postId}`);
+  createPost(post: ISPost): Observable<ISPost> {
+    return this.http.post<ISPost>(`${this.apiUrl}/posts`, post).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => new Error(error.error.message));
+      }),
+    );
+  }
+
+  addReply(postId: string, reply: ISReply, parentReplyId?: string): Observable<ISReply> {
+    const body = { ...reply, parentReplyId };
+    return this.http.post<ISReply>(
+      `${this.apiUrl}/posts/${postId}/replies`,
+      body,
+    ).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => new Error(error.error.message));
+      }),
+    );
+  }
+
+  deletePost(postId: string): Observable<ISPost> {
+    return this.http.delete<ISPost>(`${this.apiUrl}/posts/${postId}`).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => new Error(error.error.message));
+      }),
+    );
   }
 }

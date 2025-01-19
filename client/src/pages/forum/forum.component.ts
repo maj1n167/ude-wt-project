@@ -2,25 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { PostsCreateComponent } from '../../components/posts-create/posts-create.component';
 import { ForumService } from '../../services/forum-service/forum.service';
 import { AuthService } from '../../services/auth-service/auth.service';
 import { ConfirmComponent } from '../../components/confirm/confirm.component';
-
-interface Post {
-  id: string;
-  username: string;
-  content: string;
-  date: string;
-  replies: Reply[];
-}
-
-interface Reply {
-  username: string;
-  content: string;
-  replies?: Reply[];
-}
+import { ISPost, ISReply } from '../../models/post.model';
 
 @Component({
   selector: 'app-forum',
@@ -32,29 +22,59 @@ interface Reply {
     FormsModule,
     MatDialogModule,
     MatIconModule,
+    MatInputModule,
+    MatButtonModule,
     PostsCreateComponent,
   ],
 })
 export class ForumComponent implements OnInit {
-  posts: Post[] = [];
+  posts: Array<ISPost> = [];
+  filteredPosts: Array<ISPost> = [];
   newCommentContent: string = '';
+  searchQuery: string = '';
   currentUser: string | null = localStorage.getItem('username'); // Ensure 'username' is stored in localStorage
+  loggedIn: boolean | null = null;
 
   constructor(
     private dialog: MatDialog,
     private forumService: ForumService,
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.loadPosts();
+    this.authService.loggedIn$.subscribe((status) => {
+      this.loggedIn = status;
+      if (!this.loggedIn) {
+        this.router.navigate(['/login']);
+      } else {
+        this.loadPosts();
+      }
+    });
   }
 
   loadPosts(): void {
-    this.forumService.getPosts().subscribe((response) => {
-      console.log('Fetched posts response:', response); // Debugging statement
-      this.posts = Array.isArray(response.data) ? response.data : [];
-      console.log('Assigned posts:', this.posts); // Debugging statement
+    this.forumService.getPosts().subscribe({
+      next: (PostList: Array<ISPost>) => {
+        this.posts = PostList.sort(
+          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+        );
+        this.filteredPosts = this.posts; // Initialize filteredPosts with all posts
+      },
+      error: (err: Error) => {
+        console.error(err.message);
+      },
     });
+  }
+
+  searchPosts(): void {
+    if (this.searchQuery.trim() === '') {
+      this.filteredPosts = this.posts;
+    } else {
+      this.filteredPosts = this.posts.filter((post) =>
+        post.content.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+    }
   }
 
   openCreatePostDialog(): void {
@@ -62,9 +82,10 @@ export class ForumComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.forumService.createPost(result).subscribe((post) => {
+        this.forumService.createPost(result).subscribe((post: ISPost) => {
           console.log('Created post:', post); // Debugging statement
-          this.posts.push(post);
+          this.posts.unshift(post); // Add the new post to the beginning of the list
+          this.filteredPosts = this.posts; // Update filteredPosts
         });
       }
     });
@@ -86,10 +107,9 @@ export class ForumComponent implements OnInit {
       }
 
       this.forumService.deletePost(postId).subscribe({
-        next: (deletedPost: Post) => {
-          this.posts = this.posts.filter(
-            (post: Post) => post.id !== deletedPost.id,
-          );
+        next: () => {
+          this.posts = this.posts.filter((post: ISPost) => post._id !== postId);
+          this.filteredPosts = this.posts; // Update filteredPosts
         },
         error: (err: Error) => {
           console.error(err.message);
@@ -101,7 +121,7 @@ export class ForumComponent implements OnInit {
   toggleComments(event: Event) {
     const button = event.target as HTMLElement;
     const threadView = button.parentElement?.querySelector(
-      '.thread-view',
+      '.thread-view'
     ) as HTMLElement;
 
     if (threadView) {
@@ -115,21 +135,24 @@ export class ForumComponent implements OnInit {
     }
   }
 
-  toggleAnswerBox(event: Event, type: string) {
+  toggleAnswerBox(event: Event, type: string, postId: string) {
     const button = event.target as HTMLElement;
     let answerBox: HTMLElement | null;
-
+    let threadView: HTMLElement | null = null;
+  
     if (type === 'main-post') {
       // Main post answer box
       answerBox =
         button.closest('.post-item')?.querySelector('.main-post-answer-box') ||
         null;
+      // Ensure comments are displayed
+      threadView = button.closest('.post-item')?.querySelector('.thread-view') || null;
     } else {
       // Comment answer box
       answerBox =
         button.closest('.reply')?.querySelector('.answer-box') || null;
     }
-
+  
     if (answerBox && answerBox.classList.contains('hidden')) {
       answerBox.classList.remove('hidden');
       button.textContent = 'Hide Answer Box';
@@ -137,29 +160,30 @@ export class ForumComponent implements OnInit {
       answerBox.classList.add('hidden');
       button.textContent = 'Answer';
     }
+  
+    if (threadView && threadView.classList.contains('hidden')) {
+      threadView.classList.remove('hidden');
+    }
   }
 
-  addNewComment(postId: string, parentReply?: Reply): void {
+  addNewComment(postId: string, parentReply?: ISReply): void {
     if (!this.newCommentContent.trim()) {
+      // Do not add empty comments
       return;
     }
 
-    if (!postId) {
-      console.error('Post ID is undefined');
-      return;
-    }
-
-    const newReply: Reply = {
+    const newReply: ISReply = {
       username: this.currentUser || 'User', // Replace with actual username
       content: this.newCommentContent,
       replies: [],
     };
 
-    this.forumService.addReply(postId, newReply).subscribe((reply) => {
-      const post = this.posts.find((p) => p.id === postId);
+    this.forumService.addReply(postId, newReply, parentReply?._id).subscribe((reply: ISReply) => {
+      const post = this.posts.find((p) => p._id === postId);
       if (post) {
         if (parentReply) {
-          parentReply.replies?.push(reply);
+          parentReply.replies = parentReply.replies || [];
+          parentReply.replies.push(reply);
         } else {
           post.replies.push(reply);
         }

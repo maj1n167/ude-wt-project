@@ -16,6 +16,17 @@ const replySchema = new Schema(
       ref: "Post",
       required: true,
     },
+    parentReplyId: {
+      type: Schema.Types.ObjectId,
+      ref: "Reply",
+      default: null,
+    },
+    replies: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Reply",
+      },
+    ],
   },
   { timestamps: true },
 );

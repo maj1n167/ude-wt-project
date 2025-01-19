@@ -1,34 +1,29 @@
-<!-- Forum Page -->
-<div class="forum-page">
+<div class="forum-page" *ngIf="loggedIn">
   <!-- Search Bar -->
   <div class="search-bar">
-    <input type="text" placeholder="Search posts..." />
-    <button>Search</button>
+    <input type="text" placeholder="Search posts..." [(ngModel)]="searchQuery" />
+    <button (click)="searchPosts()">Search</button>
   </div>
 
   <!-- Create Post Button -->
   <div class="create-post-button">
-    <button mat-flat-button (click)="openCreatePostDialog()">
-      Create Post
-    </button>
+    <button mat-flat-button (click)="openCreatePostDialog()">Create Post</button>
   </div>
 
   <!-- Forum Content -->
   <div class="forum-container">
     <!-- Posts -->
     <div id="post" class="posts-list">
-      <div *ngFor="let post of posts" class="post-item centered-post">
+      <div *ngFor="let post of filteredPosts" class="post-item centered-post">
         <div class="post-header">
           <span class="username">{{ post.username }}</span>
           <span class="date">{{ post.date }}</span>
           <button
             *ngIf="post.username === currentUser"
             mat-icon-button
-            (click)="onDeletePost(post.id)"
+            (click)="onDeletePost(post._id)"
           >
-            <mat-icon aria-hidden="false" aria-label="delete icon"
-              >delete</mat-icon
-            >
+            <mat-icon aria-hidden="false" aria-label="delete icon">delete</mat-icon>
           </button>
         </div>
         <p class="post-content">{{ post.content }}</p>
@@ -37,7 +32,7 @@
         </button>
         <button
           class="comments-btn"
-          (click)="toggleAnswerBox($event, 'main-post')"
+          (click)="toggleAnswerBox($event, 'main-post', post._id)"
         >
           Answer
         </button>
@@ -50,7 +45,7 @@
               <p>{{ reply.content }}</p>
               <button
                 class="comments-btn"
-                (click)="toggleAnswerBox($event, 'comment')"
+                (click)="toggleAnswerBox($event, 'comment', post._id)"
               >
                 Answer
               </button>
@@ -62,7 +57,7 @@
                 ></textarea>
                 <button
                   class="submit-btn"
-                  (click)="addNewComment(post.id, reply)"
+                  (click)="addNewComment(post._id, reply)"
                 >
                   Submit
                 </button>
@@ -83,7 +78,7 @@
               [(ngModel)]="newCommentContent"
               placeholder="Write your answer here..."
             ></textarea>
-            <button class="submit-btn" (click)="addNewComment(post.id)">
+            <button class="submit-btn" (click)="addNewComment(post._id)">
               Submit
             </button>
           </div>
@@ -92,58 +87,3 @@
     </div>
   </div>
 </div>
-
-<script>
-  function toggleComments(event) {
-    const button = event.target;
-    const threadView = button.parentElement.querySelector(".thread-view");
-
-    if (threadView.classList.contains("hidden")) {
-      threadView.classList.remove("hidden");
-      button.textContent = "Hide";
-    } else {
-      threadView.classList.add("hidden");
-      button.textContent = "Comments";
-    }
-  }
-
-  function toggleAnswerBox(event, type) {
-    const button = event.target;
-    let answerBox;
-
-    if (type === "main-post") {
-      const postItem = button.closest(".post-item");
-      answerBox = postItem.querySelector(".main-post-answer-box");
-      const threadView = postItem.querySelector(".thread-view");
-      const replies = threadView.querySelectorAll(".reply");
-
-      if (replies.length > 0) {
-        if (threadView.classList.contains("hidden")) {
-          threadView.classList.remove("hidden");
-          const commentsButton = postItem.querySelector(".comments-btn");
-          if (commentsButton) {
-            commentsButton.textContent = "Hide";
-          }
-        }
-      } else {
-        if (answerBox && answerBox.classList.contains("hidden")) {
-          threadView.classList.remove("hidden");
-          answerBox.classList.remove("hidden");
-          button.textContent = "Hide Answer Box";
-        } else if (answerBox) {
-          answerBox.classList.add("hidden");
-          button.textContent = "Answer";
-        }
-      }
-    } else {
-      answerBox = button.closest(".reply").querySelector(".answer-box");
-      if (answerBox && answerBox.classList.contains("hidden")) {
-        answerBox.classList.remove("hidden");
-        button.textContent = "Hide Answer Box";
-      } else if (answerBox) {
-        answerBox.classList.add("hidden");
-        button.textContent = "Answer";
-      }
-    }
-  }
-</script>
