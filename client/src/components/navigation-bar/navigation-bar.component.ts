@@ -5,6 +5,7 @@ import { NgIf } from '@angular/common';
 import { filter } from 'rxjs/operators';
 
 // Custom modules
+import { AuthService } from '../../services/auth-service/auth.service';
 import { SharedAntDesignModule } from '../../module/shared-ant-design/shared-ant-design.module';
 import { SharedMaterialDesignModule } from '../../module/shared-material-design/shared-material-design.module';
 import { MatHeaderRow } from '@angular/material/table';
@@ -12,7 +13,6 @@ import { MatMenu, MatMenuItem } from '@angular/material/menu';
 import { MatTabLabel, MatTabLink, MatTabNav } from '@angular/material/tabs';
 import { NzMenuDirective, NzMenuItemComponent } from 'ng-zorro-antd/menu';
 import { NzTypographyComponent } from 'ng-zorro-antd/typography';
-import { AuthService } from '../../services/auth-service/auth.service';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -35,14 +35,12 @@ import { AuthService } from '../../services/auth-service/auth.service';
   templateUrl: './navigation-bar.component.html',
   styleUrl: './navigation-bar.component.css',
 })
-export class NavigationBarComponent implements OnInit {
+export class NavigationBarComponent {
   router = inject(Router);
   loggedIn = false;
   activeRoute: string = '';
 
-  constructor(private authService: AuthService) {}
-
-  ngOnInit(): void {
+  constructor(private authService: AuthService) {
     this.authService.loggedIn$.subscribe((status) => {
       this.loggedIn = status;
     });
@@ -55,12 +53,8 @@ export class NavigationBarComponent implements OnInit {
       });
   }
 
-  goStacks() {
-    this.router.navigate(['/stacks']);
-  }
-
   goHome() {
-    this.router.navigate(['/']);
+    this.router.navigate(['']);
   }
 
   logout() {
