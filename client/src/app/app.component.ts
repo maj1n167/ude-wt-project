@@ -9,7 +9,7 @@ import { NavigationBarComponent } from '../components/navigation-bar/navigation-
 import { FooterComponent } from '../components/footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { CardComponent } from '../components/card/card.component';
-import { TrainingSessionComponent } from '../components/training-session/training-session.component';
+import { TrainingSessionComponent } from '../pages/training-session/training-session.component';
 import { ForumComponent } from '../pages/forum/forum.component';
 import { AuthService } from '../services/auth-service/auth.service';
 
