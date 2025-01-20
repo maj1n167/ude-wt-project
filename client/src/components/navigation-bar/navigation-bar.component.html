@@ -21,24 +21,25 @@
     </li>
     <li nz-menu-item [nzSelected]="activeRoute == 'forum'">
       <a routerLink="/forum"></a>
-    <ng-container *ngIf="loggedIn">
-      <li
-        nz-menu-item
-        [nzSelected]="activeRoute == 'stacks' || activeRoute == 'cards'"
-      >
-        <a class="nav-bar-button" routerLink="/stacks">My Stacks</a>
-      </li>
-      <li nz-menu-item [nzSelected]="false">
-        <a class="nav-bar-button" (click)="logout()">Logout</a>
-      </li>
-    </ng-container>
-    <ng-container *ngIf="!loggedIn">
-      <li nz-menu-item [nzSelected]="activeRoute == 'register'">
-        <a class="nav-bar-button" routerLink="/register">Register</a>
-      </li>
-      <li nz-menu-item [nzSelected]="activeRoute == 'login'">
-        <a class="nav-bar-button" routerLink="/login">Login</a>
-      </li>
-    </ng-container>
+      <ng-container *ngIf="loggedIn">
+        <li
+          nz-menu-item
+          [nzSelected]="activeRoute == 'stacks' || activeRoute == 'cards'"
+        >
+          <a class="nav-bar-button" routerLink="/stacks">My Stacks</a>
+        </li>
+        <li nz-menu-item [nzSelected]="false">
+          <a class="nav-bar-button" (click)="logout()">Logout</a>
+        </li>
+      </ng-container>
+      <ng-container *ngIf="!loggedIn">
+        <li nz-menu-item [nzSelected]="activeRoute == 'register'">
+          <a class="nav-bar-button" routerLink="/register">Register</a>
+        </li>
+        <li nz-menu-item [nzSelected]="activeRoute == 'login'">
+          <a class="nav-bar-button" routerLink="/login">Login</a>
+        </li>
+      </ng-container>
+    </li>
   </ul>
 </nz-header>
