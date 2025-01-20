@@ -4,6 +4,7 @@
   perspective: 1000px;
   cursor: pointer;
   margin: 20px auto;
+  color: #cd6600;
 }
 
 .flash-card > div {
@@ -21,12 +22,13 @@
 }
 
 .flash-card .front {
-  background-color: mediumseagreen;
+  background-color: #cd6600;
+  color: #fff;
   z-index: 2;
 }
 
 .flash-card .back {
-  background-color: mediumseagreen;
+  background-color: #cd6600;
   transform: rotateY(180deg);
 }
 
@@ -36,4 +38,5 @@
 
 .flash-card.flipped .back {
   transform: rotateY(360deg);
+  color: #fff;
 }

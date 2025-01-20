@@ -1,7 +1,7 @@
 // add models needed here
 const Card = require("../models/card-model");
 const Stack = require("../models/stack-model");
-const auth = require("../middlewares/auth-middleware");
+const training = require("./training-controller");
 
 // add all functions here
 
@@ -40,8 +40,6 @@ exports.getCards = async (req, res, next) => {
 
 exports.createCard = async (req, res, next) => {
   try {
-    await auth.userGiven(req);
-
     const stackId = req.params.stackId;
     const foundStack = await Stack.findOne({
       _id: stackId,
@@ -59,6 +57,7 @@ exports.createCard = async (req, res, next) => {
       back: back,
       stackId: stackId,
     }).save();
+    await training.addCard(newCard._id, stackId);
     return res.status(201).json({
       message: "New card created",
       data: newCard,
@@ -70,8 +69,6 @@ exports.createCard = async (req, res, next) => {
 
 exports.updateCard = async (req, res, next) => {
   try {
-    await auth.userGiven(req);
-
     const stackId = req.params.stackId;
     const foundStack = await Stack.findOne({
       _id: stackId,
@@ -95,6 +92,7 @@ exports.updateCard = async (req, res, next) => {
       error.status = 404;
       throw error;
     }
+    await training.updateCard(cardId);
     return res.status(200).json({
       message: "Card updated",
       data: updatedCard,
@@ -106,8 +104,6 @@ exports.updateCard = async (req, res, next) => {
 
 exports.deleteCard = async (req, res, next) => {
   try {
-    await auth.userGiven(req);
-
     const stackId = req.params.stackId;
     const foundStack = await Stack.findOne({
       _id: stackId,
@@ -126,6 +122,7 @@ exports.deleteCard = async (req, res, next) => {
       error.status = 404;
       throw error;
     }
+    await training.deleteCard(cardId);
     return res.status(200).json({
       message: "Card deleted",
       data: foundCard,

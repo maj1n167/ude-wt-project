@@ -1,0 +1,37 @@
+.first-row {
+  display: flex;
+  flex-direction: row;
+  height: 15rem;
+}
+
+.row-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: calc(100vh - 80px - 64px);
+}
+.col-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.greeting,
+.trainings,
+.stacks {
+  height: 100%;
+  width: 100%;
+  padding: 16px;
+}
+
+.greeting {
+  background: #f5f5f5;
+}
+
+.trainings {
+  background: #e0e0e0;
+}
+
+.stacks {
+  background: #bdbdbd;
+}

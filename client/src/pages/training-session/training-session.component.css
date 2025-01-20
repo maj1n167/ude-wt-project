@@ -16,17 +16,26 @@ body {
   align-items: center; /* Center vertically */
 }
 
+.training-session-container {
+  height: calc(100vh - 80px - 64px);
+  padding: 24px 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Container for the deck */
 .deck-container {
   display: flex;
   flex-direction: column;
   align-items: center; /* Center items horizontally within the container */
-  justify-content: center; /* Center items vertically within the container */
   background-color: #ffffff;
   padding: 40px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   max-width: 400px;
+  min-height: 457px;
   width: 90%; /* Responsive width */
   text-align: center; /* Center text inside the container */
 }

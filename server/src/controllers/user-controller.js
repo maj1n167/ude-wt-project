@@ -96,3 +96,28 @@ exports.logout = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.checkToken = async (req, res, next) => {
+  /**
+   * This function checks if the token is valid
+   */
+  try {
+    await auth.userGiven(req);
+    return res.status(200).send({ message: true });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.getCurrentUser = async (req, res, next) => {
+  /**
+   * This function returns the current user
+   */
+  try {
+    await auth.userGiven(req);
+    const { password, ...userWithoutPassword } = req.user.toObject();
+    return res.status(200).json({ data: userWithoutPassword });
+  } catch (err) {
+    next(err);
+  }
+};
