@@ -7,8 +7,15 @@ const trainingController = require("../controllers/training-controller");
 
 // append your routes between these two comments.
 router.get("/", requestLogger, trainingController.getTrainingStatus);
-router.post("/start", requestLogger, trainingController.startTraining);
-router.post("/finish", requestLogger, trainingController.finishTraining);
+router.post("/", requestLogger, trainingController.finishTraining);
+
+router.get("/:stackId", requestLogger, trainingController.startTraining);
+router.put("/:stackId", requestLogger, trainingController.resetTrainingStatus);
+router.delete(
+  "/:stackId",
+  requestLogger,
+  trainingController.removeTrainingStatus,
+);
 // the rest is standardized and don't need to be changed.
 
 module.exports = router;

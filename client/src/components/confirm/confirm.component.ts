@@ -1,12 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { SharedMaterialDesignModule } from '../../module/shared-material-design/shared-material-design.module';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-confirm',
   standalone: true,
-  imports: [FormsModule, SharedMaterialDesignModule],
+  imports: [SharedMaterialDesignModule],
   templateUrl: './confirm.component.html',
   styleUrl: './confirm.component.css',
 })

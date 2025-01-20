@@ -15,18 +15,18 @@
         nz-menu-item
         [nzSelected]="activeRoute == 'stacks' || activeRoute == 'cards'"
       >
-        <a routerLink="/stacks">My Stacks</a>
+        <a class="nav-bar-button" routerLink="/stacks">My Stacks</a>
       </li>
       <li nz-menu-item [nzSelected]="false">
-        <a (click)="logout()">Logout</a>
+        <a class="nav-bar-button" (click)="logout()">Logout</a>
       </li>
     </ng-container>
     <ng-container *ngIf="!loggedIn">
       <li nz-menu-item [nzSelected]="activeRoute == 'register'">
-        <a routerLink="/register">Register</a>
+        <a class="nav-bar-button" routerLink="/register">Register</a>
       </li>
       <li nz-menu-item [nzSelected]="activeRoute == 'login'">
-        <a routerLink="/login">Login</a>
+        <a class="nav-bar-button" routerLink="/login">Login</a>
       </li>
     </ng-container>
   </ul>

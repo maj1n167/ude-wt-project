@@ -1,15 +1,13 @@
 import { Component, Inject, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { SharedMaterialDesignModule } from '../../module/shared-material-design/shared-material-design.module';
 import { CardsService } from '../../services/cards-service/cards.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import IStack from '../../models/stack';
 import ICard from '../../models/card';
 
 @Component({
   selector: 'app-cards-create',
   standalone: true,
-  imports: [FormsModule, SharedMaterialDesignModule],
+  imports: [SharedMaterialDesignModule],
   templateUrl: './cards-create.component.html',
   styleUrl: './cards-create.component.css',
 })

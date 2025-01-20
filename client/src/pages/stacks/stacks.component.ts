@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { NgForOf, NgIf } from '@angular/common';
 
 import IStack from '../../models/stack';
-import { AuthService } from '../../services/auth-service/auth.service';
 import { StacksService } from '../../services/stacks-service/stacks.service';
 import { SharedMaterialDesignModule } from '../../module/shared-material-design/shared-material-design.module';
 import { MatDialog } from '@angular/material/dialog';
@@ -37,19 +36,27 @@ export class StacksComponent implements OnInit {
   router = inject(Router);
   stacksService = inject(StacksService);
   dialog = inject(MatDialog);
-  loggedIn: boolean | null = null;
+  searching: boolean = false;
 
-  constructor(private authService: AuthService) {}
+  private _searchValue: string | undefined;
+
+  get searchValue() {
+    return this._searchValue;
+  }
+
+  set searchValue(searchValue) {
+    this.search(searchValue);
+    this._searchValue = searchValue;
+  }
+
+  constructor() {}
 
   ngOnInit(): void {
-    this.authService.loggedIn$.subscribe((status) => {
-      this.loggedIn = status;
-    });
     this.loadStacks();
   }
 
   loadStacks() {
-    this.stacksService.getAllStacks().subscribe({
+    this.stacksService.getOwnStacks().subscribe({
       next: (stackList: Array<IStack>) => {
         this.stacks = stackList;
       },
@@ -118,11 +125,29 @@ export class StacksComponent implements OnInit {
     this.router.navigate(['cards', _id]);
   }
 
-  access(stack: IStack) {
-    return stack.creator == localStorage.getItem('user');
-  }
-
   onTrain(_id: string) {
     this.router.navigate(['training', _id]);
+  }
+
+  search(value: string | undefined) {
+    if (value === '' || value === undefined) {
+      this.clearSearch();
+      return;
+    }
+    this.searching = true;
+    this.stacksService.searchStacks(value).subscribe({
+      next: (stackList: Array<IStack>) => {
+        this.stacks = stackList;
+      },
+      error: (err: Error) => {
+        console.error(err.message);
+      },
+    });
+  }
+
+  clearSearch() {
+    this.loadStacks();
+    this._searchValue = '';
+    this.searching = false;
   }
 }

@@ -13,3 +13,8 @@ button {
   color: white;
   padding-left: 1em;
 }
+
+.nav-bar-button {
+  color: #fff !important;
+  font-size: 16px;
+}

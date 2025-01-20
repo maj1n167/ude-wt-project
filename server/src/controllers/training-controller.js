@@ -82,6 +82,36 @@ exports.getTrainingStatus = async (req, res) => {
   }
 };
 
+exports.resetTrainingStatus = async (req, res) => {
+  /**
+   * This function resets the training for a given stack of the current user.
+   */
+  const stackId = req.body.stackId;
+  try {
+    await Training.updateMany(
+      { userId: req.user._id, stackId: stackId },
+      { rating: 0 },
+    );
+  } catch (err) {
+    console.error("Error resetting training status:", err);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+exports.removeTrainingStatus = async (req, res) => {
+  /**
+   * This function removes the training for a given stack of the current user.
+   */
+  const stackId = req.body.stackId;
+  try {
+    await Training.deleteMany({ userId: req.user._id, stackId: stackId });
+    return res.status(200).json({ message: "Training status removed" });
+  } catch (err) {
+    console.error("Error removing training status:", err);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
 exports.startTraining = async (req, res) => {
   /**
    * This function starts a training session for the current user.
