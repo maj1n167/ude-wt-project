@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { SharedMaterialDesignModule } from '../../module/shared-material-design/shared-material-design.module';
 import { AuthService } from '../../services/auth-service/auth.service';
-import { DashboardComponent } from '../../app/dashboard/dashboard.component';
+import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
 import { NgIf } from '@angular/common';
 
 @Component({

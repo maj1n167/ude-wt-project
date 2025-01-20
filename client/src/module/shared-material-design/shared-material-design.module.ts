@@ -8,9 +8,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 const materialDesignComponents = [
   // add Angular Modules here
+  MatGridListModule,
   MatDividerModule,
   MatIconModule,
   MatAutocompleteModule,

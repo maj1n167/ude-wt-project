@@ -1,0 +1,25 @@
+.first-row {
+  display: flex;
+  flex-direction: row;
+  height: 15rem;
+}
+
+.greeting,
+.trainings,
+.stacks {
+  height: 100%;
+  width: 100%;
+  padding: 16px;
+}
+
+.greeting {
+  background: #f5f5f5;
+}
+
+.trainings {
+  background: #e0e0e0;
+}
+
+.stacks {
+  background: #bdbdbd;
+}
