@@ -4,6 +4,17 @@
   height: 15rem;
 }
 
+.row-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+.col-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 .greeting,
 .trainings,
 .stacks {

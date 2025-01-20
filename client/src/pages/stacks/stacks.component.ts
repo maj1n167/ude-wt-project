@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForOf, NgIf } from '@angular/common';
 
@@ -39,6 +39,7 @@ export class StacksComponent implements OnInit {
   searching: boolean = false;
 
   private _searchValue: string | undefined;
+  @Input() dashboard!: boolean;
 
   get searchValue() {
     return this._searchValue;
@@ -56,6 +57,17 @@ export class StacksComponent implements OnInit {
   }
 
   loadStacks() {
+    if (this.dashboard) {
+      this.stacksService.getPublishedStacks().subscribe({
+        next: (stackList: Array<IStack>) => {
+          this.stacks = stackList;
+        },
+        error: (err: Error) => {
+          console.error(err.message);
+        },
+      });
+      return;
+    }
     this.stacksService.getOwnStacks().subscribe({
       next: (stackList: Array<IStack>) => {
         this.stacks = stackList;

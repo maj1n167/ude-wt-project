@@ -1,6 +1,6 @@
 <div class="root-container">
   <div class="root-header">
-    <h1>Stacks</h1>
+    <h1><span *ngIf="dashboard">Published </span>Stacks</h1>
     <!--    &lt;!&ndash; Search bar should have a button to clear the search.  &ndash;&gt;-->
     <!--    &lt;!&ndash; The button should only be visible when the search bar is not empty. &ndash;&gt;-->
     <!--    <input matInput  placeholder="Search" [(ngModel)]="searchValue"/>-->
@@ -13,7 +13,12 @@
     <!--    >-->
     <!--      <mat-icon>close</mat-icon>-->
     <!--    </button>-->
-    <button mat-flat-button class="button-end" (click)="onAddStack()">
+    <button
+      *ngIf="!dashboard"
+      mat-flat-button
+      class="button-end"
+      (click)="onAddStack()"
+    >
       Create Stack
     </button>
   </div>
@@ -40,6 +45,7 @@
         </button>
         <!-- Button to trigger the menu -->
         <button
+          *ngIf="!dashboard"
           mat-icon-button
           [matMenuTriggerFor]="stackMenu"
           [matMenuTriggerData]="{ id: stack._id }"
