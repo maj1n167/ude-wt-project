@@ -7,9 +7,10 @@ const trainingController = require("../controllers/training-controller");
 
 // append your routes between these two comments.
 router.get("/", requestLogger, trainingController.getTrainingStatus);
+
+router.post("/:stackId", requestLogger, trainingController.startTraining);
 router.post("/", requestLogger, trainingController.finishTraining);
 
-router.get("/:stackId", requestLogger, trainingController.startTraining);
 router.put("/:stackId", requestLogger, trainingController.resetTrainingStatus);
 router.delete(
   "/:stackId",
