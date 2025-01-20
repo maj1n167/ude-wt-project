@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/pages/login/login.component.css"],
-  "sourcesContent": [".login-container {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 100vh;\n}\n\n.login-card {\n  width: 100%;\n  max-width: 400px;\n  padding: 20px;\n}\n"],
-  "mappings": ";AAAA,CAAC;AACC,WAAS;AACT,mBAAiB;AACjB,eAAa;AACb,UAAQ;AACV;AAEA,CAAC;AACC,SAAO;AACP,aAAW;AACX,WAAS;AACX;",
-  "names": []
-}

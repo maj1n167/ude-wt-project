@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/pages/cards/cards.component.css"],
-  "sourcesContent": [".cards-container {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n  padding: 10px;\n}\n"],
-  "mappings": ";AAAA,CAAC;AACC,WAAS;AACT,kBAAgB;AAChB,mBAAiB;AACjB,eAAa;AACb,WAAS;AACX;",
-  "names": []
-}

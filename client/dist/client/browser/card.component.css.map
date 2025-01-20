@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/components/card/card.component.css"],
-  "sourcesContent": [".flash-card {\n  width: 300px;\n  height: 200px;\n  perspective: 1000px;\n  cursor: pointer;\n  margin: 20px auto;\n}\n\n.flash-card > div {\n  width: 100%;\n  height: 100%;\n  position: absolute;\n  backface-visibility: hidden;\n  border: 1px solid #ccc;\n  border-radius: 8px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: transform 0.6s;\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);\n}\n\n.flash-card .front {\n  background-color: mediumseagreen;\n  z-index: 2;\n}\n\n.flash-card .back {\n  background-color: mediumseagreen;\n  transform: rotateY(180deg);\n}\n\n.flash-card.flipped .front {\n  transform: rotateY(180deg);\n}\n\n.flash-card.flipped .back {\n  transform: rotateY(360deg);\n}\n"],
-  "mappings": ";AAAA,CAAC;AACC,SAAO;AACP,UAAQ;AACR,eAAa;AACb,UAAQ;AACR,UAAQ,KAAK;AACf;AAEA,CARC,WAQW,EAAE;AACZ,SAAO;AACP,UAAQ;AACR,YAAU;AACV,uBAAqB;AACrB,UAAQ,IAAI,MAAM;AAClB,iBAAe;AACf,WAAS;AACT,eAAa;AACb,mBAAiB;AACjB,cAAY,UAAU;AACtB,cAAY,EAAE,IAAI,IAAI,KAAK,CAAC,EAAE,CAAC,EAAE,CAAC,EAAE;AACtC;AAEA,CAtBC,WAsBW,CAAC;AACX,oBAAkB;AAClB,WAAS;AACX;AAEA,CA3BC,WA2BW,CAAC;AACX,oBAAkB;AAClB,aAAW,QAAQ;AACrB;AAEA,CAhCC,UAgCU,CAAC,QAAQ,CAVP;AAWX,aAAW,QAAQ;AACrB;AAEA,CApCC,UAoCU,CAJC,QAIQ,CATP;AAUX,aAAW,QAAQ;AACrB;",
-  "names": []
-}
