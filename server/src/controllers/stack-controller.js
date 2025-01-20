@@ -18,7 +18,7 @@ exports.getPublicStacks = async (req, res, next) => {
 
 exports.searchStacks = async (req, res, next) => {
   try {
-    const search = req.query.search;
+    const search = req.params.query;
     const foundStacks = await Stack.find({
       name: { $regex: search, $options: "i" },
     });
