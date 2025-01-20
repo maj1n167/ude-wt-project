@@ -6,6 +6,10 @@ const stackSchema = new Schema({
     type: String,
     required: true,
   },
+  description: {
+    type: String,
+    default: "",
+  },
   published: {
     type: Boolean,
     default: false,

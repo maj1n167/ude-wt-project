@@ -1,14 +1,26 @@
-<div class="root-container">
+<div class="root-container overflow">
   <div class="root-header">
-    <h1>Stacks</h1>
-    <div>
-      <div *ngIf="loggedIn">
-        <!-- if logged in, display this div, else hide it -->
-        <button mat-flat-button class="button-end" (click)="onAddStack()">
-          Create Stack
-        </button>
-      </div>
-    </div>
+    <h1><span *ngIf="dashboard">Published </span>Stacks</h1>
+    <!--    &lt;!&ndash; Search bar should have a button to clear the search.  &ndash;&gt;-->
+    <!--    &lt;!&ndash; The button should only be visible when the search bar is not empty. &ndash;&gt;-->
+    <!--    <input matInput  placeholder="Search" [(ngModel)]="searchValue"/>-->
+    <!--    <button-->
+    <!--      mat-flat-button-->
+    <!--      matSuffix-->
+    <!--      aria-label="Clear"-->
+    <!--      *ngIf="searching"-->
+    <!--      (click)="clearSearch()"-->
+    <!--    >-->
+    <!--      <mat-icon>close</mat-icon>-->
+    <!--    </button>-->
+    <button
+      *ngIf="!dashboard"
+      mat-flat-button
+      class="button-end"
+      (click)="onAddStack()"
+    >
+      Create Stack
+    </button>
   </div>
   <mat-divider></mat-divider>
   <!-- Menu definition -->
@@ -23,27 +35,25 @@
       <div class="stack-container">
         <div class="stack-title" (click)="goToCards(stack._id)">
           <span>{{ stack.name }}</span>
+          <span>{{ stack.description }}</span>
         </div>
-        <!-- button to start training if logged in -->
-        <div *ngIf="loggedIn">
-          <button mat-icon-button (click)="onTrain(stack._id)">
-            <mat-icon aria-hidden="false" aria-label="train icon"
-              >school</mat-icon
-            >
-          </button>
-        </div>
-        <!-- Button to trigger the menu -->
-        <ng-container *ngIf="loggedIn && access(stack)">
-          <button
-            mat-icon-button
-            [matMenuTriggerFor]="stackMenu"
-            [matMenuTriggerData]="{ id: stack._id }"
+        <!-- button to start training -->
+        <button mat-icon-button (click)="onTrain(stack._id)">
+          <mat-icon aria-hidden="false" aria-label="train icon"
+            >school</mat-icon
           >
-            <mat-icon aria-hidden="false" aria-label="more icon"
-              >more_vert</mat-icon
-            >
-          </button>
-        </ng-container>
+        </button>
+        <!-- Button to trigger the menu -->
+        <button
+          *ngIf="!dashboard"
+          mat-icon-button
+          [matMenuTriggerFor]="stackMenu"
+          [matMenuTriggerData]="{ id: stack._id }"
+        >
+          <mat-icon aria-hidden="false" aria-label="more icon"
+            >more_vert</mat-icon
+          >
+        </button>
       </div>
       <mat-divider *ngIf="!last"></mat-divider>
     </div>

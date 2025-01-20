@@ -1,0 +1,33 @@
+<div class="root-container row-container">
+  <div class="col-container">
+    <div class="greeting">
+      <h1>Welcome {{ user?.username }}!</h1>
+    </div>
+    <div class="trainings">
+      <h2>Current Trainings</h2>
+      <ng-container
+        *ngIf="trainings && Object.keys(trainings).length > 0; else noTrainings"
+      >
+        <div *ngFor="let training of trainings | keyvalue">
+          <div class="training-container">
+            <div class="training-title">
+              <span>{{ training.value.name }}</span>
+              <span>{{ training.value.progress }}</span>
+            </div>
+            <button mat-icon-button (click)="onTrain(training.key)">
+              <mat-icon aria-hidden="false" aria-label="train icon"
+                >school</mat-icon
+              >
+            </button>
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #noTrainings>
+        <p>No trainings available</p>
+      </ng-template>
+    </div>
+  </div>
+  <div class="stacks">
+    <app-stacks [dashboard]="true"></app-stacks>
+  </div>
+</div>

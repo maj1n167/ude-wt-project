@@ -1,5 +1,4 @@
 import { Component, Inject, inject, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CardsService } from '../../services/cards-service/cards.service';
 import { SharedMaterialDesignModule } from '../../module/shared-material-design/shared-material-design.module';
@@ -7,7 +6,7 @@ import { SharedMaterialDesignModule } from '../../module/shared-material-design/
 @Component({
   selector: 'app-cards-update',
   standalone: true,
-  imports: [FormsModule, SharedMaterialDesignModule],
+  imports: [SharedMaterialDesignModule],
   templateUrl: './cards-update.component.html',
   styleUrl: './cards-update.component.css',
 })

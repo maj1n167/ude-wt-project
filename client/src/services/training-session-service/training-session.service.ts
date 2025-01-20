@@ -17,6 +17,15 @@ export class TrainingSessionService {
 
   constructor() {}
 
+  status(): Observable<any> {
+    return this.http.get(`${environment.api}/training/`).pipe(
+      map((response: any) => response.data),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => new Error(error.error.error.message));
+      }),
+    );
+  }
+
   start(stackId: string): Observable<Array<ICard>> {
     return this.http
       .post<AllCardResponse>(`${environment.api}/training/start`, {

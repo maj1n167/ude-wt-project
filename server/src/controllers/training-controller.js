@@ -61,11 +61,14 @@ exports.getTrainingStatus = async (req, res) => {
           userId: req.user._id,
           stackId: stackId,
         });
-
+        const stack = await Stack.findById(stackId);
         // Calculate average progress
-        stackProgress[stackId] =
-          trainings.reduce((acc, training) => acc + training.rating, 0) /
-          (trainings.length || 1);
+        stackProgress[stackId] = {
+          name: stack["name"],
+          progress:
+            trainings.reduce((acc, training) => acc + training.rating, 0) /
+            (trainings.length || 1),
+        };
       } catch (err) {
         console.error(
           `Error fetching training data for stack ${stackId}:`,
@@ -75,9 +78,39 @@ exports.getTrainingStatus = async (req, res) => {
     }
 
     // Send the response
-    return res.status(200).json(stackProgress);
+    return res.status(200).json({ data: stackProgress });
   } catch (err) {
     console.error("Error fetching distinct stack IDs:", err);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+exports.resetTrainingStatus = async (req, res) => {
+  /**
+   * This function resets the training for a given stack of the current user.
+   */
+  const stackId = req.body.stackId;
+  try {
+    await Training.updateMany(
+      { userId: req.user._id, stackId: stackId },
+      { rating: 0 },
+    );
+  } catch (err) {
+    console.error("Error resetting training status:", err);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+exports.removeTrainingStatus = async (req, res) => {
+  /**
+   * This function removes the training for a given stack of the current user.
+   */
+  const stackId = req.body.stackId;
+  try {
+    await Training.deleteMany({ userId: req.user._id, stackId: stackId });
+    return res.status(200).json({ message: "Training status removed" });
+  } catch (err) {
+    console.error("Error removing training status:", err);
     return res.status(500).json({ message: "Server error" });
   }
 };
@@ -128,9 +161,7 @@ exports.finishTraining = async (req, res) => {
 
 exports.addStackForUser = async (userId, stackId) => {
   try {
-    console.log(stackId);
     const cards = await Card.find({ stackId: stackId }); // Use await to resolve the promise
-    console.log("Cards found:", cards);
     for (const card of cards) {
       try {
         await Training.create({
