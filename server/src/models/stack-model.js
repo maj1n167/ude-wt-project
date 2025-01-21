@@ -18,10 +18,7 @@ const stackSchema = new Schema({
     type: Number,
     default: 0,
   },
-  creator: {
-    type: String,
-    required: true,
-  },
+  creator: { type: Schema.Types.ObjectId, ref: "User" },
 });
 
 module.exports = mongoose.model("Stack", stackSchema);
