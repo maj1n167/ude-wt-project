@@ -31,7 +31,7 @@ const authenticateToken = async (req, _, next) => {
   }
 
   const { password, ...userWithoutPassword } = user._doc;
-  req.user = userWithoutPassword.toObject();
+  req.user = userWithoutPassword;
   return next();
 };
 

@@ -40,6 +40,7 @@ export class AuthService {
   getUser() {
     return this.http.get<UserResponse>(`${this.apiUrl}/`).pipe(
       map((response: UserResponse) => {
+        console.log(response);
         return response.data;
       }),
       catchError((error: HttpErrorResponse) => {

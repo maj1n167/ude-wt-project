@@ -63,7 +63,7 @@ export class CardsComponent implements OnInit {
       .subscribe({
         next: (stack) => {
           this.stack = stack;
-          this.access = this.stack.creator == localStorage.getItem('user');
+          this.access = this.stack.creator.id == localStorage.getItem('user');
         },
         error: (err: Error) => {
           console.error(err.message);

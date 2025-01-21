@@ -41,8 +41,7 @@ export class LoginComponent {
   login(): void {
     const user = { username: this.username, password: this.password };
     this.authService.login(user).subscribe(
-      (response) => {
-        console.log('Login successful:', response);
+      (next) => {
         this.router.navigate(['/']); // Weiterleitung zur Profil-Seite
       },
       (error) => {
