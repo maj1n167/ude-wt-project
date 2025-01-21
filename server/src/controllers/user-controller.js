@@ -51,7 +51,10 @@ exports.login = async (req, res, next) => {
       error.status = 404;
       throw error;
     }
-    const isPasswordValid = await bcrypt.compare(req.body.password, user["password"]);
+    const isPasswordValid = await bcrypt.compare(
+      req.body.password,
+      user["password"],
+    );
     if (!isPasswordValid) {
       let error = new Error(`Invalid password!`);
       error.status = 401;

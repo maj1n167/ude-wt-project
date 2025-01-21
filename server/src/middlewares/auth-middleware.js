@@ -24,7 +24,7 @@ const authenticateToken = async (req, _, next) => {
     return next();
   }
 
-  const tokenExists = await Token.findOne({ token: token, "user": user });
+  const tokenExists = await Token.findOne({ token: token, user: user });
   if (!tokenExists) {
     req.user = null;
     return next();
