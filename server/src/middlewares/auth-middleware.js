@@ -29,8 +29,8 @@ const authenticateToken = async (req, _, next) => {
     req.user = null;
     return next();
   }
-
-  req.user = user;
+  const { password, ...userWithoutPassword } = req.user.toObject();
+  req.user = userWithoutPassword;
   return next();
 };
 
@@ -40,7 +40,7 @@ const createToken = async (user) => {
    * */
   try {
     const token = await bcrypt.hash(user._id.toString(), 10);
-    const newToken = await new Token({ token, userId: user._id }).save();
+    const newToken = await new Token({ token, user: user }).save();
     if (!newToken) {
       throw new Error("Error creating the token");
     }

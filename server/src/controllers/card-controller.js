@@ -16,11 +16,11 @@ exports.getCards = async (req, res, next) => {
       throw error;
     }
 
-    if (foundStack.published === false) {
+    if (foundStack["published"] === false) {
       if (
         req.user === undefined ||
         req.user === null ||
-        foundStack.creator !== req.user._id.toString()
+        foundStack["creator"] !== req.user
       ) {
         let error = new Error("Unauthorized");
         error.status = 401;
@@ -28,7 +28,7 @@ exports.getCards = async (req, res, next) => {
       }
     }
 
-    const foundCards = await Card.find({ stackId: stackId }, null, null);
+    const foundCards = await Card.find({ "stack._id": stackId }, null, null);
     return res.status(200).json({
       message: "Found cards for stack with id: " + stackId,
       data: foundCards,
@@ -43,7 +43,7 @@ exports.createCard = async (req, res, next) => {
     const stackId = req.params.stackId;
     const foundStack = await Stack.findOne({
       _id: stackId,
-      creator: req.user._id.toString(),
+      creator: req.user,
     });
     if (!foundStack) {
       let error = new Error(`Stack not found with id: ${stackId}`);
@@ -55,9 +55,9 @@ exports.createCard = async (req, res, next) => {
     const newCard = await new Card({
       front: front,
       back: back,
-      stackId: stackId,
+      stack: foundStack,
     }).save();
-    await training.addCard(newCard._id, stackId);
+    await training.addCard(newCard, foundStack);
     return res.status(201).json({
       message: "New card created",
       data: newCard,
@@ -72,7 +72,7 @@ exports.updateCard = async (req, res, next) => {
     const stackId = req.params.stackId;
     const foundStack = await Stack.findOne({
       _id: stackId,
-      creator: req.user._id.toString(),
+      creator: req.user,
     });
     if (!foundStack) {
       let error = new Error(`Stack not found with id: ${stackId}`);
@@ -82,11 +82,10 @@ exports.updateCard = async (req, res, next) => {
 
     const cardId = req.params.cardId;
     const { front, back } = req.body;
-    const updatedCard = await Card.findByIdAndUpdate(
-      cardId,
-      { front: front, back: back },
-      null,
-    );
+    const updatedCard = await Card.findByIdAndUpdate(cardId, {
+      front: front,
+      back: back,
+    });
     if (!updatedCard) {
       let error = new Error(`Card not found with id: ${cardId}`);
       error.status = 404;
@@ -107,7 +106,7 @@ exports.deleteCard = async (req, res, next) => {
     const stackId = req.params.stackId;
     const foundStack = await Stack.findOne({
       _id: stackId,
-      creator: req.user._id.toString(),
+      creator: req.user,
     });
     if (!foundStack) {
       let error = new Error(`Stack not found with id: ${stackId}`);

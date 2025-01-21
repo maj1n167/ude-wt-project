@@ -59,9 +59,9 @@ exports.login = async (req, res, next) => {
       error.status = 401;
       throw error;
     }
-
+    const { password, ...userWithoutPassword } = user;
     // create auth token and write it to the database
-    const token = await auth.createToken(user);
+    const token = await auth.createToken(userWithoutPassword);
     if (!token) {
       let error = new Error(`Error creating token!`);
       error.status = 500;
@@ -70,7 +70,7 @@ exports.login = async (req, res, next) => {
     return res.status(200).json({
       message: "Login successful!",
       data: {
-        user: user._id,
+        user: userWithoutPassword._id,
         token: token,
       },
     });
@@ -115,8 +115,7 @@ exports.getCurrentUser = async (req, res, next) => {
    */
   try {
     await auth.userGiven(req);
-    const { password, ...userWithoutPassword } = req.user.toObject();
-    return res.status(200).json({ data: userWithoutPassword });
+    return res.status(200).json({ data: req.user });
   } catch (err) {
     next(err);
   }

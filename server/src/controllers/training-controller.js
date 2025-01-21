@@ -6,8 +6,8 @@ async function getTrainingCards(userId, stackId) {
   try {
     // Find training cards for the user and stack
     const trainingCards = await Training.find({
-      userId: userId,
-      stackId: stackId,
+      "user._id": userId,
+      "stack._id": stackId,
     });
 
     if (!trainingCards || trainingCards.length === 0) {
@@ -48,22 +48,21 @@ exports.getTrainingStatus = async (req, res) => {
    */
   try {
     // Get distinct stack IDs for the user
-    const stackIds = await Training.distinct("stackId", {
-      userId: req.user._id,
+    const stacks = await Training.distinct("stack", {
+      user: req.user,
     });
 
     const stackProgress = {};
 
     // Calculate progress for each stack
-    for (const stackId of stackIds) {
+    for (const stack of stacks) {
       try {
         const trainings = await Training.find({
-          userId: req.user._id,
-          stackId: stackId,
+          user: req.user,
+          stack: stack,
         });
-        const stack = await Stack.findById(stackId);
         // Calculate average progress
-        stackProgress[stackId] = {
+        stackProgress[stack["_id"]] = {
           name: stack["name"],
           creator: stack["creator"],
           training: stack["training"],
@@ -94,7 +93,7 @@ exports.resetTrainingStatus = async (req, res) => {
   const stackId = req.body.stackId;
   try {
     await Training.updateMany(
-      { userId: req.user._id, stackId: stackId },
+      { user: req.user, "stack._id": stackId },
       { rating: 0 },
     );
   } catch (err) {
@@ -109,7 +108,7 @@ exports.removeTrainingStatus = async (req, res) => {
    */
   const stackId = req.body.stackId;
   try {
-    await Training.deleteMany({ userId: req.user._id, stackId: stackId });
+    await Training.deleteMany({ user: req.user, "stack._id": stackId });
     await decreaseCounter(stackId);
     return res.status(200).json({ message: "Training status removed" });
   } catch (err) {
@@ -128,12 +127,12 @@ exports.startTraining = async (req, res) => {
 
   const stackId = req.body.stackId;
   const checkStackForUser = await Training.findOne({
-    userId: req.user._id,
-    stackId: stackId,
+    user: req.user,
+    "stack._id": stackId,
   });
   let cards = [];
   if (!checkStackForUser) {
-    await this.addStackForUser(req.user._id, stackId).then(async () => {
+    await this.addStackForUser(req.user, stackId).then(async () => {
       cards = await getTrainingCards(req.user._id, stackId);
     });
   } else {
@@ -156,21 +155,25 @@ exports.finishTraining = async (req, res) => {
       );
     } catch (err) {
       console.error(`Error updating training session for card ${cardId}:`, err);
+      return res.status(500).json({ message: "Server error" });
     }
   }
+  return res.status(200).json({ message: "Training session finished" });
 };
 
 // stack section
 
-exports.addStackForUser = async (userId, stackId) => {
+exports.addStackForUser = async (user, stackId) => {
   try {
-    const cards = await Card.find({ stackId: stackId }); // Use await to resolve the promise
+    const stack = await Stack.findById(stackId);
+
+    const cards = await Card.find({ stack: stack }); // Use await to resolve the promise
     for (const card of cards) {
       try {
         await Training.create({
-          userId: userId.toString(),
-          stackId: stackId.toString(),
-          cardId: card._id.toString(),
+          user: user,
+          stack: stack,
+          card: card,
         }); // Use await to handle the promise from create
       } catch (err) {
         console.error("Error creating training record:", err);
@@ -188,14 +191,14 @@ exports.deleteStack = async (stackId) => {
    * It will delete all training sessions that are currently in progress for this stack.
    */
   try {
-    await Training.deleteMany({ stackId: stackId }); // Await the promise from deleteMany
+    await Training.deleteMany({ "stack._id": stackId }); // Await the promise from deleteMany
   } catch (err) {
     console.error("Error deleting training sessions:", err); // Log errors if any
   }
 };
 
 // card section
-exports.addCard = async (cardId, stackId) => {
+exports.addCard = async (card, stack) => {
   /**
    * This function receives a card that is added to the system.
    * It will add the card to all training sessions of the associated stack.
@@ -203,15 +206,15 @@ exports.addCard = async (cardId, stackId) => {
    */
   try {
     // Get distinct userIds for the stack
-    const userIds = await Training.distinct("userId", { stackId: stackId });
+    const users = await Training.distinct("user", { stack: stack });
 
     // Iterate over each userId and create a new training session
-    for (const userId of userIds) {
+    for (const user of users) {
       try {
         const newTraining = new Training({
-          userId: userId,
-          stackId: stackId,
-          cardId: cardId,
+          user: user,
+          stack: stack,
+          card: card,
         });
         await newTraining.save(); // Save the new training session
       } catch (err) {
@@ -232,7 +235,10 @@ exports.updateCard = async (cardId) => {
    * It will update all training sessions that are currently in progress for this card to 0.
    */
   try {
-    const result = await Training.updateMany({ cardId: cardId }, { rating: 0 });
+    const result = await Training.updateMany(
+      { "card._id": cardId },
+      { rating: 0 },
+    );
   } catch (err) {
     console.error("Error updating training sessions:", err);
   }
@@ -244,7 +250,7 @@ exports.deleteCard = async (cardId) => {
    * It will delete all training sessions that are currently in progress for this card.
    */
   try {
-    const result = await Training.deleteMany({ cardId: cardId }); // Await the promise
+    const result = await Training.deleteMany({ "card._id": cardId }); // Await the promise
   } catch (err) {
     console.error("Error deleting training sessions:", err); // Log any errors
   }
