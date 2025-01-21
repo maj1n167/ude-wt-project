@@ -65,6 +65,8 @@ exports.getTrainingStatus = async (req, res) => {
         // Calculate average progress
         stackProgress[stackId] = {
           name: stack["name"],
+          creator: stack["creator"],
+          training: stack["training"],
           progress:
             trainings.reduce((acc, training) => acc + training.rating, 0) /
             (trainings.length || 1),
@@ -108,6 +110,7 @@ exports.removeTrainingStatus = async (req, res) => {
   const stackId = req.body.stackId;
   try {
     await Training.deleteMany({ userId: req.user._id, stackId: stackId });
+    await decreaseCounter(stackId);
     return res.status(200).json({ message: "Training status removed" });
   } catch (err) {
     console.error("Error removing training status:", err);
@@ -173,6 +176,7 @@ exports.addStackForUser = async (userId, stackId) => {
         console.error("Error creating training record:", err);
       }
     }
+    await raiseCounter(stackId);
   } catch (err) {
     console.error("Error finding cards:", err);
   }
@@ -245,3 +249,33 @@ exports.deleteCard = async (cardId) => {
     console.error("Error deleting training sessions:", err); // Log any errors
   }
 };
+
+async function raiseCounter(stackId) {
+  try {
+    const stack = await Stack.findById(stackId);
+    if (!stack) {
+      let error = new Error(`Stack not found with id: ${stackId}`);
+      error.status = 404;
+      throw error;
+    }
+    stack.trainingCounter += 1;
+    await stack.save();
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function decreaseCounter(stackId) {
+  try {
+    const stack = await Stack.findById(stackId);
+    if (!stack) {
+      let error = new Error(`Stack not found with id: ${stackId}`);
+      error.status = 404;
+      throw error;
+    }
+    stack.trainingCounter -= 1;
+    await stack.save();
+  } catch (error) {
+    next(error);
+  }
+}

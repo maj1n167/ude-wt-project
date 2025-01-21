@@ -14,6 +14,10 @@ const stackSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  training: {
+    type: Number,
+    default: 0,
+  },
   creator: {
     type: String,
     required: true,
