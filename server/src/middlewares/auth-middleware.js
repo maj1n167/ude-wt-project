@@ -18,19 +18,20 @@ const authenticateToken = async (req, _, next) => {
     return next();
   }
 
-  const tokenExists = await Token.findOne({ token, userId });
-  if (!tokenExists) {
-    req.user = null;
-    return next();
-  }
-
   const user = await User.findById(userId);
   if (!user) {
     req.user = null;
     return next();
   }
-  const { password, ...userWithoutPassword } = req.user.toObject();
-  req.user = userWithoutPassword;
+
+  const tokenExists = await Token.findOne({ token: token, "user": user });
+  if (!tokenExists) {
+    req.user = null;
+    return next();
+  }
+
+  const { password, ...userWithoutPassword } = user._doc;
+  req.user = userWithoutPassword.toObject();
   return next();
 };
 
@@ -39,7 +40,8 @@ const createToken = async (user) => {
    * This function creates a token for the user
    * */
   try {
-    const token = await bcrypt.hash(user._id.toString(), 10);
+    const token = await bcrypt.hash(user["_id"].toString(), 10);
+
     const newToken = await new Token({ token, user: user }).save();
     if (!newToken) {
       throw new Error("Error creating the token");

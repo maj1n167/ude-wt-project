@@ -44,7 +44,6 @@ exports.login = async (req, res, next) => {
    * This function logs in the user
    */
   const { username, password } = req.body;
-
   try {
     const user = await User.findOne({ username });
     if (!user) {
@@ -52,16 +51,14 @@ exports.login = async (req, res, next) => {
       error.status = 404;
       throw error;
     }
-
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = await bcrypt.compare(req.body.password, user["password"]);
     if (!isPasswordValid) {
       let error = new Error(`Invalid password!`);
       error.status = 401;
       throw error;
     }
-    const { password, ...userWithoutPassword } = user;
     // create auth token and write it to the database
-    const token = await auth.createToken(userWithoutPassword);
+    const token = await auth.createToken(user);
     if (!token) {
       let error = new Error(`Error creating token!`);
       error.status = 500;
@@ -70,7 +67,7 @@ exports.login = async (req, res, next) => {
     return res.status(200).json({
       message: "Login successful!",
       data: {
-        user: userWithoutPassword._id,
+        user: user["_id"].toString(),
         token: token,
       },
     });
