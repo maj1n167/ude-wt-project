@@ -168,6 +168,7 @@ exports.addStackForUser = async (user, stackId) => {
     const stack = await Stack.findById(stackId);
 
     const cards = await Card.find({ stack: stack }); // Use await to resolve the promise
+    debugger;
     for (const card of cards) {
       try {
         await Training.create({

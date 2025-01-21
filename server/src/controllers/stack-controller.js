@@ -6,7 +6,9 @@ const training = require("./training-controller");
 // add all functions here
 exports.getPublicStacks = async (req, res, next) => {
   try {
-    const foundStacks = await Stack.find({ published: true });
+    const foundStacks = await Stack.find({ published: true }).populate(
+      "creator",
+    );
     return res.status(200).json({
       message: "Found public stacks",
       data: foundStacks,

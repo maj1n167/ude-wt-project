@@ -60,6 +60,7 @@ export class StacksComponent implements OnInit {
     if (this.dashboard) {
       this.stacksService.getPublishedStacks().subscribe({
         next: (stackList: Array<IStack>) => {
+          console.log(stackList);
           this.stacks = stackList;
         },
         error: (err: Error) => {
