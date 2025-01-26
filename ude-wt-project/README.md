@@ -123,8 +123,6 @@ Together, we can make LearnStack **better**!
 
 ## Contributing
 
-
-
 Please read [our contribution guidelines](docs/CONTRIBUTING.md), and thank you for being involved!
 
 ## Authors & contributors
@@ -139,7 +137,6 @@ LearnStack follows good practices of security, but 100% security cannot be assur
 LearnStack is provided **"as is"** without any **warranty**. Use at your own risk.
 
 _For more information and to report security issues, please refer to our [security documentation](docs/SECURITY.md)._
-
 
 ## Acknowledgements
 
