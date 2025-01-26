@@ -280,14 +280,14 @@ const initializeData = async () => {
         name: stack.name,
         description: stack.description,
         published: true,
-        creator: test_creator._id,
+        creator: test_creator,
       });
 
       for (const card of stack.cards) {
         await Card.create({
           front: card.front,
           back: card.back,
-          stackId: newStack._id,
+          stack: newStack,
         });
       }
     }

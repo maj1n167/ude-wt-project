@@ -8,8 +8,8 @@ const trainingController = require("../controllers/training-controller");
 // append your routes between these two comments.
 router.get("/", requestLogger, trainingController.getTrainingStatus);
 
-router.post("/:stackId", requestLogger, trainingController.startTraining);
-router.post("/", requestLogger, trainingController.finishTraining);
+router.post("/start", requestLogger, trainingController.startTraining);
+router.post("/finish", requestLogger, trainingController.finishTraining);
 
 router.put("/:stackId", requestLogger, trainingController.resetTrainingStatus);
 router.delete(

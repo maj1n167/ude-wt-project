@@ -4,32 +4,23 @@ const Training = require("../models/training-model");
 
 async function getTrainingCards(userId, stackId) {
   try {
-    // Find training cards for the user and stack
-    const trainingCards = await Training.find({
-      "user._id": userId,
-      "stack._id": stackId,
-    });
+    // Find training for the user and stack and sort by rating
+    const trainings = await Training.find({
+      user: userId.toString(),
+      stack: stackId,
+    })
+      .sort({ rating: 1 })
+      .limit(10)
+      .populate("card");
 
-    if (!trainingCards || trainingCards.length === 0) {
+    if (!trainings || trainings.length === 0) {
       return [];
     }
 
-    // Sort the cards by rating and get the first 10
-    const sortedTrainingCards = trainingCards
-      .sort((a, b) => a.rating - b.rating)
-      .slice(0, 10);
-
     // Get the corresponding cards for the selected training cards
     const cards = [];
-    for (const trainingCard of sortedTrainingCards) {
-      try {
-        const card = await Card.findById(trainingCard.cardId);
-        if (card) {
-          cards.push(card);
-        }
-      } catch (err) {
-        console.error("Error finding card:", err);
-      }
+    for (const training of trainings) {
+      cards.push(training.card);
     }
 
     // Return the cards that are to be trained
@@ -55,20 +46,21 @@ exports.getTrainingStatus = async (req, res) => {
     const stackProgress = {};
 
     // Calculate progress for each stack
-    for (const stack of stacks) {
+    for (const stackId of stacks) {
       try {
+        const stack = await Stack.findById(stackId).populate("creator");
         const trainings = await Training.find({
           user: req.user,
-          stack: stack,
+          stack: stackId,
         });
         // Calculate average progress
         stackProgress[stack["_id"]] = {
           name: stack["name"],
-          creator: stack["creator"],
-          training: stack["training"],
-          progress:
+          creator: stack["creator"]["username"],
+          progress: (
             trainings.reduce((acc, training) => acc + training.rating, 0) /
-            (trainings.length || 1),
+            (trainings.length || 1)
+          ).toFixed(1),
         };
       } catch (err) {
         console.error(
@@ -128,7 +120,7 @@ exports.startTraining = async (req, res) => {
   const stackId = req.body.stackId;
   const checkStackForUser = await Training.findOne({
     user: req.user,
-    "stack._id": stackId,
+    stack: stackId,
   });
   let cards = [];
   if (!checkStackForUser) {
@@ -150,7 +142,7 @@ exports.finishTraining = async (req, res) => {
   for (const [cardId, rating] of Object.entries(req.body)) {
     try {
       await Training.updateOne(
-        { userId: req.user._id, cardId: cardId },
+        { user: req.user._id, card: cardId },
         { rating: rating },
       );
     } catch (err) {
@@ -167,8 +159,7 @@ exports.addStackForUser = async (user, stackId) => {
   try {
     const stack = await Stack.findById(stackId);
 
-    const cards = await Card.find({ stack: stack }); // Use await to resolve the promise
-    debugger;
+    const cards = await Card.find({ stack: stackId }); // Use await to resolve the promise
     for (const card of cards) {
       try {
         await Training.create({
@@ -265,7 +256,7 @@ async function raiseCounter(stackId) {
       error.status = 404;
       throw error;
     }
-    stack.trainingCounter += 1;
+    stack.training += 1;
     await stack.save();
   } catch (error) {
     next(error);
@@ -280,7 +271,7 @@ async function decreaseCounter(stackId) {
       error.status = 404;
       throw error;
     }
-    stack.trainingCounter -= 1;
+    stack.training -= 1;
     await stack.save();
   } catch (error) {
     next(error);
