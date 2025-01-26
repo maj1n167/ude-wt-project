@@ -32,7 +32,8 @@ export class ForumComponent implements OnInit {
   filteredPosts: Array<ISPost> = [];
   newCommentContent: string = '';
   searchQuery: string = '';
-  currentUser: string | null = localStorage.getItem('username'); // Ensure 'username' is stored in localStorage
+  currentUser: string | null = null; // Initialize as null
+  currentUserUsername: string | null = null; // Add currentUserUsername field
   loggedIn: boolean | null = null;
 
   constructor(
@@ -54,6 +55,10 @@ export class ForumComponent implements OnInit {
     const token = localStorage.getItem('authToken');
     if (token) {
       this.loggedIn = true;
+      this.authService.getUser().subscribe((user) => {
+        this.currentUser = user._id; // Use user._id for creator
+        this.currentUserUsername = user.username; // Use user.username for username
+      });
     } else {
       this.loggedIn = false;
       this.router.navigate(['/login']);
@@ -64,7 +69,8 @@ export class ForumComponent implements OnInit {
     this.forumService.getPosts().subscribe({
       next: (PostList: Array<ISPost>) => {
         this.posts = PostList.sort(
-          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+          (a, b) =>
+            new Date(b.date ?? 0).getTime() - new Date(a.date ?? 0).getTime(),
         );
         this.filteredPosts = this.posts; // Initialize filteredPosts with all posts
       },
@@ -146,9 +152,7 @@ export class ForumComponent implements OnInit {
         next: () => {
           const post = this.posts.find((p) => p._id === postId);
           if (post) {
-            post.replies = post.replies.filter(
-              (reply) => reply._id !== replyId,
-            );
+            this.removeReply(post.replies, replyId);
             this.filteredPosts = this.posts; // Update filteredPosts
           }
         },
@@ -157,6 +161,22 @@ export class ForumComponent implements OnInit {
         },
       });
     });
+  }
+
+  removeReply(replies: ISReply[], replyId: string): boolean {
+    const index = replies.findIndex((reply) => reply._id === replyId);
+    if (index !== -1) {
+      replies.splice(index, 1);
+      return true;
+    }
+
+    for (const reply of replies) {
+      if (this.removeReply(reply.replies, replyId)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   toggleComments(event: Event) {
@@ -176,7 +196,12 @@ export class ForumComponent implements OnInit {
     }
   }
 
-  toggleAnswerBox(event: Event, type: string, postId: string) {
+  toggleAnswerBox(
+    event: Event,
+    type: string,
+    postId: string,
+    replyId?: string,
+  ) {
     const button = event.target as HTMLElement;
     let answerBox: HTMLElement | null;
     let threadView: HTMLElement | null = null;
@@ -191,8 +216,7 @@ export class ForumComponent implements OnInit {
         button.closest('.post-item')?.querySelector('.thread-view') || null;
     } else {
       // Comment answer box
-      answerBox =
-        button.closest('.reply')?.querySelector('.answer-box') || null;
+      answerBox = document.getElementById(`answer-box-${replyId}`);
     }
 
     if (answerBox && answerBox.classList.contains('hidden')) {
@@ -215,9 +239,10 @@ export class ForumComponent implements OnInit {
     }
 
     const newReply: ISReply = {
-      username: this.currentUser || 'User', // Replace with actual username
+      username: this.currentUserUsername || 'User', // Use the actual username
       content: this.newCommentContent,
       replies: [],
+      creator: this.currentUser || 'User', // Ensure creator is set
     };
 
     this.forumService

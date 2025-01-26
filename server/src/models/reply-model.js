@@ -27,6 +27,7 @@ const replySchema = new Schema(
         ref: "Reply",
       },
     ],
+    creator: { type: Schema.Types.ObjectId, ref: "User", required: true }, // Add creator field
   },
   { timestamps: true },
 );

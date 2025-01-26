@@ -25,7 +25,7 @@
           <span class="username">{{ post.username }}</span>
           <span class="date">{{ post.date }}</span>
           <button
-            *ngIf="post.username === currentUser"
+            *ngIf="post.creator === currentUser && post._id"
             mat-icon-button
             (click)="onDeletePost(post._id)"
           >
@@ -40,6 +40,7 @@
         </button>
         <button
           class="comments-btn"
+          *ngIf="post._id"
           (click)="toggleAnswerBox($event, 'main-post', post._id)"
         >
           Answer
@@ -49,10 +50,12 @@
         <div class="thread-view hidden">
           <div class="replies">
             <div *ngFor="let reply of post.replies" class="reply">
-              <span class="username">{{ reply.username }}</span>
-              <p>{{ reply.content }}</p>
+              <div class="reply-content">
+                <span class="username">{{ reply.username }}</span>
+                <p>{{ reply.content }}</p>
+              </div>
               <button
-                *ngIf="reply.username === currentUser"
+                *ngIf="reply.creator === currentUser && post._id && reply._id"
                 mat-icon-button
                 (click)="onDeleteComment(post._id, reply._id)"
               >
@@ -62,18 +65,22 @@
               </button>
               <button
                 class="comments-btn"
-                (click)="toggleAnswerBox($event, 'comment', post._id)"
+                *ngIf="post._id"
+                (click)="
+                  toggleAnswerBox($event, 'comment', post._id, reply._id)
+                "
               >
                 Answer
               </button>
               <!-- Answer Box for Comment -->
-              <div class="answer-box hidden">
+              <div class="answer-box hidden" id="answer-box-{{ reply._id }}">
                 <textarea
                   [(ngModel)]="newCommentContent"
                   placeholder="Write your answer here..."
                 ></textarea>
                 <button
                   class="submit-btn"
+                  *ngIf="post._id"
                   (click)="addNewComment(post._id, reply)"
                 >
                   Submit
@@ -84,10 +91,16 @@
                 *ngFor="let nestedReply of reply.replies"
                 class="nested-reply"
               >
-                <span class="username">{{ nestedReply.username }}</span>
-                <p>{{ nestedReply.content }}</p>
+                <div class="nested-reply-content">
+                  <span class="username">{{ nestedReply.username }}</span>
+                  <p>{{ nestedReply.content }}</p>
+                </div>
                 <button
-                  *ngIf="nestedReply.username === currentUser"
+                  *ngIf="
+                    nestedReply.creator === currentUser &&
+                    post._id &&
+                    nestedReply._id
+                  "
                   mat-icon-button
                   (click)="onDeleteComment(post._id, nestedReply._id)"
                 >
@@ -95,6 +108,37 @@
                     >delete</mat-icon
                   >
                 </button>
+                <button
+                  class="comments-btn"
+                  *ngIf="post._id"
+                  (click)="
+                    toggleAnswerBox(
+                      $event,
+                      'comment',
+                      post._id,
+                      nestedReply._id
+                    )
+                  "
+                >
+                  Answer
+                </button>
+                <!-- Answer Box for Nested Comment -->
+                <div
+                  class="answer-box hidden"
+                  id="answer-box-{{ nestedReply._id }}"
+                >
+                  <textarea
+                    [(ngModel)]="newCommentContent"
+                    placeholder="Write your answer here..."
+                  ></textarea>
+                  <button
+                    class="submit-btn"
+                    *ngIf="post._id"
+                    (click)="addNewComment(post._id, reply)"
+                  >
+                    Submit
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -104,7 +148,11 @@
               [(ngModel)]="newCommentContent"
               placeholder="Write your answer here..."
             ></textarea>
-            <button class="submit-btn" (click)="addNewComment(post._id)">
+            <button
+              class="submit-btn"
+              *ngIf="post._id"
+              (click)="addNewComment(post._id)"
+            >
               Submit
             </button>
           </div>
