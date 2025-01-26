@@ -26,8 +26,8 @@ export class ForumService {
     );
   }
 
-  createPost(post: ISPost): Observable<ISPost> {
-    return this.http.post<ISPost>(`${this.apiUrl}/posts`, post).pipe(
+  createPost(post: ISPost): Observable<{ data: ISPost }> {
+    return this.http.post<{ data: ISPost }>(`${this.apiUrl}/posts`, post).pipe(
       catchError((error: HttpErrorResponse) => {
         return throwError(() => new Error(error.error.message));
       }),
@@ -38,10 +38,10 @@ export class ForumService {
     postId: string,
     reply: ISReply,
     parentReplyId?: string,
-  ): Observable<ISReply> {
+  ): Observable<{ data: ISReply }> {
     const body = { ...reply, parentReplyId };
     return this.http
-      .post<ISReply>(`${this.apiUrl}/posts/${postId}/replies`, body)
+      .post<{ data: ISReply }>(`${this.apiUrl}/posts/${postId}/replies`, body)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           return throwError(() => new Error(error.error.message));
@@ -49,11 +49,21 @@ export class ForumService {
       );
   }
 
-  deletePost(postId: string): Observable<ISPost> {
-    return this.http.delete<ISPost>(`${this.apiUrl}/posts/${postId}`).pipe(
+  deletePost(postId: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/posts/${postId}`).pipe(
       catchError((error: HttpErrorResponse) => {
         return throwError(() => new Error(error.error.message));
       }),
     );
+  }
+
+  deleteReply(postId: string, replyId: string): Observable<void> {
+    return this.http
+      .delete<void>(`${this.apiUrl}/posts/${postId}/replies/${replyId}`)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          return throwError(() => new Error(error.error.message));
+        }),
+      );
   }
 }

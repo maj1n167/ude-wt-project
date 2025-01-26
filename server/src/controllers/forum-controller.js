@@ -88,3 +88,35 @@ exports.deletePost = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.deleteComment = async (req, res, next) => {
+  const { postId, commentId } = req.params;
+  const { parentReplyId } = req.query;
+  try {
+    const deletedReply = await Reply.findByIdAndDelete(commentId);
+    if (!deletedReply) {
+      return res.status(404).json({ message: "Comment not found!" });
+    }
+    if (parentReplyId) {
+      const parentReply = await Reply.findById(parentReplyId);
+      if (parentReply) {
+        parentReply.replies = parentReply.replies.filter(
+          (r) => r.toString() !== commentId,
+        );
+        await parentReply.save();
+      }
+    } else {
+      const post = await Post.findById(postId);
+      if (post) {
+        post.replies = post.replies.filter((r) => r.toString() !== commentId);
+        await post.save();
+      }
+    }
+    return res.status(200).json({
+      message: "Comment deleted successfully!",
+      data: deletedReply,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

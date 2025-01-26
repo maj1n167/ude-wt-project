@@ -14,4 +14,10 @@ router.post("/posts/:postId/replies", forumController.addReply);
 // Route to delete a post
 router.delete("/posts/:postId", forumController.deletePost);
 
+// Route to delete a comment
+router.delete(
+  "/posts/:postId/replies/:commentId",
+  forumController.deleteComment,
+);
+
 module.exports = router;

@@ -160,9 +160,11 @@ body {
 }
 
 .reply {
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
-  font-size: 0.8em;
+  position: relative; /* For positioning the Trash button */
+  padding-right: 40px; /* Space for the button */
+  margin-left: 30px; /* Indentation for staircase effect */
+  border-left: 2px solid #ccc; /* Optional visual line for nesting */
+  padding-left: 10px;
 }
 
 .reply:last-child {
@@ -175,21 +177,33 @@ body {
   font-size: 1em;
 }
 
-.reply a {
-  color: #0079d3;
-  text-decoration: none;
+.reply-content {
+  flex: 1;
+  margin-right: 10px;
+  margin-bottom: 15px;
 }
 
-.reply a:hover {
-  text-decoration: underline;
+.reply button {
+  margin-left: 5px; /* Add margin to the left of the button */
+  margin-bottom: 25px;
+  margin-top: 10px;
 }
 
 .nested-reply {
-  margin-bottom: 15px;
-  margin-left: 30px; /* staircase effect */
-  margin-top: 15px;
-  padding-left: 10px; /* padding */
-  border-left: 2px solid #ccc; /* border to indicate nesting */
+  position: relative; /* For positioning the Trash button */
+  padding-right: 40px; /* Space for the button */
+  margin-left: 30px; /* Indentation for staircase effect */
+  border-left: 2px solid #ccc; /* Optional visual line for nesting */
+  padding-left: 10px;
+}
+
+.nested-reply-content {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.nested-reply button {
+  margin-left: 10px; /* Add margin to the left of the button */
 }
 
 .answer-box {

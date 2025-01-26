@@ -43,14 +43,21 @@ export class ForumComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.authService.loggedIn$.subscribe((status) => {
-      this.loggedIn = status;
-      if (!this.loggedIn) {
-        this.router.navigate(['/login']);
-      } else {
-        this.loadPosts();
-      }
-    });
+    this.checkAuthentication();
+    if (this.loggedIn) {
+      this.loadPosts();
+    }
+  }
+
+  checkAuthentication(): void {
+    // Check if the user is already logged in (e.g., from localStorage)
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      this.loggedIn = true;
+    } else {
+      this.loggedIn = false;
+      this.router.navigate(['/login']);
+    }
   }
 
   loadPosts(): void {
@@ -82,10 +89,12 @@ export class ForumComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.forumService.createPost(result).subscribe((post: ISPost) => {
+        this.forumService.createPost(result).subscribe((response) => {
+          const post = response.data; // Extract the post data from the response
           console.log('Created post:', post); // Debugging statement
           this.posts.unshift(post); // Add the new post to the beginning of the list
           this.filteredPosts = this.posts; // Update filteredPosts
+          this.newCommentContent = ''; // Clear the new comment content
         });
       }
     });
@@ -110,6 +119,38 @@ export class ForumComponent implements OnInit {
         next: () => {
           this.posts = this.posts.filter((post: ISPost) => post._id !== postId);
           this.filteredPosts = this.posts; // Update filteredPosts
+        },
+        error: (err: Error) => {
+          console.error(err.message);
+        },
+      });
+    });
+  }
+
+  onDeleteComment(postId: string, replyId: string | undefined): void {
+    if (!replyId) {
+      console.error('Reply ID is undefined');
+      return;
+    }
+
+    const dialogRef = this.dialog.open(ConfirmComponent, {
+      data: { prompt: 'Are you sure you want to delete this comment?' },
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (!result) {
+        return;
+      }
+
+      this.forumService.deleteReply(postId, replyId).subscribe({
+        next: () => {
+          const post = this.posts.find((p) => p._id === postId);
+          if (post) {
+            post.replies = post.replies.filter(
+              (reply) => reply._id !== replyId,
+            );
+            this.filteredPosts = this.posts; // Update filteredPosts
+          }
         },
         error: (err: Error) => {
           console.error(err.message);
@@ -181,17 +222,21 @@ export class ForumComponent implements OnInit {
 
     this.forumService
       .addReply(postId, newReply, parentReply?._id)
-      .subscribe((reply: ISReply) => {
+      .subscribe((response) => {
+        const reply = response.data; // Extract the reply data from the response
         const post = this.posts.find((p) => p._id === postId);
         if (post) {
           if (parentReply) {
             parentReply.replies = parentReply.replies || [];
             parentReply.replies.push(reply);
           } else {
+            post.replies = post.replies || [];
             post.replies.push(reply);
           }
         }
         this.newCommentContent = '';
+        this.filteredPosts = this.posts; // Update filteredPosts
+        console.log('Added reply:', reply); // Debugging statement
       });
   }
 }

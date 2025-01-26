@@ -43,6 +43,7 @@ export class LoginComponent {
     this.authService.login(user).subscribe(
       (response) => {
         console.log('Login successful:', response);
+        localStorage.setItem('authToken', response.token);
         localStorage.setItem('username', this.username); // Store the username in localStorage
         this.router.navigate(['/']); // Redirect to the profile page
       },
