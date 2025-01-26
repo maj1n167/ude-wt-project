@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ISPost, ISReply } from '../../models/post.model';
+import { environment } from '../../environments/environment';
 
 interface GetPostsResponse {
   message: string;
@@ -13,7 +14,7 @@ interface GetPostsResponse {
   providedIn: 'root',
 })
 export class ForumService {
-  private apiUrl = 'http://localhost:3000/forum';
+  private apiUrl = `${environment.api}/forum`;
 
   constructor(private http: HttpClient) {}
 
