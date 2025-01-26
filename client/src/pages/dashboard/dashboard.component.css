@@ -15,6 +15,47 @@
   flex-direction: column;
   width: 100%;
 }
+.trainings-container {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 16px;
+}
+.training-root {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.training-title {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.training-title > span {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.progress-low {
+  background-color: #ffcccc; /* light red */
+}
+
+.progress-medium {
+  background-color: #ffebcc; /* light orange */
+}
+
+.progress-high {
+  background-color: #ccffcc; /* light green */
+}
+
+.progress-complete {
+  background-color: #cce5ff; /* light blue */
+}
 
 .greeting,
 .trainings,
@@ -29,9 +70,9 @@
 }
 
 .trainings {
-  background: #e0e0e0;
+  background: #f5f5f5;
 }
 
 .stacks {
-  background: #bdbdbd;
+  background: #f5f5f5;
 }

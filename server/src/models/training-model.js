@@ -9,18 +9,9 @@ const trainingSchema = new Schema(
       min: 0,
       max: 3,
     },
-    userId: {
-      type: String,
-      required: true,
-    },
-    stackId: {
-      type: String,
-      required: true,
-    },
-    cardId: {
-      type: String,
-      required: true,
-    },
+    user: { type: Schema.Types.ObjectId, ref: "User" },
+    stack: { type: Schema.Types.ObjectId, ref: "Stack" },
+    card: { type: Schema.Types.ObjectId, ref: "Card" },
   },
   {
     timestamps: true,

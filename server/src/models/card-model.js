@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const ObjectId = mongoose.ObjectId;
 
 const cardSchema = new Schema({
   front: {
@@ -11,10 +10,7 @@ const cardSchema = new Schema({
     type: String,
     required: true,
   },
-  stackId: {
-    type: String,
-    required: true,
-  },
+  stack: { type: Schema.Types.ObjectId, ref: "Stack" },
 });
 
 module.exports = mongoose.model("Card", cardSchema);

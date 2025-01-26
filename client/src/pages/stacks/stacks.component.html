@@ -33,9 +33,12 @@
   <ng-container *ngIf="stacks.length > 0">
     <div *ngFor="let stack of stacks; let i = index; let last = last">
       <div class="stack-container">
-        <div class="stack-title" (click)="goToCards(stack._id)">
-          <span>{{ stack.name }}</span>
-          <span>{{ stack.description }}</span>
+        <div style="width: 100%" (click)="goToCards(stack._id)">
+          <span class="stack-title">{{ stack.name }}</span
+          ><span class="stack-creator" *ngIf="dashboard">
+            by: {{ stack.creator.username }}</span
+          ><br />
+          <span class="stack-description">{{ stack.description }}</span>
         </div>
         <!-- button to start training -->
         <button mat-icon-button (click)="onTrain(stack._id)">

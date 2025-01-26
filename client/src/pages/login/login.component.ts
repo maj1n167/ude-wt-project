@@ -41,11 +41,8 @@ export class LoginComponent {
   login(): void {
     const user = { username: this.username, password: this.password };
     this.authService.login(user).subscribe(
-      (response) => {
-        console.log('Login successful:', response);
-        localStorage.setItem('authToken', response.token);
-        localStorage.setItem('username', this.username); // Store the username in localStorage
-        this.router.navigate(['/']); // Redirect to the profile page
+      (next) => {
+        this.router.navigate(['/']); // Weiterleitung zur Profil-Seite
       },
       (error) => {
         console.error('Login failed:', error);
