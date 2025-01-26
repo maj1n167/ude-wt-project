@@ -1,7 +1,7 @@
 <div class="training-session-container">
   <div class="deck-container">
-    <h2>Deck of Flashcards</h2>
-    <p>this is the training session</p>
+    <h2>{{ title }}</h2>
+    <p>by: {{ creator }}</p>
     <p>{{ counter + 1 }}/10</p>
     <app-card
       [frontContent]="front"
@@ -10,19 +10,34 @@
     >
     </app-card>
 
-    <section>
-      <div class="rate-buttons" [hidden]="flipped">
-        <button mat-flat-button id="good-button" (click)="rating(3)">
-          Good
-        </button>
-        <button mat-flat-button id="medium-button" (click)="rating(2)">
-          Medium
-        </button>
-        <button mat-flat-button id="bad-button" (click)="rating(1)">Bad</button>
-        <button mat-flat-button id="end-button" (click)="endTraining()">
-          Stop
-        </button>
-      </div>
-    </section>
+    <div class="rate-buttons">
+      <button
+        mat-flat-button
+        id="good-button"
+        [disabled]="flipped"
+        (click)="rating(3)"
+      >
+        Good
+      </button>
+      <button
+        mat-flat-button
+        id="medium-button"
+        [disabled]="flipped"
+        (click)="rating(2)"
+      >
+        Medium
+      </button>
+      <button
+        mat-flat-button
+        id="bad-button"
+        [disabled]="flipped"
+        (click)="rating(1)"
+      >
+        Bad
+      </button>
+      <button mat-flat-button id="end-button" (click)="abortTraining()">
+        Stop
+      </button>
+    </div>
   </div>
 </div>

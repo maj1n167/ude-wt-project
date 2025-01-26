@@ -8,6 +8,9 @@ import { SharedAntDesignModule } from '../module/shared-ant-design/shared-ant-de
 import { NavigationBarComponent } from '../components/navigation-bar/navigation-bar.component';
 import { FooterComponent } from '../components/footer/footer.component';
 import { RouterModule } from '@angular/router';
+import { CardComponent } from '../components/card/card.component';
+import { TrainingSessionComponent } from '../pages/training-session/training-session.component';
+import { ForumComponent } from '../pages/forum/forum.component';
 import { AuthService } from '../services/auth-service/auth.service';
 
 @Component({
@@ -18,6 +21,9 @@ import { AuthService } from '../services/auth-service/auth.service';
     SharedAntDesignModule,
     NavigationBarComponent,
     FooterComponent,
+    CardComponent,
+    TrainingSessionComponent,
+    ForumComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',

@@ -4,6 +4,10 @@ import { TrainingSessionService } from '../../services/training-session-service/
 import { ActivatedRoute, Router } from '@angular/router';
 import ICard from '../../models/card';
 import { SharedMaterialDesignModule } from '../../module/shared-material-design/shared-material-design.module';
+import { StacksService } from '../../services/stacks-service/stacks.service';
+import { ConfirmComponent } from '../../components/confirm/confirm.component';
+import IStack from '../../models/stack';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-training-session',
@@ -14,6 +18,7 @@ import { SharedMaterialDesignModule } from '../../module/shared-material-design/
 })
 export class TrainingSessionComponent implements OnInit {
   activatedRoute = inject(ActivatedRoute);
+  dialog = inject(MatDialog);
   @ViewChild(CardComponent) cardComponent!: CardComponent;
   private results: { [key: string]: number } = {};
   cards: ICard[] = [];
@@ -21,13 +26,23 @@ export class TrainingSessionComponent implements OnInit {
   front: string = '';
   back: string = '';
   flipped: boolean = true;
+  title: string = '';
+  creator: string = '';
 
   constructor(
     private trainingSessionService: TrainingSessionService,
+    private stacksService: StacksService,
     private router: Router,
   ) {}
 
   ngOnInit(): void {
+    this.stacksService
+      .getStack(this.activatedRoute.snapshot.params['stackId'])
+      .subscribe((stack) => {
+        this.title = stack.name;
+        this.creator = stack.creator.username;
+      });
+
     this.trainingSessionService
       .start(this.activatedRoute.snapshot.params['stackId'])
       .subscribe((cards: ICard[]) => {
@@ -56,6 +71,23 @@ export class TrainingSessionComponent implements OnInit {
       this.endTraining();
     }
   }
+
+  abortTraining() {
+    const dialogRef = this.dialog.open(ConfirmComponent, {
+      data: {
+        prompt:
+          'Are you sure you want to stop training? Your current state will be evaluated.',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (!result) {
+        return;
+      }
+      this.endTraining();
+    });
+  }
+
   endTraining() {
     this.trainingSessionService.finish(this.results).subscribe(() => {
       this.router.navigate(['']);
