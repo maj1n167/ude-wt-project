@@ -53,7 +53,7 @@ export class TrainingSessionService {
   }
 
   reset(id: string): Observable<any> {
-    return this.http.put(`${environment.api}/training/`, { id: id }).pipe(
+    return this.http.put(`${environment.api}/training/`, { stackId: id }).pipe(
       map((response: any) => response.data),
       catchError((error: HttpErrorResponse) => {
         return throwError(() => new Error(error.error.error.message));

@@ -44,7 +44,6 @@ export class DashboardComponent implements OnInit {
   updateTrainings() {
     this.trainingService.status().subscribe((data: any) => {
       this.trainings = data;
-      console.log(this.trainings);
     });
   }
 
@@ -62,7 +61,6 @@ export class DashboardComponent implements OnInit {
         return;
       }
       this.trainingService.delete(id).subscribe((data) => {
-        console.log(data);
         this.updateTrainings();
       });
     });
@@ -78,7 +76,6 @@ export class DashboardComponent implements OnInit {
         return;
       }
       this.trainingService.reset(id).subscribe((data) => {
-        console.log(data);
         this.updateTrainings();
       });
     });

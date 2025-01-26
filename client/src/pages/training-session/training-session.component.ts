@@ -31,7 +31,6 @@ export class TrainingSessionComponent implements OnInit {
     this.trainingSessionService
       .start(this.activatedRoute.snapshot.params['stackId'])
       .subscribe((cards: ICard[]) => {
-        console.log(cards);
         this.cards = cards;
         this.front = this.cards[this.counter].front;
         this.back = this.cards[this.counter].back;
@@ -54,7 +53,6 @@ export class TrainingSessionComponent implements OnInit {
       this.front = this.cards[this.counter].front;
       this.back = this.cards[this.counter].back;
     } else {
-      console.log('training ended');
       this.endTraining();
     }
   }
