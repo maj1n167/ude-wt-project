@@ -1,0 +1,10 @@
+.dialog-root {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dialog-buttons {
+  display: flex;
+  justify-content: space-between;
+}

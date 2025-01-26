@@ -1,0 +1,234 @@
+/* General Styling */
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.forum-page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  font-family: Arial, sans-serif;
+  color: #333; /* Dark font color */
+  background-color: #fff; /* White background */
+  padding: 20px;
+}
+
+.forum-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.posts-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.centered-post {
+  width: 100%;
+  max-width: 600px; /* Adjust as needed */
+}
+
+/* Search Bar */
+.search-bar {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.search-bar input {
+  padding: 10px;
+  width: 60%;
+  margin-right: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.search-bar button {
+  padding: 10px 15px;
+  background-color: #0079d3;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+.search-bar button:hover {
+  background-color: #005bb5;
+}
+
+/* Create Post Button */
+.create-post-button {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.create-post-button button {
+  padding: 10px 15px;
+  background-color: #0079d3;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+.create-post-button button:hover {
+  background-color: #005bb5;
+}
+
+/* Forum Container */
+.forum-container {
+  display: flex;
+  gap: 20px;
+}
+
+/* Posts List */
+.posts-list {
+  width: 50%;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.post-item {
+  margin-bottom: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.post-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.comments-btn {
+  padding: 8px 15px;
+  background-color: #0079d3;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  flex: 1;
+  margin: 0 5px; /* Adjust spacing as needed */
+}
+
+.comments-btn:hover {
+  background-color: #005bb5;
+}
+
+/* Thread View */
+.thread-view {
+  width: 100%;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  padding: 15px;
+}
+
+.thread-view.hidden {
+  display: none;
+}
+
+.main-post {
+  margin-bottom: 20px;
+}
+
+.replies {
+  background-color: #f1f1f1;
+  padding: 20px;
+  border-radius: 5px;
+  word-wrap: break-word; /* Handle long words */
+  overflow-wrap: break-word; /* Handle long words */
+  width: 100%;
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  margin: 0 auto; /* Center the replies box */
+}
+
+.reply {
+  position: relative; /* For positioning the Trash button */
+  padding-right: 40px; /* Space for the button */
+  margin-left: 30px; /* Indentation for staircase effect */
+  border-left: 2px solid #ccc; /* Optional visual line for nesting */
+  padding-left: 10px;
+}
+
+.reply:last-child {
+  border-bottom: none;
+}
+
+.reply .username {
+  font-weight: bold;
+  white-space: nowrap; /* Prevent line breaks within the span */
+  font-size: 1em;
+}
+
+.reply-content {
+  flex: 1;
+  margin-right: 10px;
+  margin-bottom: 15px;
+}
+
+.reply button {
+  margin-left: 5px; /* Add margin to the left of the button */
+  margin-bottom: 25px;
+  margin-top: 10px;
+}
+
+.nested-reply {
+  position: relative; /* For positioning the Trash button */
+  padding-right: 40px; /* Space for the button */
+  margin-left: 30px; /* Indentation for staircase effect */
+  border-left: 2px solid #ccc; /* Optional visual line for nesting */
+  padding-left: 10px;
+}
+
+.nested-reply-content {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.nested-reply button {
+  margin-left: 10px; /* Add margin to the left of the button */
+}
+
+.answer-box {
+  margin-top: 10px;
+}
+
+.answer-box textarea {
+  width: 100%;
+  height: 100px;
+  margin-bottom: 10px;
+}
+
+.answer-box .submit-btn {
+  padding: 8px 15px;
+  background-color: #0079d3;
+  border: none;
+  border-radius: 5px;
+  color: white;
+}
+
+.hidden {
+  display: none;
+}
+
+.username {
+  font-weight: bold;
+  white-space: nowrap; /* Prevent line breaks within the span */
+}

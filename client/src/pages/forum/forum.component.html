@@ -1,0 +1,115 @@
+<div class="forum-page" *ngIf="loggedIn">
+  <!-- Search Bar -->
+  <div class="search-bar">
+    <input
+      type="text"
+      placeholder="Search posts..."
+      [(ngModel)]="searchQuery"
+    />
+    <button (click)="searchPosts()">Search</button>
+  </div>
+
+  <!-- Create Post Button -->
+  <div class="create-post-button">
+    <button mat-flat-button (click)="openCreatePostDialog()">
+      Create Post
+    </button>
+  </div>
+
+  <!-- Forum Content -->
+  <div class="forum-container">
+    <!-- Posts -->
+    <div id="post" class="posts-list">
+      <div *ngFor="let post of filteredPosts" class="post-item centered-post">
+        <div class="post-header">
+          <span class="username">{{ post.username }}</span>
+          <span class="date">{{ post.date }}</span>
+          <button
+            *ngIf="post.username === currentUser"
+            mat-icon-button
+            (click)="onDeletePost(post._id)"
+          >
+            <mat-icon aria-hidden="false" aria-label="delete icon"
+              >delete</mat-icon
+            >
+          </button>
+        </div>
+        <p class="post-content">{{ post.content }}</p>
+        <button class="comments-btn" (click)="toggleComments($event)">
+          Comments
+        </button>
+        <button
+          class="comments-btn"
+          (click)="toggleAnswerBox($event, 'main-post', post._id)"
+        >
+          Answer
+        </button>
+
+        <!-- Thread View -->
+        <div class="thread-view hidden">
+          <div class="replies">
+            <div *ngFor="let reply of post.replies" class="reply">
+              <span class="username">{{ reply.username }}</span>
+              <p>{{ reply.content }}</p>
+              <button
+                *ngIf="reply.username === currentUser"
+                mat-icon-button
+                (click)="onDeleteComment(post._id, reply._id)"
+              >
+                <mat-icon aria-hidden="false" aria-label="delete icon"
+                  >delete</mat-icon
+                >
+              </button>
+              <button
+                class="comments-btn"
+                (click)="toggleAnswerBox($event, 'comment', post._id)"
+              >
+                Answer
+              </button>
+              <!-- Answer Box for Comment -->
+              <div class="answer-box hidden">
+                <textarea
+                  [(ngModel)]="newCommentContent"
+                  placeholder="Write your answer here..."
+                ></textarea>
+                <button
+                  class="submit-btn"
+                  (click)="addNewComment(post._id, reply)"
+                >
+                  Submit
+                </button>
+              </div>
+              <!-- Nested Replies -->
+              <div
+                *ngFor="let nestedReply of reply.replies"
+                class="nested-reply"
+              >
+                <span class="username">{{ nestedReply.username }}</span>
+                <p>{{ nestedReply.content }}</p>
+                <button
+                  *ngIf="nestedReply.username === currentUser"
+                  mat-icon-button
+                  (click)="onDeleteComment(post._id, nestedReply._id)"
+                >
+                  <mat-icon aria-hidden="false" aria-label="delete icon"
+                    >delete</mat-icon
+                  >
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Answer Box for Main Post -->
+          <div class="answer-box hidden main-post-answer-box">
+            <textarea
+              [(ngModel)]="newCommentContent"
+              placeholder="Write your answer here..."
+            ></textarea>
+            <button class="submit-btn" (click)="addNewComment(post._id)">
+              Submit
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

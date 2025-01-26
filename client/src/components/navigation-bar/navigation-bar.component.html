@@ -17,6 +17,9 @@
       >
         <a class="nav-bar-button" routerLink="/stacks">My Stacks</a>
       </li>
+      <li nz-menu-item [nzSelected]="activeRoute == 'forum'">
+        <a class="nav-bar-button" routerLink="/forum">Forum</a>
+      </li>
       <li nz-menu-item [nzSelected]="false">
         <a class="nav-bar-button" (click)="logout()">Logout</a>
       </li>

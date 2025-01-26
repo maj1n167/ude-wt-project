@@ -8,6 +8,7 @@ require("dotenv").config();
 const cardRouter = require("./routes/card-routes");
 const stackRouter = require("./routes/stack-routes");
 const userRouter = require("./routes/user-routes");
+const forumRouter = require("./routes/forum-routes");
 const trainingRouter = require("./routes/training-routes");
 const adminRouter = require("./routes/admin-routes");
 
@@ -30,6 +31,7 @@ app.use(auth.authenticateToken);
 app.use("/cards", cardRouter);
 app.use("/stacks", stackRouter);
 app.use("/users", userRouter);
+app.use("/forum", forumRouter);
 app.use("/training", trainingRouter);
 app.use("/admin", express.urlencoded({ extended: true }), adminRouter);
 

@@ -30,8 +30,8 @@ import { MatButton } from '@angular/material/button';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-  username: string = ''; // E-Mail als leere Zeichenkette initialisieren
-  password: string = ''; // Passwort als leere Zeichenkette initialisieren
+  username: string = ''; // Initialize username as an empty string
+  password: string = ''; // Initialize password as an empty string
 
   constructor(
     private authService: AuthService,
@@ -46,7 +46,7 @@ export class LoginComponent {
       },
       (error) => {
         console.error('Login failed:', error);
-        // Fehlerbehandlung
+        // Handle error
       },
     );
   }
