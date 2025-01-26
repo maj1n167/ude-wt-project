@@ -18,7 +18,7 @@ const authenticateToken = async (req, _, next) => {
     return next();
   }
 
-  const user = await User.findById(userId);
+  const user = await User.findById(userId).select("-password");
   if (!user) {
     req.user = null;
     return next();
@@ -29,9 +29,7 @@ const authenticateToken = async (req, _, next) => {
     req.user = null;
     return next();
   }
-
-  const { password, ...userWithoutPassword } = user._doc;
-  req.user = userWithoutPassword;
+  req.user = user;
   return next();
 };
 

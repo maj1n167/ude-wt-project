@@ -9,7 +9,10 @@ exports.getCards = async (req, res, next) => {
   try {
     const stackId = req.params.stackId;
 
-    const foundStack = await Stack.findById(stackId);
+    const foundStack = await Stack.findById(stackId).populate(
+      "creator",
+      "-password",
+    );
     if (!foundStack) {
       let error = new Error(`Stack not found with id: ${stackId}`);
       error.status = 404;
@@ -20,7 +23,7 @@ exports.getCards = async (req, res, next) => {
       if (
         req.user === undefined ||
         req.user === null ||
-        foundStack["creator"] !== req.user
+        foundStack["creator"]["_id"].toString() !== req.user._id.toString()
       ) {
         let error = new Error("Unauthorized");
         error.status = 401;

@@ -8,6 +8,7 @@ exports.getPublicStacks = async (req, res, next) => {
   try {
     const foundStacks = await Stack.find({ published: true }).populate(
       "creator",
+      "-password",
     );
     return res.status(200).json({
       message: "Found public stacks",
@@ -48,7 +49,10 @@ exports.getMyStacks = async (req, res, next) => {
 exports.getStackById = async (req, res, next) => {
   const stackId = req.params.stackId;
   try {
-    const foundStack = await Stack.findById(stackId);
+    const foundStack = await Stack.findById(stackId).populate(
+      "creator",
+      "-password",
+    );
     if (!foundStack) {
       let error = new Error(`Stack not found with id: ${stackId}`);
       error.status = 404;

@@ -48,7 +48,10 @@ exports.getTrainingStatus = async (req, res) => {
     // Calculate progress for each stack
     for (const stackId of stacks) {
       try {
-        const stack = await Stack.findById(stackId).populate("creator");
+        const stack = await Stack.findById(stackId).populate(
+          "creator",
+          "-password",
+        );
         const trainings = await Training.find({
           user: req.user,
           stack: stackId,
