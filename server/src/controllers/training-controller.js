@@ -60,7 +60,7 @@ exports.getTrainingStatus = async (req, res) => {
           progress: (
             trainings.reduce((acc, training) => acc + training.rating, 0) /
             (trainings.length || 1)
-          ).toFixed(1),
+          ).toFixed(0),
         };
       } catch (err) {
         console.error(
@@ -85,27 +85,28 @@ exports.resetTrainingStatus = async (req, res) => {
   const stackId = req.body.stackId;
   try {
     await Training.updateMany(
-      { user: req.user, "stack._id": stackId },
+      { user: req.user, stack: stackId },
       { rating: 0 },
     );
+    return res.status(200).json({ message: "Training status reset" });
   } catch (err) {
     console.error("Error resetting training status:", err);
     return res.status(500).json({ message: "Server error" });
   }
 };
 
-exports.removeTrainingStatus = async (req, res) => {
+exports.removeTrainingStatus = async (req, res, next) => {
   /**
    * This function removes the training for a given stack of the current user.
    */
-  const stackId = req.body.stackId;
+  const stackId = req.params.stackId;
   try {
-    await Training.deleteMany({ user: req.user, "stack._id": stackId });
+    await Training.deleteMany({ user: req.user, stack: stackId });
     await decreaseCounter(stackId);
     return res.status(200).json({ message: "Training status removed" });
   } catch (err) {
     console.error("Error removing training status:", err);
-    return res.status(500).json({ message: "Server error" });
+    next(err);
   }
 };
 
@@ -183,7 +184,7 @@ exports.deleteStack = async (stackId) => {
    * It will delete all training sessions that are currently in progress for this stack.
    */
   try {
-    await Training.deleteMany({ "stack._id": stackId }); // Await the promise from deleteMany
+    await Training.deleteMany({ stack: stackId }); // Await the promise from deleteMany
   } catch (err) {
     console.error("Error deleting training sessions:", err); // Log errors if any
   }
@@ -227,10 +228,7 @@ exports.updateCard = async (cardId) => {
    * It will update all training sessions that are currently in progress for this card to 0.
    */
   try {
-    const result = await Training.updateMany(
-      { "card._id": cardId },
-      { rating: 0 },
-    );
+    const result = await Training.updateMany({ card: cardId }, { rating: 0 });
   } catch (err) {
     console.error("Error updating training sessions:", err);
   }
@@ -242,7 +240,7 @@ exports.deleteCard = async (cardId) => {
    * It will delete all training sessions that are currently in progress for this card.
    */
   try {
-    const result = await Training.deleteMany({ "card._id": cardId }); // Await the promise
+    const result = await Training.deleteMany({ card: cardId }); // Await the promise
   } catch (err) {
     console.error("Error deleting training sessions:", err); // Log any errors
   }
@@ -274,6 +272,6 @@ async function decreaseCounter(stackId) {
     stack.training -= 1;
     await stack.save();
   } catch (error) {
-    next(error);
+    return error;
   }
 }

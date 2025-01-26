@@ -28,7 +28,7 @@ exports.getCards = async (req, res, next) => {
       }
     }
 
-    const foundCards = await Card.find({ "stack._id": stackId }, null, null);
+    const foundCards = await Card.find({ stack: stackId }, null, null);
     return res.status(200).json({
       message: "Found cards for stack with id: " + stackId,
       data: foundCards,

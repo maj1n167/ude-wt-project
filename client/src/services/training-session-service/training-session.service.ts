@@ -39,15 +39,25 @@ export class TrainingSessionService {
       );
   }
 
-  finish(results: any): void {
-    console.log(results);
-    this.http.post(`${environment.api}/training/finish`, results).subscribe({
-      next: (response) => {
-        console.log('Request successful:', response);
-      },
-      error: (error) => {
-        console.error('Request failed:', error);
-      },
-    });
+  finish(results: any): Observable<any> {
+    return this.http.post(`${environment.api}/training/finish`, results);
+  }
+
+  delete(id: string): Observable<any> {
+    return this.http.delete(`${environment.api}/training/${id}`).pipe(
+      map((response: any) => response.data),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => new Error(error.error.error.message));
+      }),
+    );
+  }
+
+  reset(id: string): Observable<any> {
+    return this.http.put(`${environment.api}/training/`, { id: id }).pipe(
+      map((response: any) => response.data),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => new Error(error.error.error.message));
+      }),
+    );
   }
 }

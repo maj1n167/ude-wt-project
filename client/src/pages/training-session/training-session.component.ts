@@ -59,7 +59,8 @@ export class TrainingSessionComponent implements OnInit {
     }
   }
   endTraining() {
-    this.trainingSessionService.finish(this.results);
-    this.router.navigate(['']);
+    this.trainingSessionService.finish(this.results).subscribe(() => {
+      this.router.navigate(['']);
+    });
   }
 }

@@ -5,23 +5,45 @@
     </div>
     <div class="trainings">
       <h2>Current Trainings</h2>
-      <ng-container
+      <div
+        class="trainings-container"
         *ngIf="trainings && Object.keys(trainings).length > 0; else noTrainings"
       >
         <div *ngFor="let training of trainings | keyvalue">
-          <div class="training-container">
+          <div
+            class="training-root"
+            [ngClass]="{
+              'progress-low': training.value.progress === '0',
+              'progress-medium': training.value.progress === '1',
+              'progress-high': training.value.progress === '2',
+              'progress-complete': training.value.progress === '3',
+            }"
+          >
             <div class="training-title">
-              <span>{{ training.value.name }}</span>
-              <span>{{ training.value.progress }}</span>
+              {{ training.value.name }}<br /><span>{{
+                training.value.creator
+              }}</span>
             </div>
-            <button mat-icon-button (click)="onTrain(training.key)">
-              <mat-icon aria-hidden="false" aria-label="train icon"
-                >school</mat-icon
-              >
-            </button>
+            <div>
+              <button mat-icon-button (click)="onTrain(training.key)">
+                <mat-icon aria-hidden="false" aria-label="train icon"
+                  >school</mat-icon
+                >
+              </button>
+              <button mat-icon-button (click)="onReset(training.key)">
+                <mat-icon aria-hidden="false" aria-label="reset icon"
+                  >refresh</mat-icon
+                >
+              </button>
+              <button mat-icon-button (click)="onDelete(training.key)">
+                <mat-icon aria-hidden="false" aria-label="delete icon"
+                  >delete</mat-icon
+                >
+              </button>
+            </div>
           </div>
         </div>
-      </ng-container>
+      </div>
       <ng-template #noTrainings>
         <p>No trainings available</p>
       </ng-template>
