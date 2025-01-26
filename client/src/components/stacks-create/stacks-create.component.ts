@@ -14,19 +14,22 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class StacksCreateComponent {
   stacksService = inject(StacksService);
   stackName: string = '';
+  description: string = '';
   published: boolean = false;
 
   constructor(private dialogRef: MatDialogRef<StacksCreateComponent>) {}
 
   createStack() {
-    this.stacksService.createStack(this.stackName, this.published).subscribe({
-      next: (stack: IStack) => {
-        this.dialogRef.close(stack);
-      },
-      error: (err: Error) => {
-        console.error(err.message);
-      },
-    });
+    this.stacksService
+      .createStack(this.stackName, this.description, this.published)
+      .subscribe({
+        next: (stack: IStack) => {
+          this.dialogRef.close(stack);
+        },
+        error: (err: Error) => {
+          console.error(err.message);
+        },
+      });
   }
 
   close() {

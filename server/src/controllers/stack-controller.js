@@ -6,7 +6,10 @@ const training = require("./training-controller");
 // add all functions here
 exports.getPublicStacks = async (req, res, next) => {
   try {
-    const foundStacks = await Stack.find({ published: true });
+    const foundStacks = await Stack.find({ published: true }).populate(
+      "creator",
+      "-password",
+    );
     return res.status(200).json({
       message: "Found public stacks",
       data: foundStacks,
@@ -33,8 +36,7 @@ exports.searchStacks = async (req, res, next) => {
 
 exports.getMyStacks = async (req, res, next) => {
   try {
-    const userId = req.user._id;
-    const foundStacks = await Stack.find({ creator: userId });
+    const foundStacks = await Stack.find({ creator: req.user });
     return res.status(200).json({
       message: "Found your stacks",
       data: foundStacks,
@@ -47,7 +49,10 @@ exports.getMyStacks = async (req, res, next) => {
 exports.getStackById = async (req, res, next) => {
   const stackId = req.params.stackId;
   try {
-    const foundStack = await Stack.findById(stackId);
+    const foundStack = await Stack.findById(stackId).populate(
+      "creator",
+      "-password",
+    );
     if (!foundStack) {
       let error = new Error(`Stack not found with id: ${stackId}`);
       error.status = 404;
@@ -65,7 +70,7 @@ exports.getStackById = async (req, res, next) => {
 exports.createStack = async (req, res, next) => {
   try {
     const { name, description, published } = req.body;
-    const creator = req.user._id.toString();
+    const creator = req.user;
     const newStack = await new Stack({
       name,
       description,
@@ -84,14 +89,14 @@ exports.createStack = async (req, res, next) => {
 exports.deleteStack = async (req, res, next) => {
   try {
     const stackId = req.params.stackId;
-    const userId = req.user._id.toString();
-    const foundStack = await Stack.findOne({ _id: stackId, creator: userId });
+    const user = req.user;
+    const foundStack = await Stack.findOne({ _id: stackId, creator: user });
     if (!foundStack) {
       let error = new Error(`Stack not found with id: ${stackId}`);
       error.status = 404;
       throw error;
     }
-    await Card.deleteMany({ stackId });
+    await Card.deleteMany({ stack: foundStack });
     await Stack.findByIdAndDelete(stackId);
     await training.deleteStack(stackId);
     return res.status(200).json({
@@ -106,9 +111,9 @@ exports.deleteStack = async (req, res, next) => {
 exports.updateStack = async (req, res, next) => {
   try {
     const stackId = req.params.stackId;
-    const userId = req.user._id.toString();
+    const user = req.user;
 
-    const updatedStack = await Stack.findOne({ _id: stackId, creator: userId });
+    const updatedStack = await Stack.findOne({ _id: stackId, creator: user });
     if (!updatedStack) {
       let error = new Error(`Stack not found with id: ${stackId}`);
       error.status = 404;

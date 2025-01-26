@@ -2,6 +2,9 @@
   <mat-form-field>
     <input matInput placeholder="Name" [(ngModel)]="stackName" />
   </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Description" [(ngModel)]="description" />
+  </mat-form-field>
   <mat-checkbox [(ngModel)]="published">Published</mat-checkbox>
   <div class="dialog-buttons">
     <button mat-flat-button (click)="createStack()">Create</button>

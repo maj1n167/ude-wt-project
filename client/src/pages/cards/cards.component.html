@@ -11,9 +11,9 @@
   <!-- Menu definition -->
   <mat-menu #cardMenu="matMenu">
     <ng-template matMenuContent let-card="card">
-      <button mat-menu-item (click)="onUpdateCard(card)">Edit Stack</button>
+      <button mat-menu-item (click)="onUpdateCard(card)">Edit Card</button>
       <button mat-menu-item (click)="onDeleteCard(card._id)">
-        Delete Stack
+        Delete Card
       </button>
     </ng-template>
   </mat-menu>

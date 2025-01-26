@@ -51,19 +51,19 @@ export class CardsComponent implements OnInit {
   protected access: boolean = false;
 
   ngOnInit(): void {
-    this.loadCards();
     this.authService.loggedIn$.subscribe((status) => {
       this.loggedIn = status;
     });
+    this.loadCards();
   }
 
   loadCards() {
     this.stacksService
       .getStack(this.activatedRoute.snapshot.params['stackId'])
       .subscribe({
-        next: (stack) => {
+        next: (stack: IStack) => {
           this.stack = stack;
-          this.access = this.stack.creator == localStorage.getItem('user');
+          this.access = this.stack.creator._id == localStorage.getItem('user');
         },
         error: (err: Error) => {
           console.error(err.message);

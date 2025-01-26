@@ -14,10 +14,11 @@ const stackSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  creator: {
-    type: String,
-    required: true,
+  training: {
+    type: Number,
+    default: 0,
   },
+  creator: { type: Schema.Types.ObjectId, ref: "User" },
 });
 
 module.exports = mongoose.model("Stack", stackSchema);
