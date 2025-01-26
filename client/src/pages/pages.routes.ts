@@ -9,7 +9,6 @@ import { LoginComponent } from './login/login.component';
 export const pagesRoutes: Routes = [
   { path: 'stacks', component: StacksComponent },
   { path: 'cards/:stackId', component: CardsComponent },
-  { path: 'training', component: TrainingSessionComponent },
   { path: 'forum', component: ForumComponent },
   { path: 'training/:stackId', component: TrainingSessionComponent },
   { path: 'register', component: RegisterComponent }, // Registrierungsseite
