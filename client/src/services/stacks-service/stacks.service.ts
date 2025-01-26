@@ -49,10 +49,15 @@ export class StacksService {
     );
   }
 
-  createStack(name: string, published: boolean): Observable<IStack> {
+  createStack(
+    name: string,
+    description: string,
+    published: boolean,
+  ): Observable<IStack> {
     return this.http
       .post<StackResponse>(`${environment.api}/stacks/create`, {
         name,
+        description,
         published,
       })
       .pipe(
@@ -77,11 +82,13 @@ export class StacksService {
   updateStack(
     stackId: string,
     name: string,
+    description: string,
     published: boolean,
   ): Observable<IStack> {
     return this.http
       .put<StackResponse>(`${environment.api}/stacks/${stackId}`, {
         name,
+        description,
         published,
       })
       .pipe(

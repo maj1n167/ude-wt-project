@@ -13,6 +13,7 @@ import { SharedMaterialDesignModule } from '../../module/shared-material-design/
 export class StacksUpdateComponent implements OnInit {
   stacksService = inject(StacksService);
   stackName: string = '';
+  description: string = '';
   published: boolean = false;
 
   constructor(
@@ -22,12 +23,18 @@ export class StacksUpdateComponent implements OnInit {
 
   ngOnInit() {
     this.stackName = this.data.stack.name;
+    this.description = this.data.stack.description;
     this.published = this.data.stack.published;
   }
 
   updateStack() {
     this.stacksService
-      .updateStack(this.data.stack._id, this.stackName, this.published)
+      .updateStack(
+        this.data.stack._id,
+        this.stackName,
+        this.description,
+        this.published,
+      )
       .subscribe({
         next: (stack) => {
           this.dialogRef.close(stack);
