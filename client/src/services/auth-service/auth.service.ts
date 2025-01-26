@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
 import {
   HttpClient,
   HttpErrorResponse,
@@ -14,7 +15,7 @@ import { catchError, map } from 'rxjs/operators';
 })
 export class AuthService {
   // URL der Backend-API für Login und Registrierung
-  private apiUrl = 'http://localhost:3000/users';
+  private apiUrl = `${environment.api}/users`;
   private loggedInSubject = new BehaviorSubject<boolean>(false);
   public loggedIn$ = this.loggedInSubject.asObservable();
 
