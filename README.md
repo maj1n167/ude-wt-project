@@ -134,10 +134,8 @@ npm run start
 See the [open issues](https://github.com/okaluk/ude-wt-project/issues) for a list of proposed features (and known issues).
 
 - [x] Finish project for university
-- [ ] Correct handling of messages from server
-- [ ] Rework forum
-- [ ] Rework training sessions
-- [ ] Plan for future development
+- [ ] archive this repository
+- [ ] start a rebuild in sveltekit as private project
 
 ## Support
 
