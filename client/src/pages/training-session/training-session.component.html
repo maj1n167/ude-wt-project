@@ -14,7 +14,7 @@
       <button
         mat-flat-button
         id="good-button"
-        [disabled]="flipped"
+        [disabled]="flippedOnce"
         (click)="rating(3)"
       >
         Good
@@ -22,7 +22,7 @@
       <button
         mat-flat-button
         id="medium-button"
-        [disabled]="flipped"
+        [disabled]="flippedOnce"
         (click)="rating(2)"
       >
         Medium
@@ -30,7 +30,7 @@
       <button
         mat-flat-button
         id="bad-button"
-        [disabled]="flipped"
+        [disabled]="flippedOnce"
         (click)="rating(1)"
       >
         Bad

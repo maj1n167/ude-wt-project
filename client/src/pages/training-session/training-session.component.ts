@@ -26,6 +26,7 @@ export class TrainingSessionComponent implements OnInit {
   front: string = '';
   back: string = '';
   flipped: boolean = true;
+  flippedOnce: boolean = false;
   title: string = '';
   creator: string = '';
 
@@ -54,12 +55,17 @@ export class TrainingSessionComponent implements OnInit {
 
   onChildButtonClick(flippedChild: boolean) {
     this.flipped = !flippedChild;
+    if (!this.flippedOnce) {
+      this.flippedOnce = true;
+    }
   }
 
   rating(type: number) {
     if (this.cardComponent.isFlipped) {
       this.cardComponent.flipCard();
     }
+
+    this.flippedOnce = false;
 
     this.results[this.cards[this.counter]._id] = type;
 
