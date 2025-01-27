@@ -1,122 +1,88 @@
 const Post = require("../models/post-model");
 const Reply = require("../models/reply-model");
 
-exports.createPost = async (req, res, next) => {
-  const { username, content } = req.body;
+exports.createPost = async (req, res) => {
   try {
-    const newPost = new Post({
-      username,
-      content,
-      date: new Date().toISOString(),
-      replies: [],
-    });
-    await newPost.save();
-    return res.status(201).json({
-      message: "Post created successfully!",
-      data: newPost,
-    });
+    const { username, content, creator } = req.body;
+    const newPost = new Post({ username, content, creator });
+    const savedPost = await newPost.save();
+    res
+      .status(201)
+      .json({ message: "Post created successfully", data: savedPost });
   } catch (error) {
-    next(error);
+    res.status(400).json({ message: error.message });
   }
 };
 
-exports.getPosts = async (req, res, next) => {
+exports.getPosts = async (req, res) => {
   try {
     const posts = await Post.find().populate({
       path: "replies",
       populate: {
         path: "replies",
         model: "Reply",
+        populate: {
+          path: "replies",
+          model: "Reply",
+        },
       },
     });
-    return res.status(200).json({
-      message: "Posts retrieved successfully!",
-      data: posts,
-    });
+    res
+      .status(200)
+      .json({ message: "Posts retrieved successfully", data: posts });
   } catch (error) {
-    next(error);
+    res.status(400).json({ message: error.message });
   }
 };
 
-exports.addReply = async (req, res, next) => {
-  const { postId } = req.params;
-  const { username, content, parentReplyId } = req.body;
+exports.addReply = async (req, res) => {
   try {
-    const post = await Post.findById(postId);
-    if (!post) {
-      return res.status(404).json({ message: "Post not found!" });
-    }
+    const { username, content, creator, parentReplyId } = req.body;
+    const { postId } = req.params;
     const newReply = new Reply({
       username,
       content,
+      creator,
       postId,
-      parentReplyId: parentReplyId || null,
+      parentReplyId,
     });
-    await newReply.save();
+    const savedReply = await newReply.save();
+
     if (parentReplyId) {
-      const parentReply = await Reply.findById(parentReplyId);
-      if (parentReply) {
-        parentReply.replies.push(newReply._id);
-        await parentReply.save();
-      }
+      await Reply.findByIdAndUpdate(parentReplyId, {
+        $push: { replies: savedReply._id },
+      });
     } else {
-      post.replies.push(newReply._id);
-      await post.save();
+      await Post.findByIdAndUpdate(postId, {
+        $push: { replies: savedReply._id },
+      });
     }
-    return res.status(201).json({
-      message: "Reply added successfully!",
-      data: newReply,
-    });
+
+    res
+      .status(201)
+      .json({ message: "Reply added successfully", data: savedReply });
   } catch (error) {
-    next(error);
+    res.status(400).json({ message: error.message });
   }
 };
 
-exports.deletePost = async (req, res, next) => {
-  const { postId } = req.params;
+exports.deletePost = async (req, res) => {
   try {
-    const deletedPost = await Post.findByIdAndDelete(postId);
-    if (!deletedPost) {
-      return res.status(404).json({ message: "Post not found!" });
-    }
-    await Reply.deleteMany({ postId: postId });
-    return res.status(200).json({
-      message: "Post deleted successfully!",
-      data: deletedPost,
-    });
+    const { postId } = req.params;
+    await Post.findByIdAndDelete(postId);
+    res.status(200).json({ message: "Post deleted successfully" });
   } catch (error) {
-    next(error);
+    res.status(400).json({ message: error.message });
   }
 };
 
-exports.deleteComment = async (req, res, next) => {
-  const { postId, commentId } = req.params;
-  const { parentReplyId } = req.query;
+exports.deleteComment = async (req, res) => {
   try {
-    const deletedReply = await Reply.findByIdAndDelete(commentId);
-    if (!deletedReply) {
-      return res.status(404).json({ message: "Comment not found!" });
-    }
-    if (parentReplyId) {
-      const parentReply = await Reply.findById(parentReplyId);
-      if (parentReply) {
-        parentReply.replies = parentReply.replies.filter(
-          (r) => r.toString() !== commentId,
-        );
-        await parentReply.save();
-      }
-    } else {
-      const post = await Post.findById(postId);
-      if (post) {
-        post.replies = post.replies.filter((r) => r.toString() !== commentId);
-        await post.save();
-      }
-    }
-    return res.status(200).json({
-      message: "Comment deleted successfully!",
-      data: deletedReply,
-    });
+    const { postId, commentId } = req.params;
+    await Reply.findByIdAndDelete(commentId);
+    await Post.findByIdAndUpdate(postId, { $pull: { replies: commentId } });
+    res.status(200).json({ message: "Comment deleted successfully" });
   } catch (error) {
-    next(error);
+    res.status(400).json({ message: error.message });
   }
 };
