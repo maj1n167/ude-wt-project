@@ -1,7 +1,11 @@
 <h1 align="center">
   <a href="https://github.com/okaluk/ude-wt-project">
     <!-- Please provide path to your logo here -->
-    <img src="docs/images/learnstack-app.svg" alt="Logo" width="100" height="100">
+    <picture width= "100" height="100">
+      <source media="(prefers-color-scheme: dark)" srcset="docs/images/learnstack-dark.svg">
+      <source media="(prefers-color-scheme: light)" srcset="docs/images/learnstack-light.svg">
+      <img src="docs/images/learnstack-app.svg" alt="Logo" width="100" height="100">
+    </picture>
   </a>
 </h1>
 
